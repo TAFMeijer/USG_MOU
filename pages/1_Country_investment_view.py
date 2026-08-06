@@ -43,12 +43,29 @@ st.caption(
     + "all source links on the [Sources & methodology](Sources_and_methodology) page"
 )
 
+# KPIs computed from the same summable line items the charts use, so the headline
+# numbers and the charts below always agree.
+cc = df[(df["Country"] == country) & (df["Investment area"] == "All areas combined")]
+usg_t = cc.loc[cc["Funder"] == "USG", "Amount"].sum()
+gov_t = cc.loc[cc["Funder"] == lib.GOV_LABEL, "Amount"].sum()
+comb_t = usg_t + gov_t
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("Total agreement (KFF)", lib.fmt_usd(row["Total agreement (USD)"]))
-k2.metric("USG", lib.fmt_usd(row["USG (USD)"]))
-k3.metric("Co-financing", lib.fmt_usd(row["Co-financing (USD)"]))
+k1.metric("USG, 2026–2030", lib.fmt_usd(usg_t))
+k2.metric("Govt co-financing (new + existing)", lib.fmt_usd(gov_t))
+k3.metric("Combined (itemised)", lib.fmt_usd(comb_t))
+k4.metric("USG share of combined", f"{100 * usg_t / comb_t:.0f}%" if comb_t else "–")
+
 share = row["USG share"]
-k4.metric("USG share (headline)", f"{100 * share:.0f}%" if pd.notna(share) else "–")
+st.caption(
+    f"For reference, the **KFF headline** for {country} is "
+    f"{lib.fmt_usd(row['Total agreement (USD)'])} total — "
+    f"{lib.fmt_usd(row['USG (USD)'])} USG / "
+    f"{lib.fmt_usd(row['Co-financing (USD)'])} co-financing"
+    + (f" ({100 * share:.0f}% USG)" if pd.notna(share) else "")
+    + ". KFF counts each MoU's headline pledge, which for some countries is a "
+    "domestic-expenditure-increase commitment rather than itemised funding, so it can "
+    "differ from the itemised amounts charted on this page — see Sources & methodology."
+)
 
 # ---------------- small multiples ----------------
 m = df[
@@ -130,7 +147,9 @@ def mix_donut(mx: pd.DataFrame) -> alt.Chart:
     )
     arcs = (
         alt.Chart(mx)
-        .mark_arc(innerRadius=36, stroke="#fcfcfb", strokeWidth=2)
+        # Fixed pixel radii: the ring keeps its size no matter how much space the
+        # title/legend take, and the centre hole (88px across) always fits the label.
+        .mark_arc(innerRadius=44, outerRadius=68, stroke="#fcfcfb", strokeWidth=2)
         .encode(
             theta=alt.Theta("Amount:Q"),
             color=alt.Color(
@@ -138,8 +157,9 @@ def mix_donut(mx: pd.DataFrame) -> alt.Chart:
                 scale=alt.Scale(domain=order,
                                 range=[MIX_COLORS[b] for b in order]),
                 legend=alt.Legend(orient="bottom", title=None, labelLimit=0,
-                                  labelFontSize=12, symbolSize=110, columns=2,
-                                  direction="vertical"),
+                                  labelFontSize=11, symbolSize=70, columns=2,
+                                  direction="vertical", padding=0, offset=6,
+                                  rowPadding=1, columnPadding=10),
             ),
             order=alt.Order("Amount:Q", sort="descending"),
             tooltip=["Bucket", alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026"),
@@ -148,11 +168,11 @@ def mix_donut(mx: pd.DataFrame) -> alt.Chart:
     )
     center = (
         alt.Chart(pd.DataFrame({"label": [lib.fmt_usd(mx["Amount"].sum())]}))
-        .mark_text(fontSize=13, fontWeight="bold", color="#0b0b0b")
+        .mark_text(fontSize=12, fontWeight="bold", color="#0b0b0b")
         .encode(text="label:N")
     )
     return (arcs + center).properties(
-        height=150,
+        height=200,
         title=alt.TitleParams("Other commodities — 2026 mix (USG, App. 2)", fontSize=13),
     )
 
@@ -171,10 +191,11 @@ for i, (kind, a) in enumerate(panels):
     if kind == "mix":
         with cols[i % 3]:
             st.altair_chart(mix_donut(mix), use_container_width=True)
-            st.caption(
-                "⚠️ 2026 snapshot only (Appendix 2) — the MoU does not publish this "
-                "split in the yearly data for 2027–2030, so the 'Other commodities' "
-                "trend chart cannot be broken down further."
+            st.markdown(
+                '<div style="font-size:10px;color:#898781;line-height:1.25;'
+                'margin-top:-6px">⚠️ 2026 snapshot (App. 2) — this split is not '
+                "published in the yearly data for 2027–30.</div>",
+                unsafe_allow_html=True,
             )
         continue
     sub = m[m["Investment area"] == a]

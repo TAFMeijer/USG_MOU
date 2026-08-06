@@ -19,6 +19,7 @@ detailed tables transcribed from the 9 published full MoU texts hosted by
 | **Home (Overview)** | All countries side by side, per investment area — yearly trajectories and 5-year totals, with a **US$ ↔ % of combined** toggle |
 | **Country investment view** | One country's small multiples across every investment area, with a USG / Govt (existing + new) / Both toggle and the same $/% toggle; the country name links to the source PDF |
 | **Country programmatic view (v0)** | One country's indicator baselines & 2026–2030 targets (outcome / process / 7-1-7), each indicator as its own small chart |
+| **Full data tables** | The complete budget and programmatic datasets across all countries — filterable, sortable, searchable, downloadable |
 | **Sources & methodology** | Every link (trackers, mirrors, all 34 agreements), extraction method, and caveats |
 
 `explorer.html` is a standalone, dependency-free version of the trajectory explorer —

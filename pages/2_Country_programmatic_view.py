@@ -53,7 +53,7 @@ st.caption(
 
 m = p[(p["Country"] == country) & (p["Programmatic area"].isin(pareas))].copy()
 m["Year"] = pd.Categorical(m["Year"], categories=YEAR_ORDER, ordered=True)
-m = m.sort_values("Year")
+m = m.sort_values("Year", kind="stable")  # stable: keeps the MoU's own row order within a year
 
 k1, k2, k3 = st.columns(3)
 k1.metric("Indicators in this MoU", m["Indicator"].nunique())
@@ -85,6 +85,9 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_days: bool = False) -> a
     else:
         y = alt.Y("Value:Q", title=None, scale=alt.Scale(zero=False),
                   axis=alt.Axis(format="~s"))
+    # Tall plotting area so small target movements (e.g. 91% -> 95% on the fixed
+    # 0-100 scale) stay visible; the flat 7-1-7 day commitments don't need it.
+    height = 180 if is_days else 340
     return (
         alt.Chart(sub)
         .mark_line(point=True, strokeWidth=2.5, color=lib.USG_COLOR)
@@ -93,21 +96,28 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_days: bool = False) -> a
             y=y,
             tooltip=["Indicator", "Year", "Value", "Unit", "Unit / source note"],
         )
-        .properties(height=170, title=alt.TitleParams(short, fontSize=12))
+        .properties(height=height, title=alt.TitleParams(short, fontSize=12))
     )
 
 
 def order_717(indicators):
-    """Detect -> notify -> complete response, regardless of print order in the MoU."""
+    """Detect -> notify -> respond, regardless of print order in the MoU.
+
+    Keyed on the timeframe/verb rather than bare substrings: 'Notify USG within
+    1 day of detection' contains the word 'detection', so matching on 'detect'
+    alone mis-files the notify step.
+    """
     def key(name):
         t = name.lower()
+        if "full 7-1-7" in t:            # Nigeria's overall achievement metric: last
+            return 3
+        if "1 day" in t or "one day" in t:
+            return 1                     # the notify step is the only 1-day commitment
+        if any(k in t for k in ("complet", "respond", "response", "implement")):
+            return 2
         if "detect" in t:
             return 0
-        if "notif" in t or "escalat" in t:
-            return 1
-        if "complete" in t or "respond" in t or "response" in t or "implement" in t:
-            return 2
-        return 3
+        return 4
     return sorted(indicators, key=key)
 
 
