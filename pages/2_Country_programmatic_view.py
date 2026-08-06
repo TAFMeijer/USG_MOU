@@ -134,8 +134,24 @@ for section in SECTION_ORDER:
 
 # ---------------- detail table ----------------
 with st.expander("Data table & download"):
+    tbl = m.copy()
+    f1, f2, f3 = st.columns([1.6, 1.6, 2.5])
+    with f1:
+        f_mtype = st.multiselect("Metric type", sorted(tbl["Metric type"].unique()),
+                                 placeholder="All types")
+    with f2:
+        f_vtype = st.multiselect("Value type", sorted(tbl["Value type"].unique()),
+                                 placeholder="All value types")
+    with f3:
+        f_text = st.text_input("Search indicator", "", placeholder="e.g. ART, measles, ANC…")
+    if f_mtype:
+        tbl = tbl[tbl["Metric type"].isin(f_mtype)]
+    if f_vtype:
+        tbl = tbl[tbl["Value type"].isin(f_vtype)]
+    if f_text:
+        tbl = tbl[tbl["Indicator"].str.contains(f_text, case=False, na=False)]
     st.dataframe(
-        m,
+        tbl,
         use_container_width=True,
         hide_index=True,
         column_config={
@@ -144,7 +160,10 @@ with st.expander("Data table & download"):
                                                             display_text="open PDF"),
         },
     )
-    st.caption("Click any column header to sort.")
+    st.caption(
+        f"{len(tbl):,} rows shown. Click any column header to sort; the 🔍 icon in the "
+        "table toolbar does a live full-text search."
+    )
     st.download_button(
         "Download full tidy programmatic table (CSV)",
         (lib.DATA / "programmatic_tidy.csv").read_bytes(),

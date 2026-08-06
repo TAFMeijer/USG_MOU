@@ -122,26 +122,38 @@ mix = commodity_mix(country)
 
 
 def mix_donut(mx: pd.DataFrame) -> alt.Chart:
-    return (
+    # Buckets in size order (legend reads large-to-small, matching the clockwise
+    # arcs) and only those present in THIS country's mix — colors stay fixed per
+    # bucket because they're looked up, not positional.
+    order = (
+        mx.sort_values("Amount", ascending=False)["Bucket"].tolist()
+    )
+    arcs = (
         alt.Chart(mx)
-        .mark_arc(innerRadius=34, stroke="#fcfcfb", strokeWidth=2)
+        .mark_arc(innerRadius=36, stroke="#fcfcfb", strokeWidth=2)
         .encode(
             theta=alt.Theta("Amount:Q"),
             color=alt.Color(
                 "Bucket:N",
-                scale=alt.Scale(domain=list(MIX_COLORS.keys()),
-                                range=list(MIX_COLORS.values())),
-                legend=alt.Legend(orient="right", title=None, labelLimit=0,
-                                  labelFontSize=10, symbolSize=70),
-                sort=alt.EncodingSortField(field="Amount", op="sum", order="descending"),
+                scale=alt.Scale(domain=order,
+                                range=[MIX_COLORS[b] for b in order]),
+                legend=alt.Legend(orient="bottom", title=None, labelLimit=0,
+                                  labelFontSize=12, symbolSize=110, columns=2,
+                                  direction="vertical"),
             ),
             order=alt.Order("Amount:Q", sort="descending"),
             tooltip=["Bucket", alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026"),
                      alt.Tooltip("Share:Q", format=".0%")],
         )
-        .properties(height=190,
-                    title=alt.TitleParams("Other commodities — 2026 mix (USG, App. 2)",
-                                          fontSize=13))
+    )
+    center = (
+        alt.Chart(pd.DataFrame({"label": [lib.fmt_usd(mx["Amount"].sum())]}))
+        .mark_text(fontSize=13, fontWeight="bold", color="#0b0b0b")
+        .encode(text="label:N")
+    )
+    return (arcs + center).properties(
+        height=150,
+        title=alt.TitleParams("Other commodities — 2026 mix (USG, App. 2)", fontSize=13),
     )
 
 
@@ -159,6 +171,11 @@ for i, (kind, a) in enumerate(panels):
     if kind == "mix":
         with cols[i % 3]:
             st.altair_chart(mix_donut(mix), use_container_width=True)
+            st.caption(
+                "⚠️ 2026 snapshot only (Appendix 2) — the MoU does not publish this "
+                "split in the yearly data for 2027–2030, so the 'Other commodities' "
+                "trend chart cannot be broken down further."
+            )
         continue
     sub = m[m["Investment area"] == a]
     with cols[i % 3]:
@@ -209,48 +226,102 @@ st.markdown(
 st.markdown(f"#### How the investment areas compare, 2026–2030 ({funder_pick})")
 donut_src = (
     m.groupby("Investment area")["Amount"].sum().reset_index().query("Amount > 0")
+    .sort_values("Amount", ascending=False)
 )
-donut_src["Share of total"] = donut_src["Amount"] / donut_src["Amount"].sum()
+donut_total = donut_src["Amount"].sum()
+donut_src["Share of total"] = donut_src["Amount"] / donut_total
+
+# Domain in size order -> legend reads large-to-small, matching the clockwise arcs;
+# colors stay fixed per area because they're looked up, not positional.
+ordered_areas = donut_src["Investment area"].tolist()
 area_scale = alt.Scale(
-    domain=list(lib.AREA_COLORS.keys()), range=list(lib.AREA_COLORS.values())
+    domain=ordered_areas, range=[lib.AREA_COLORS[a] for a in ordered_areas]
 )
-donut = (
+donut_sel = alt.selection_point(fields=["Investment area"], bind="legend")
+
+arcs = (
     alt.Chart(donut_src)
-    .mark_arc(innerRadius=75, stroke="#fcfcfb", strokeWidth=2)
+    .mark_arc(innerRadius=78, stroke="#fcfcfb", strokeWidth=2)
     .encode(
         theta=alt.Theta("Amount:Q"),
         color=alt.Color(
             "Investment area:N",
             scale=area_scale,
-            legend=alt.Legend(labelLimit=0, title=None, orient="right"),
-            sort=alt.EncodingSortField(field="Amount", op="sum", order="descending"),
+            legend=alt.Legend(labelLimit=0, title=None, orient="right",
+                              labelFontSize=12, symbolSize=110, symbolLimit=0),
         ),
         order=alt.Order("Amount:Q", sort="descending"),
+        opacity=alt.condition(donut_sel, alt.value(1), alt.value(0.25)),
         tooltip=[
             "Investment area",
             alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026–2030"),
             alt.Tooltip("Share of total:Q", format=".1%"),
         ],
     )
-    .properties(height=330)
+    .add_params(donut_sel)
 )
+center_df = pd.DataFrame({"label": [lib.fmt_usd(donut_total)]})
+center_value = (
+    alt.Chart(center_df)
+    .mark_text(fontSize=24, fontWeight="bold", color="#0b0b0b", dy=-6)
+    .encode(text="label:N")
+)
+center_sub = (
+    alt.Chart(pd.DataFrame({"label": ["2026–2030"]}))
+    .mark_text(fontSize=11, color="#898781", dy=14)
+    .encode(text="label:N")
+)
+donut = (arcs + center_value + center_sub).properties(height=340)
+
 dc1, dc2 = st.columns([3, 2])
 with dc1:
     st.altair_chart(donut, use_container_width=True)
 with dc2:
-    top = donut_src.sort_values("Amount", ascending=False).head(5)
+    top = donut_src.head(5)
     st.markdown("**Largest areas**")
     for _, r in top.iterrows():
         st.markdown(
             f"- {r['Investment area']}: **{lib.fmt_usd(r['Amount'])}** "
             f"({r['Share of total']:.0%})"
         )
-    st.caption("Respects the funder toggle in the sidebar. Hover a segment for details.")
+    st.caption(
+        "Respects the funder toggle in the sidebar. Legend is ordered large → small, "
+        "matching the clockwise arcs — click a legend entry to highlight its segment "
+        "(click it again to reset). Hover a segment for details."
+    )
 
 # ---------------- detail table ----------------
 with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
     detail = lib.load_budget_tidy()
     detail = detail[detail["Country"] == country]
+
+    # filter row
+    f1, f2, f3, f4 = st.columns([2, 1.4, 2, 2])
+    with f1:
+        f_area = st.multiselect("Investment area", sorted(detail["Investment area"].unique()),
+                                placeholder="All areas")
+    with f2:
+        f_funder = st.multiselect("Funder", sorted(detail["Funder"].unique()),
+                                  placeholder="All funders")
+    with f3:
+        f_rowtype = st.multiselect("Row type", sorted(detail["Row type"].unique()),
+                                   placeholder="All row types")
+    with f4:
+        f_text = st.text_input("Search category / notes", "",
+                               placeholder="e.g. ARV, buffer, FTE…")
+    if f_area:
+        detail = detail[detail["Investment area"].isin(f_area)]
+    if f_funder:
+        detail = detail[detail["Funder"].isin(f_funder)]
+    if f_rowtype:
+        detail = detail[detail["Row type"].isin(f_rowtype)]
+    if f_text:
+        mask = (
+            detail["Category (as printed in MoU)"].str.contains(f_text, case=False, na=False)
+            | detail["Source note"].astype(str).str.contains(f_text, case=False, na=False)
+        )
+        detail = detail[mask]
+
     st.dataframe(
         detail,
         use_container_width=True,
@@ -262,7 +333,8 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
         },
     )
     st.caption(
-        "Click any column header to sort. Only rows with Row type = 'Line item' (plus "
-        "existing-government rows) feed the charts above; other row types are excluded "
-        "to avoid double counting."
+        f"{len(detail):,} rows shown. Click any column header to sort; the 🔍 icon in the "
+        "table toolbar does a live full-text search. Only rows with Row type = 'Line item' "
+        "(plus existing-government rows) feed the charts above; other row types are "
+        "excluded to avoid double counting."
     )
