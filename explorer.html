@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>USG MoU funding trajectories, 2026–2030</title>
+<style>
+  .viz-root{
+    color-scheme:light;
+    --surface-1:#fcfcfb; --page:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --baseline:#c3c2b7; --border:rgba(11,11,11,.10);
+    --usg:#2a78d6; --gov:#eb6834; --context:#d8d7d0;
+    --pill-bg:#f0efec; --pill-active:#0b0b0b; --pill-active-ink:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])) .viz-root{
+      color-scheme:dark;
+      --surface-1:#1a1a19; --page:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --baseline:#383835; --border:rgba(255,255,255,.10);
+      --usg:#3987e5; --gov:#d95926; --context:#33332f;
+      --pill-bg:#262624; --pill-active:#ffffff; --pill-active-ink:#0b0b0b;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--page)}
+  .viz-root{background:var(--page);color:var(--text-primary);min-height:100vh;padding:28px 30px 40px}
+  h1{font-size:21px;font-weight:650;letter-spacing:-.01em}
+  .sub{color:var(--text-secondary);font-size:13px;margin-top:6px;max-width:900px;line-height:1.45}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0 6px}
+  .pillrow{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{border:1px solid var(--border);background:var(--pill-bg);color:var(--text-primary);
+    border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+  .pill:hover{filter:brightness(.96)}
+  .pill.active{background:var(--pill-active);color:var(--pill-active-ink);border-color:transparent;font-weight:600}
+  .sep{width:1px;height:22px;background:var(--border);margin:0 6px}
+  .legend{display:flex;gap:16px;align-items:center;margin:12px 0 4px;font-size:12px;color:var(--text-secondary)}
+  .key{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:14px;height:0;border-top:2.5px solid;border-radius:2px}
+  .areanote{color:var(--muted);font-size:11.5px;margin:4px 0 10px;max-width:920px;line-height:1.4;min-height:15px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:14px}
+  .panel{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:12px 12px 6px;position:relative}
+  .panel h3{font-size:13px;font-weight:650}
+  .panel .peak{font-size:11px;color:var(--muted);margin-top:1px;min-height:14px}
+  .panel svg{display:block;width:100%;height:150px;margin-top:4px}
+  .nodata{color:var(--muted);font-size:11.5px;font-style:italic;padding:26px 0 40px;text-align:center}
+  .tt{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--border);
+    box-shadow:0 4px 14px rgba(0,0,0,.14);border-radius:8px;padding:8px 10px;font-size:11.5px;
+    color:var(--text-primary);z-index:50;display:none;min-width:150px;line-height:1.5}
+  .tt b{font-weight:650}
+  .tt .r{display:flex;justify-content:space-between;gap:14px}
+  .tt .lab{color:var(--text-secondary)}
+  details{margin-top:22px}
+  summary{cursor:pointer;font-size:13px;color:var(--text-secondary);font-weight:600}
+  table{border-collapse:collapse;margin-top:10px;font-size:12px;background:var(--surface-1);
+    border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  th,td{padding:5px 10px;border-bottom:1px solid var(--grid);text-align:right;font-variant-numeric:tabular-nums}
+  th{color:var(--text-secondary);font-weight:600;background:var(--pill-bg)}
+  td:first-child,th:first-child,td:nth-child(2),th:nth-child(2){text-align:left}
+  .src{margin-top:24px;font-size:11px;color:var(--muted);line-height:1.5;max-width:920px}
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <h1>USG MoU funding trajectories, 2026–2030</h1>
+  <div class="sub" id="subtitle"></div>
+
+  <div class="controls">
+    <div class="pillrow" id="areaPills"></div>
+    <div class="sep"></div>
+    <div class="pillrow" id="funderPills"></div>
+    <div class="sep"></div>
+    <div class="pillrow" id="normPills"></div>
+  </div>
+  <div class="legend" id="legend">
+    <span class="key"><span class="swatch" style="border-color:var(--usg)"></span>USG</span>
+    <span class="key"><span class="swatch" style="border-color:var(--gov)"></span>Government (new co-financing + existing)</span>
+    <span class="key" id="ctxKey"><span class="swatch" style="border-color:var(--context);border-top-style:solid"></span>other countries (context)</span>
+  </div>
+  <div class="areanote" id="areaNote"></div>
+  <div class="grid" id="grid"></div>
+
+  <details id="tblWrap">
+    <summary>Table view — values behind the selected charts</summary>
+    <div style="overflow-x:auto"><table id="tbl"></table></div>
+  </details>
+
+  <div class="src">Notes: “Government” = <i>new</i> co-financing <b>plus existing government funding</b> where the MoU tabulates it (Kenya, Uganda, Mozambique, Liberia, Côte d’Ivoire and Cameroon publish an existing-funding split for at least some areas; Nigeria, Ethiopia and Rwanda do not, so their government lines are new co-financing only — their true shares are understated). Domestic-expenditure-increase pledges are excluded (a different measure of the same money). Kenya USG excludes the “cost of doing business &amp; audits” margin; Nigeria &amp; Ethiopia USG exclude the ~6% M&amp;O carve-out (no per-year breakdown published). Côte d’Ivoire frontline workers are budgeted in FTEs only (no $); Rwanda’s government worker commitments are likewise never monetised. Kenya government co-financing shown for 2026–2030 (its table extends to 2031).</div>
+</div>
+<div class="tt" id="tt"></div>
+<script>
+const DATA = {"years": [2026, 2027, 2028, 2029, 2030], "series": [{"area": "Surveillance & outbreak response", "country": "Kenya", "funder": "USG", "values": [4506350.0, 4506350.0, 4506350.0, 4506350.0, 4506350.0], "max": 4506350.0}, {"area": "Laboratory commodities", "country": "Kenya", "funder": "USG", "values": [14960974.0, 10472682.0, 5236341.0, 0.0, 0.0], "max": 14960974.0}, {"area": "Frontline lab workers", "country": "Kenya", "funder": "USG", "values": [6462293.0, 4308195.0, 2154098.0, 0.0, 0.0], "max": 6462293.0}, {"area": "Other commodities", "country": "Kenya", "funder": "USG", "values": [94782231.0, 44869339.0, 44869339.0, 29912892.0, 14956446.0], "max": 94782231.0}, {"area": "Frontline healthcare workers", "country": "Kenya", "funder": "USG", "values": [45735429.0, 30490286.0, 0.0, 0.0, 0.0], "max": 45735429.0}, {"area": "Data systems", "country": "Kenya", "funder": "USG", "values": [30000000.0, 75000000.0, 50000000.0, 10000000.0, 10000000.0], "max": 75000000.0}, {"area": "Strategic assistance / investment", "country": "Kenya", "funder": "USG", "values": [102706246.0, 127637380.0, 168814814.0, 235118267.0, 113313280.0], "max": 235118267.0}, {"area": "Programme management", "country": "Kenya", "funder": "USG", "values": [90282837.0, 67712128.0, 45141418.0, 27084851.0, 9028284.0], "max": 90282837.0}, {"area": "Laboratory commodities", "country": "Kenya", "funder": "Government", "values": [2116279.0, 6604571.0, 11840912.0, 17077253.0, 17077253.0], "max": 17077253.0}, {"area": "Frontline lab workers", "country": "Kenya", "funder": "Government", "values": [0.0, 0.0, 6462293.0, 6462293.0, 6462293.0], "max": 6462293.0}, {"area": "Other commodities", "country": "Kenya", "funder": "Government", "values": [105928166.0, 135841058.0, 135841058.0, 150797505.0, 165753951.0], "max": 165753951.0}, {"area": "Frontline healthcare workers", "country": "Kenya", "funder": "Government", "values": [0.0, 0.0, 45735429.0, 45735429.0, 45735429.0], "max": 45735429.0}, {"area": "Surveillance & outbreak response", "country": "Uganda", "funder": "USG", "values": [5092000.0, 5092000.0, 5092000.0, 5092000.0, 5092000.0], "max": 5092000.0}, {"area": "Laboratory commodities", "country": "Uganda", "funder": "USG", "values": [52757874.0, 43525246.0, 34292618.0, 25059990.0, 16452728.0], "max": 52757874.0}, {"area": "Other commodities", "country": "Uganda", "funder": "USG", "values": [50454474.0, 41624941.0, 32795408.0, 23965875.0, 21320105.0], "max": 50454474.0}, {"area": "Frontline healthcare workers", "country": "Uganda", "funder": "USG", "values": [28519570.0, 23635877.0, 16896027.0, 8715804.0, 0.0], "max": 28519570.0}, {"area": "Data systems", "country": "Uganda", "funder": "USG", "values": [26129831.0, 24779640.0, 25103354.0, 27294065.0, 9795399.0], "max": 27294065.0}, {"area": "Strategic assistance / investment", "country": "Uganda", "funder": "USG", "values": [223096731.0, 220602776.0, 219231073.0, 207750746.0, 187502248.0], "max": 223096731.0}, {"area": "Management & operations", "country": "Uganda", "funder": "USG", "values": [24641520.0, 22931520.0, 21281520.0, 19013520.0, 15329520.0], "max": 24641520.0}, {"area": "Laboratory commodities", "country": "Uganda", "funder": "Government", "values": [14054109.0, 24255648.0, 34457188.0, 44658727.0, 54860267.0], "max": 54860267.0}, {"area": "Other commodities", "country": "Uganda", "funder": "Government", "values": [17754110.0, 27552554.0, 37350998.0, 47149443.0, 56947887.0], "max": 56947887.0}, {"area": "Frontline healthcare workers", "country": "Uganda", "funder": "Government", "values": [0.0, 19177200.0, 21177200.0, 19677200.0, 16970200.0], "max": 21177200.0}, {"area": "Other health sector co-investment", "country": "Uganda", "funder": "Government", "values": [0.0, 30000016.0, 80000016.0, 130000016.0, 180000016.0], "max": 180000016.0}, {"area": "Surveillance & outbreak response", "country": "Mozambique", "funder": "USG", "values": [7300000.0, 27600000.0, 6000000.0, 19300000.0, 4300000.0], "max": 27600000.0}, {"area": "Laboratory commodities", "country": "Mozambique", "funder": "USG", "values": [32222465.0, 32222465.0, 32222465.0, 32222465.0, 32222465.0], "max": 32222465.0}, {"area": "Frontline lab workers", "country": "Mozambique", "funder": "USG", "values": [858200.0, 792200.0, 660200.0, 462200.0, 0.0], "max": 858200.0}, {"area": "Other commodities", "country": "Mozambique", "funder": "USG", "values": [69111507.0, 66111507.0, 64111507.0, 64111507.0, 59111507.0], "max": 69111507.0}, {"area": "Frontline healthcare workers", "country": "Mozambique", "funder": "USG", "values": [36963448.0, 32654200.0, 27042028.0, 24854804.0, 21324198.0], "max": 36963448.0}, {"area": "Data systems", "country": "Mozambique", "funder": "USG", "values": [16666385.0, 28230116.0, 18533429.0, 11129710.0, 8512439.0], "max": 28230116.0}, {"area": "Strategic assistance / investment", "country": "Mozambique", "funder": "USG", "values": [278211995.0, 216123512.0, 237524371.0, 169953314.0, 150713391.0], "max": 278211995.0}, {"area": "Other commodities", "country": "Mozambique", "funder": "Government", "values": [5000000.0, 8078261.0, 10130435.0, 10130435.0, 15260869.0], "max": 15260869.0}, {"area": "Frontline healthcare workers", "country": "Mozambique", "funder": "Government", "values": [0.0, 4697311.0, 9465621.0, 14304932.0, 18505242.0], "max": 18505242.0}, {"area": "Surveillance & outbreak response", "country": "Nigeria", "funder": "USG", "values": [4171000.0, 4171000.0, 4171000.0, 4171000.0, 4171000.0], "max": 4171000.0}, {"area": "Laboratory commodities", "country": "Nigeria", "funder": "USG", "values": [70312145.0, 57688940.0, 31611794.0, 21992148.0, 19633990.0], "max": 70312145.0}, {"area": "Frontline lab workers", "country": "Nigeria", "funder": "USG", "values": [4447069.0, 2335302.0, 1223535.0, 1611768.0, 1500000.0], "max": 4447069.0}, {"area": "Other commodities", "country": "Nigeria", "funder": "USG", "values": [133188061.0, 88948866.0, 85038295.0, 84562080.0, 50405150.0], "max": 133188061.0}, {"area": "Frontline healthcare workers", "country": "Nigeria", "funder": "USG", "values": [23600000.0, 12000000.0, 11800000.0, 5900000.0, 5700000.0], "max": 23600000.0}, {"area": "Data systems", "country": "Nigeria", "funder": "USG", "values": [60000000.0, 49000000.0, 42000000.0, 23000000.0, 22000000.0], "max": 60000000.0}, {"area": "Strategic assistance / investment", "country": "Nigeria", "funder": "USG", "values": [205000925.0, 241446632.0, 226166116.0, 217120144.0, 133442600.0], "max": 241446632.0}, {"area": "Surveillance & outbreak response", "country": "Nigeria", "funder": "Government", "values": [27586207.0, 37598179.0, 47610152.0, 57622124.0, 67634097.0], "max": 67634097.0}, {"area": "Laboratory systems", "country": "Nigeria", "funder": "Government", "values": [24137931.0, 32898407.0, 41658883.0, 50419359.0, 59179834.0], "max": 59179834.0}, {"area": "Other commodities", "country": "Nigeria", "funder": "Government", "values": [59310345.0, 80836086.0, 102361826.0, 123887567.0, 145413308.0], "max": 145413308.0}, {"area": "Frontline healthcare workers", "country": "Nigeria", "funder": "Government", "values": [32758621.0, 44647838.0, 56537055.0, 68426272.0, 80315490.0], "max": 80315490.0}, {"area": "Frontline lab workers", "country": "Nigeria", "funder": "Government", "values": [1724138.0, 2349886.0, 2975634.0, 3601383.0, 4227131.0], "max": 4227131.0}, {"area": "Data systems", "country": "Nigeria", "funder": "Government", "values": [13793103.0, 18799090.0, 23805076.0, 28811062.0, 33817048.0], "max": 33817048.0}, {"area": "Strategic assistance / investment", "country": "Nigeria", "funder": "Government", "values": [185517241.0, 252847756.0, 320178270.0, 387508785.0, 454839299.0], "max": 454839299.0}, {"area": "Surveillance & outbreak response", "country": "Ethiopia", "funder": "USG", "values": [7512850.0, 7418368.0, 6759200.0, 6205861.0, 5055669.0], "max": 7512850.0}, {"area": "Laboratory commodities", "country": "Ethiopia", "funder": "USG", "values": [12556597.0, 9417448.0, 6278299.0, 3139149.0, 0.0], "max": 12556597.0}, {"area": "Laboratory systems", "country": "Ethiopia", "funder": "USG", "values": [2475240.0, 1856430.0, 1237620.0, 618810.0, 0.0], "max": 2475240.0}, {"area": "Frontline lab workers", "country": "Ethiopia", "funder": "USG", "values": [433565.0, 323802.0, 219527.0, 109763.0, 0.0], "max": 433565.0}, {"area": "Other commodities", "country": "Ethiopia", "funder": "USG", "values": [28504110.0, 28504110.0, 14252055.0, 7126027.0, 0.0], "max": 28504110.0}, {"area": "Frontline healthcare workers", "country": "Ethiopia", "funder": "USG", "values": [14173411.0, 10629621.0, 7087580.0, 3543790.0, 0.0], "max": 14173411.0}, {"area": "Data systems", "country": "Ethiopia", "funder": "USG", "values": [6283383.0, 5026706.0, 3770030.0, 2513353.0, 1256677.0], "max": 6283383.0}, {"area": "Strategic assistance / investment", "country": "Ethiopia", "funder": "USG", "values": [117060845.0, 176947735.0, 192399309.0, 151745056.0, 119727654.0], "max": 192399309.0}, {"area": "Laboratory commodities", "country": "Ethiopia", "funder": "Government", "values": [0.0, 3139149.0, 6278298.0, 9417448.0, 12556597.0], "max": 12556597.0}, {"area": "Laboratory systems", "country": "Ethiopia", "funder": "Government", "values": [0.0, 618810.0, 1237620.0, 1856430.0, 2475240.0], "max": 2475240.0}, {"area": "Other commodities", "country": "Ethiopia", "funder": "Government", "values": [0.0, 7126027.0, 14252055.0, 21378082.0, 28504110.0], "max": 28504110.0}, {"area": "Frontline healthcare workers", "country": "Ethiopia", "funder": "Government", "values": [0.0, 3543790.0, 7087580.0, 10629621.0, 14173411.0], "max": 14173411.0}, {"area": "Surveillance & outbreak response", "country": "Rwanda", "funder": "USG", "values": [2462640.0, 6792640.0, 4798640.0, 3462640.0, 3462640.0], "max": 6792640.0}, {"area": "Laboratory commodities", "country": "Rwanda", "funder": "USG", "values": [560525.0, 1121049.0, 560525.0, 0.0, 0.0], "max": 1121049.0}, {"area": "Frontline lab workers", "country": "Rwanda", "funder": "USG", "values": [780319.0, 1560637.0, 1248510.0, 115000.0, 0.0], "max": 1560637.0}, {"area": "Other commodities", "country": "Rwanda", "funder": "USG", "values": [5735645.0, 17537289.0, 16925289.0, 4957200.0, 0.0], "max": 17537289.0}, {"area": "Frontline healthcare workers", "country": "Rwanda", "funder": "USG", "values": [4272578.0, 6836124.0, 5468899.0, 230000.0, 0.0], "max": 6836124.0}, {"area": "Data systems", "country": "Rwanda", "funder": "USG", "values": [1352974.0, 3600000.0, 0.0, 0.0, 0.0], "max": 3600000.0}, {"area": "Strategic assistance / investment", "country": "Rwanda", "funder": "USG", "values": [16522983.0, 26627743.0, 13657797.0, 7036356.0, 93360.0], "max": 26627743.0}, {"area": "Laboratory commodities", "country": "Rwanda", "funder": "Government", "values": [0.0, 0.0, 560525.0, 1121049.0, 1121049.0], "max": 1121049.0}, {"area": "Other commodities", "country": "Rwanda", "funder": "Government", "values": [0.0, 0.0, 612000.0, 12641289.0, 17598489.0], "max": 17598489.0}, {"area": "Surveillance & outbreak response", "country": "Liberia", "funder": "USG", "values": [2519792.0, 2519792.0, 2519792.0, 1519792.0, 2519792.0], "max": 2519792.0}, {"area": "Laboratory commodities", "country": "Liberia", "funder": "USG", "values": [5560194.0, 5985544.0, 5480294.0, 1366244.0, 2760400.0], "max": 5985544.0}, {"area": "Frontline lab workers", "country": "Liberia", "funder": "USG", "values": [697200.0, 544800.0, 379800.0, 496800.0, 0.0], "max": 697200.0}, {"area": "Other commodities", "country": "Liberia", "funder": "USG", "values": [10539600.0, 8439600.0, 7039600.0, 5039600.0, 539600.0], "max": 10539600.0}, {"area": "Frontline healthcare workers", "country": "Liberia", "funder": "USG", "values": [1405536.0, 1008480.0, 784320.0, 392160.0, 0.0], "max": 1405536.0}, {"area": "Data systems", "country": "Liberia", "funder": "USG", "values": [8056796.0, 6705396.0, 6517396.0, 2054096.0, 2800000.0], "max": 8056796.0}, {"area": "Technical assistance", "country": "Liberia", "funder": "USG", "values": [2165948.0, 3079898.0, 2624198.0, 1296788.0, 1638688.0], "max": 3079898.0}, {"area": "Strategic assistance / investment", "country": "Liberia", "funder": "USG", "values": [5754414.0, 5501970.0, 5244080.0, 470000.0, 450000.0], "max": 5754414.0}, {"area": "Laboratory commodities", "country": "Liberia", "funder": "Government", "values": [1620000.0, 1670000.0, 1720000.0, 1770000.0, 1820000.0], "max": 1820000.0}, {"area": "Frontline lab workers", "country": "Liberia", "funder": "Government", "values": [0.0, 1341984.0, 317400.0, 496800.0, 697200.0], "max": 1341984.0}, {"area": "Other commodities", "country": "Liberia", "funder": "Government", "values": [6302000.0, 8402000.0, 9802000.0, 11802000.0, 16302000.0], "max": 16302000.0}, {"area": "Frontline healthcare workers", "country": "Liberia", "funder": "Government", "values": [1189584.0, 3394320.0, 5426160.0, 7626000.0, 9825840.0], "max": 9825840.0}, {"area": "Surveillance & outbreak response", "country": "Cameroon", "funder": "USG", "values": [8460000.0, 7680000.0, 7210000.0, 6120000.0, 4020000.0], "max": 8460000.0}, {"area": "Laboratory commodities", "country": "Cameroon", "funder": "USG", "values": [5630000.0, 5630000.0, 5110000.0, 4330000.0, 2850000.0], "max": 5630000.0}, {"area": "Frontline lab workers", "country": "Cameroon", "funder": "USG", "values": [1930000.0, 1750000.0, 1640000.0, 1390000.0, 920000.0], "max": 1930000.0}, {"area": "Other commodities", "country": "Cameroon", "funder": "USG", "values": [11800000.0, 11800000.0, 10700000.0, 9080000.0, 5970000.0], "max": 11800000.0}, {"area": "Frontline healthcare workers", "country": "Cameroon", "funder": "USG", "values": [22170000.0, 20110000.0, 18880000.0, 16020000.0, 10530000.0], "max": 22170000.0}, {"area": "Data systems", "country": "Cameroon", "funder": "USG", "values": [13370000.0, 12120000.0, 11380000.0, 9660000.0, 6350000.0], "max": 13370000.0}, {"area": "Strategic assistance / investment", "country": "Cameroon", "funder": "USG", "values": [18470000.0, 16750000.0, 15730000.0, 13350000.0, 8770000.0], "max": 18470000.0}, {"area": "Management & operations", "country": "Cameroon", "funder": "USG", "values": [19100000.0, 15690000.0, 15290000.0, 12980000.0, 8530000.0], "max": 19100000.0}, {"area": "Laboratory commodities", "country": "Cameroon", "funder": "Government", "values": [0.0, 0.0, 524519.0, 1824519.0, 4600000.0], "max": 4600000.0}, {"area": "Other commodities", "country": "Cameroon", "funder": "Government", "values": [0.0, 0.0, 1100000.0, 2720000.0, 5830000.0], "max": 5830000.0}, {"area": "Surveillance & outbreak response", "country": "C\u00f4te d'Ivoire", "funder": "USG", "values": [3916000.0, 3916000.0, 3916000.0, 3916000.0, 3916000.0], "max": 3916000.0}, {"area": "Laboratory commodities", "country": "C\u00f4te d'Ivoire", "funder": "USG", "values": [4600000.0, 3900000.0, 3200000.0, 2500000.0, 1800000.0], "max": 4600000.0}, {"area": "Other commodities", "country": "C\u00f4te d'Ivoire", "funder": "USG", "values": [30500000.0, 19500000.0, 18500000.0, 10000000.0, 6500000.0], "max": 30500000.0}, {"area": "Data systems", "country": "C\u00f4te d'Ivoire", "funder": "USG", "values": [16000000.0, 16000000.0, 12500000.0, 11000000.0, 11000000.0], "max": 16000000.0}, {"area": "Strategic assistance / investment", "country": "C\u00f4te d'Ivoire", "funder": "USG", "values": [47065040.0, 53229040.0, 54729040.0, 49125040.0, 32405040.0], "max": 54729040.0}, {"area": "Laboratory commodities", "country": "C\u00f4te d'Ivoire", "funder": "Government", "values": [11000000.0, 11700000.0, 12400000.0, 13100000.0, 13800000.0], "max": 13800000.0}, {"area": "Other commodities", "country": "C\u00f4te d'Ivoire", "funder": "Government", "values": [25000000.0, 35000000.0, 40500000.0, 44500000.0, 48000000.0], "max": 48000000.0}, {"area": "All areas combined", "country": "Kenya", "funder": "USG", "values": [389436360.0, 364996360.0, 320722360.0, 306622360.0, 151804360.0], "max": 389436360.0}, {"area": "All areas combined", "country": "Kenya", "funder": "Government", "values": [108044445.0, 142445629.0, 199879692.0, 220072480.0, 235028926.0], "max": 235028926.0}, {"area": "All areas combined", "country": "Uganda", "funder": "USG", "values": [410692000.0, 382192000.0, 354692000.0, 316892000.0, 255492000.0], "max": 410692000.0}, {"area": "All areas combined", "country": "Uganda", "funder": "Government", "values": [31808219.0, 100985418.0, 172985402.0, 241485386.0, 308778370.0], "max": 308778370.0}, {"area": "All areas combined", "country": "Mozambique", "funder": "USG", "values": [441334000.0, 403734000.0, 386094000.0, 322034000.0, 276184000.0], "max": 441334000.0}, {"area": "All areas combined", "country": "Mozambique", "funder": "Government", "values": [5000000.0, 12775572.0, 19596056.0, 24435367.0, 33766111.0], "max": 33766111.0}, {"area": "All areas combined", "country": "Nigeria", "funder": "USG", "values": [500719200.0, 455590740.0, 402010740.0, 358357140.0, 236852740.0], "max": 500719200.0}, {"area": "All areas combined", "country": "Nigeria", "funder": "Government", "values": [344827586.0, 469977242.0, 595126896.0, 720276552.0, 845426207.0], "max": 845426207.0}, {"area": "All areas combined", "country": "Ethiopia", "funder": "USG", "values": [189000001.0, 240124220.0, 232003620.0, 175001809.0, 126040000.0], "max": 240124220.0}, {"area": "All areas combined", "country": "Ethiopia", "funder": "Government", "values": [0.0, 14427776.0, 28855553.0, 43281581.0, 57709358.0], "max": 57709358.0}, {"area": "All areas combined", "country": "Rwanda", "funder": "USG", "values": [31687664.0, 64075482.0, 42659660.0, 15801196.0, 3556000.0], "max": 64075482.0}, {"area": "All areas combined", "country": "Rwanda", "funder": "Government", "values": [0.0, 0.0, 1172525.0, 13762338.0, 18719538.0], "max": 18719538.0}, {"area": "All areas combined", "country": "Liberia", "funder": "USG", "values": [36699480.0, 33785480.0, 30589480.0, 12635480.0, 10708480.0], "max": 36699480.0}, {"area": "All areas combined", "country": "Liberia", "funder": "Government", "values": [9111584.0, 14808304.0, 17265560.0, 21694800.0, 28645040.0], "max": 28645040.0}, {"area": "All areas combined", "country": "Cameroon", "funder": "USG", "values": [100930000.0, 91530000.0, 85940000.0, 72930000.0, 47940000.0], "max": 100930000.0}, {"area": "All areas combined", "country": "Cameroon", "funder": "Government", "values": [0.0, 0.0, 1624519.0, 4544519.0, 10430000.0], "max": 10430000.0}, {"area": "All areas combined", "country": "C\u00f4te d'Ivoire", "funder": "USG", "values": [102081040.0, 96545040.0, 92845040.0, 76541040.0, 55621040.0], "max": 102081040.0}, {"area": "All areas combined", "country": "C\u00f4te d'Ivoire", "funder": "Government", "values": [36000000.0, 46700000.0, 52900000.0, 57600000.0, 61800000.0], "max": 61800000.0}]};
+const AREA_ORDER = ["All areas combined","Laboratory commodities","Laboratory systems","Frontline lab workers","Frontline healthcare workers","Other commodities","Surveillance & outbreak response","Data systems","Strategic assistance / investment","Management & operations","Programme management","Technical assistance","Commodities & HRH co-investment","Other health sector co-investment"];
+const AREA_NOTES = {
+ "All areas combined":"Sum of all USD line items per country. USG declines everywhere; co-financing ramps up — the handover by design.",
+ "Laboratory commodities":"All 9 countries budget lab commodities. Mozambique holds USG flat (and contributes $0 itself); most others taper USG to zero or near-zero by 2029–30.",
+ "Laboratory systems":"Ethiopia is the only MoU with a separate lab-systems (non-commodity) line — USG tapers to $0 by 2030 while Ethiopia ramps up in mirror image.",
+ "Frontline lab workers":"7 countries carry a lab-workforce dollar line. Uganda folds lab workers into frontline healthcare workers; Côte d'Ivoire budgets them in FTEs only (no dollars). Nigeria's 2029 uptick is printed in the source.",
+ "Frontline healthcare workers":"8 countries. USG salary support typically hits $0 by 2029–30 as governments absorb workers onto payroll. Côte d'Ivoire: FTEs only, no dollar line.",
+ "Other commodities":"Health commodities (ARVs, tests, ITNs, MCH…). Kenya's 2026 peak includes a one-time $20M ART/PrEP buffer stock.",
+ "Surveillance & outbreak response":"Flat lines in Uganda, Nigeria, Côte d'Ivoire, Kenya; Mozambique's spikes in 2027/2029 carry the outcome-survey funding.",
+ "Data systems":"Kenya peaks in 2027 ($75M); Uganda holds ~$25M then cliffs 64% into 2030.",
+ "Strategic assistance / investment":"The largest USG area (~$5.0bn of the $9.1bn itemised). Includes each MoU's residual/flexible funding.",
+ "Management & operations":"Only Cameroon and Uganda itemise M&O by year — Kenya, Nigeria, Ethiopia carve it out of the top line without a yearly split.",
+ "Programme management":"Kenya only.",
+ "Technical assistance":"Liberia only (separate from strategic investments).",
+ "Commodities & HRH co-investment":"Cameroon government only — the co-investment slice inside its $450M expenditure-increase pledge.",
+ "Other health sector co-investment":"Uganda government only — the broad co-investment line that carries most of its $577M pledge."};
+const YEARS=DATA.years;
+const COUNTRIES=[...new Set(DATA.series.map(s=>s.country))].sort();
+let area="Laboratory commodities", funder="Both", norm="Share of combined";
+const NORMS=["Share of combined","% of own peak"];
+// deep-link support: #area=Frontline lab workers&funder=USG&norm=% of own peak
+try{
+  const hp=new URLSearchParams(location.hash.slice(1));
+  if(hp.get("area")) area=decodeURIComponent(hp.get("area"));
+  if(hp.get("funder")) funder=decodeURIComponent(hp.get("funder"));
+  if(hp.get("norm")&&NORMS.includes(decodeURIComponent(hp.get("norm")))) norm=decodeURIComponent(hp.get("norm"));
+}catch(e){}
+function syncHash(){ location.hash="area="+encodeURIComponent(area)+"&funder="+encodeURIComponent(funder)+"&norm="+encodeURIComponent(norm); }
+
+// combined USG+Gov per country/area/year (denominator for share mode)
+function combined(a,c){
+  const both=DATA.series.filter(s=>s.area===a&&s.country===c);
+  return YEARS.map((_,i)=>both.reduce((t,s)=>t+s.values[i],0));
+}
+// pct series for one line under the active normalisation; null = undefined point
+function pct(s){
+  if(norm==="% of own peak") return s.values.map(v=>100*v/s.max);
+  const tot=combined(s.area,s.country);
+  return s.values.map((v,i)=>tot[i]>0?100*v/tot[i]:null);
+}
+
+const css=v=>getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(v).trim();
+const fmt$=v=>{
+  if(v>=1e9) return "$"+(v/1e9).toFixed(2)+"bn";
+  if(v>=1e6) return "$"+(v/1e6).toFixed(1)+"M";
+  if(v>=1e3) return "$"+Math.round(v/1e3)+"k";
+  return "$"+Math.round(v);
+};
+const areas=AREA_ORDER.filter(a=>DATA.series.some(s=>s.area===a));
+
+function pills(el,items,cur,cb){
+  const box=document.getElementById(el); box.innerHTML="";
+  items.forEach(it=>{
+    const b=document.createElement("button");
+    b.className="pill"+(it===cur?" active":""); b.textContent=it;
+    b.onclick=()=>cb(it); box.appendChild(b);
+  });
+}
+function seriesFor(a,f){ return DATA.series.filter(s=>s.area===a&&(f==="Both"||s.funder===f)); }
+
+function panelSVG(country){
+  const W=272,H=150,m={l:30,r:10,t:8,b:20};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const x=i=>m.l+iw*i/(YEARS.length-1);
+  const y=p=>m.t+ih*(1-p/100);
+  let g=`<svg viewBox="0 0 ${W} ${H}" data-country="${country}">`;
+  // grid
+  [0,50,100].forEach(p=>{
+    g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(p)}" y2="${y(p)}" stroke="${css('--grid')}" stroke-width="1"/>`;
+    g+=`<text x="${m.l-5}" y="${y(p)+3.5}" text-anchor="end" font-size="9" fill="${css('--muted')}">${p}%</text>`;
+  });
+  YEARS.forEach((yr,i)=>{ g+=`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="9" fill="${css('--muted')}">${String(yr).slice(2)==="26"?yr:"'"+String(yr).slice(2)}</text>`; });
+  const path=ps=>{let d="",pen=false;
+    ps.forEach((p,i)=>{ if(p==null){pen=false;return;} d+=(pen?"L":"M")+x(i).toFixed(1)+","+y(p).toFixed(1); pen=true; });
+    return d;};
+  // 50% reference emphasised in share mode (crossing = government becomes majority funder)
+  if(norm==="Share of combined")
+    g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(50)}" y2="${y(50)}" stroke="${css('--baseline')}" stroke-width="1" stroke-dasharray="3 3"/>`;
+  // context: other countries — only in single-funder view (two-funder view gets too dense)
+  if(funder!=="Both"){
+    seriesFor(area,funder).filter(s=>s.country!==country).forEach(s=>{
+      g+=`<path d="${path(pct(s))}" fill="none" stroke="${css('--context')}" stroke-width="1" opacity="0.75"/>`;
+    });
+  }
+  // highlighted series
+  const mine=seriesFor(area,funder).filter(s=>s.country===country);
+  mine.forEach(s=>{
+    const col=s.funder==="USG"?css('--usg'):css('--gov');
+    const ps=pct(s);
+    g+=`<path d="${path(ps)}" fill="none" stroke="${col}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`;
+    if(norm==="% of own peak"){
+      const pk=s.values.indexOf(s.max);
+      g+=`<circle cx="${x(pk)}" cy="${y(100)}" r="3.4" fill="${col}" stroke="${css('--surface-1')}" stroke-width="2"/>`;
+    } else {
+      // dot on last defined point for orientation
+      for(let i=ps.length-1;i>=0;i--) if(ps[i]!=null){
+        g+=`<circle cx="${x(i)}" cy="${y(ps[i])}" r="3.2" fill="${col}" stroke="${css('--surface-1')}" stroke-width="2"/>`; break;}
+    }
+  });
+  g+=`<rect x="0" y="0" width="${W}" height="${H}" fill="transparent" class="hover" data-country="${country}"/>`;
+  g+="</svg>";
+  return {svg:g, mine};
+}
+
+const SUBTITLES={
+ "Share of combined":`Each point = a funder's share of that year's <b>combined USG + government funding</b> for the selected investment area and country (government = new co-financing <i>plus</i> existing government funding where the MoU tabulates it). The dashed line marks 50% — crossing it means the government becomes the majority funder. Hover for actual dollar amounts. Source: co-funding appendices of the 9 published MoU texts.`,
+ "% of own peak":`Each line is indexed to its own peak year (<b>100% = that country's highest annual amount for the selected investment area</b>), so the <i>shape</i> of the ramp-down (USG) and ramp-up (government) is comparable across countries regardless of size. Hover for actual dollar amounts. Source: co-funding appendices of the 9 published MoU texts.`};
+
+function panelSub(mine,c){
+  if(norm==="% of own peak")
+    return mine.map(s=>`${s.funder==="USG"?"USG":"Gov"} peak ${fmt$(s.max)} in ${YEARS[s.values.indexOf(s.max)]}`).join(" · ");
+  // share mode: report USG start/end share + first year of government majority
+  const tot=combined(area,c);
+  const usg=mine.find(s=>s.funder==="USG")||DATA.series.find(s=>s.area===area&&s.country===c&&s.funder==="USG");
+  if(!usg) return "government-only line";
+  const sh=usg.values.map((v,i)=>tot[i]>0?100*v/tot[i]:null);
+  const first=sh.find(v=>v!=null), last=[...sh].reverse().find(v=>v!=null);
+  let txt=`USG share ${first==null?"–":Math.round(first)+"%"} ('26) → ${last==null?"–":Math.round(last)+"%"} ('30)`;
+  const gm=sh.findIndex(v=>v!=null&&v<50);
+  if(gm>=0) txt+=` · Gov majority from ${YEARS[gm]}`;
+  return txt;
+}
+
+function render(){
+  pills("areaPills",areas,area,a=>{area=a;syncHash();render();});
+  pills("funderPills",["USG","Government","Both"],funder,f=>{funder=f;syncHash();render();});
+  pills("normPills",NORMS,norm,n=>{norm=n;syncHash();render();});
+  document.getElementById("subtitle").innerHTML=SUBTITLES[norm];
+  document.getElementById("areaNote").textContent=AREA_NOTES[area]||"";
+  document.getElementById("ctxKey").style.display=(funder==="Both")?"none":"inline-flex";
+  const grid=document.getElementById("grid"); grid.innerHTML="";
+  COUNTRIES.forEach(c=>{
+    const p=document.createElement("div"); p.className="panel";
+    const {svg,mine}=panelSVG(c);
+    if(mine.length){
+      p.innerHTML=`<h3>${c}</h3><div class="peak">${panelSub(mine,c)}</div>${svg}`;
+    } else {
+      p.innerHTML=`<h3>${c}</h3><div class="peak"></div><div class="nodata">no ${funder==="Both"?"":funder+" "}dollar line for this area in the MoU</div>`;
+    }
+    grid.appendChild(p);
+  });
+  hookHover(); table();
+}
+
+const tt=document.getElementById("tt");
+function hookHover(){
+  document.querySelectorAll("svg .hover").forEach(r=>{
+    r.addEventListener("mousemove",e=>{
+      const svg=e.target.closest("svg"), c=e.target.dataset.country;
+      const box=svg.getBoundingClientRect();
+      const relX=(e.clientX-box.left)/box.width*272;
+      const i=Math.max(0,Math.min(YEARS.length-1,Math.round((relX-30)/(232)/(1/(YEARS.length-1)))));
+      const mine=seriesFor(area,funder).filter(s=>s.country===c);
+      if(!mine.length){tt.style.display="none";return;}
+      let h=`<b>${c} — ${YEARS[i]}</b>`;
+      mine.forEach(s=>{
+        const col=s.funder==="USG"?css('--usg'):css('--gov');
+        const p=pct(s)[i];
+        h+=`<div class="r"><span class="lab"><span style="color:${col}">●</span> ${s.funder}</span><span><b>${fmt$(s.values[i])}</b>${p==null?"":" ("+Math.round(p)+"%)"}</span></div>`;
+      });
+      if(norm==="Share of combined"){
+        const tot=combined(area,c)[i];
+        h+=`<div class="r"><span class="lab">Combined</span><span><b>${fmt$(tot)}</b></span></div>`;
+      }
+      tt.innerHTML=h; tt.style.display="block";
+      tt.style.left=Math.min(window.innerWidth-190,e.clientX+14)+"px";
+      tt.style.top=(e.clientY+14)+"px";
+    });
+    r.addEventListener("mouseleave",()=>tt.style.display="none");
+  });
+}
+
+function table(){
+  const rows=seriesFor(area,funder);
+  const lastCol=norm==="% of own peak"?"Peak":"5-yr total";
+  let h="<tr><th>Country</th><th>Funder</th>"+YEARS.map(y=>`<th>${y}</th>`).join("")+`<th>${lastCol}</th></tr>`;
+  rows.sort((a,b)=>a.country.localeCompare(b.country)||a.funder.localeCompare(b.funder));
+  rows.forEach(s=>{
+    const ps=pct(s);
+    h+=`<tr><td>${s.country}</td><td>${s.funder}</td>`+
+      s.values.map((v,i)=>`<td>${fmt$(v)}<span style="color:var(--muted)">${ps[i]==null?"":" · "+Math.round(ps[i])+"%"}</span></td>`).join("")+
+      `<td>${fmt$(norm==="% of own peak"?s.max:s.values.reduce((a,b)=>a+b,0))}</td></tr>`;
+  });
+  document.getElementById("tbl").innerHTML=h;
+}
+render();
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+</script>
+</body>
+</html>
