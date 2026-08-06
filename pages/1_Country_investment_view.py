@@ -206,7 +206,7 @@ for i, (kind, a) in enumerate(panels):
                 .mark_line(point=True, strokeWidth=2.5)
                 .encode(
                     x=alt.X("Year:O", axis=YEAR_AXIS),
-                    y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s")),
+                    y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
                     color=alt.Color("Funder:N", scale=funder_scale, legend=None),
                     tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f")],
                 )

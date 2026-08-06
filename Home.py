@@ -98,7 +98,7 @@ if unit == "US$":
         .mark_line(point=True, strokeWidth=2.5)
         .encode(
             x=alt.X("Year:O", axis=YEAR_AXIS),
-            y=alt.Y("Amount:Q", title="US$ per year", axis=alt.Axis(format="~s")),
+            y=alt.Y("Amount:Q", title="US$ per year", axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
             color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
             opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
             strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
@@ -159,7 +159,7 @@ if unit == "US$":
         .encode(
             y=alt.Y("Country:N", sort="-x", title=None,
                     axis=alt.Axis(labelFontSize=13)),
-            x=alt.X("Amount:Q", title="US$, 2026–2030", axis=alt.Axis(format="~s")),
+            x=alt.X("Amount:Q", title="US$, 2026–2030", axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
             color=funder_color,
             tooltip=["Country", "Funder", alt.Tooltip("Amount:Q", format=",.0f")],
         )
