@@ -67,11 +67,100 @@ funder_scale = alt.Scale(
     domain=["USG", lib.GOV_LABEL], range=[lib.USG_COLOR, lib.GOV_COLOR]
 )
 
+# ---- 2026 mix of Other commodities (Appendix 2) for the in-grid micro-donut ----
+MIX_COLORS = {
+    "HIV (ARVs, PrEP, tests)": "#2a78d6",
+    "HIV & TB": "#86b6ef",
+    "Malaria": "#1baf7a",
+    "TB": "#eda100",
+    "MCH": "#e87ba4",
+    "Distribution & logistics": "#4a3aa7",
+    "Other": "#898781",
+}
+
+
+def commodity_bucket(item: str) -> str:
+    t = item.lower()
+    if "hiv" in t and "tb" in t:
+        return "HIV & TB"
+    if any(k in t for k in ["arv", "prep", "buffer", "hiv"]):
+        return "HIV (ARVs, PrEP, tests)"
+    if any(k in t for k in ["malaria", "llin", "smc", "irs", "artesunate", "iptp",
+                            "acts", "rdt"]):
+        return "Malaria"
+    if "tb" in t:
+        return "TB"
+    if any(k in t for k in ["mch", "mnch", "maternal"]):
+        return "MCH"
+    if any(k in t for k in ["distribution", "warehous", "logistic", "icl"]):
+        return "Distribution & logistics"
+    return "Other"
+
+
+@st.cache_data
+def commodity_mix(cty: str) -> pd.DataFrame:
+    tidy = lib.load_budget_tidy()
+    mx = tidy[
+        (tidy["Country"] == cty)
+        & tidy["Row type"].str.startswith("Appendix detail")
+        & (tidy["Unit"] == "USD")
+        & (tidy["Year"] == 2026)
+        & (tidy["Investment area"] == "Other commodities")
+    ].copy()
+    if mx.empty:
+        return mx
+    mx["Item"] = (
+        mx["Category (as printed in MoU)"].str.split(":", n=1).str[-1].str.strip()
+    )
+    mx["Bucket"] = mx["Item"].map(commodity_bucket)
+    out = mx.groupby("Bucket")["Amount"].sum().reset_index()
+    out["Share"] = out["Amount"] / out["Amount"].sum()
+    return out
+
+
+mix = commodity_mix(country)
+
+
+def mix_donut(mx: pd.DataFrame) -> alt.Chart:
+    return (
+        alt.Chart(mx)
+        .mark_arc(innerRadius=34, stroke="#fcfcfb", strokeWidth=2)
+        .encode(
+            theta=alt.Theta("Amount:Q"),
+            color=alt.Color(
+                "Bucket:N",
+                scale=alt.Scale(domain=list(MIX_COLORS.keys()),
+                                range=list(MIX_COLORS.values())),
+                legend=alt.Legend(orient="right", title=None, labelLimit=0,
+                                  labelFontSize=10, symbolSize=70),
+                sort=alt.EncodingSortField(field="Amount", op="sum", order="descending"),
+            ),
+            order=alt.Order("Amount:Q", sort="descending"),
+            tooltip=["Bucket", alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026"),
+                     alt.Tooltip("Share:Q", format=".0%")],
+        )
+        .properties(height=190,
+                    title=alt.TitleParams("Other commodities — 2026 mix (USG, App. 2)",
+                                          fontSize=13))
+    )
+
+
+# Build the panel sequence: the mix donut slots in right after Other commodities,
+# so the grid still ends as a full block (typically 3 x 3).
+panels = []
+for a in areas:
+    if m[m["Investment area"] == a]["Amount"].sum() > 0:
+        panels.append(("area", a))
+        if a == "Other commodities" and not mix.empty:
+            panels.append(("mix", None))
+
 cols = st.columns(3)
-for i, a in enumerate(areas):
-    sub = m[m["Investment area"] == a]
-    if sub["Amount"].sum() <= 0:
+for i, (kind, a) in enumerate(panels):
+    if kind == "mix":
+        with cols[i % 3]:
+            st.altair_chart(mix_donut(mix), use_container_width=True)
         continue
+    sub = m[m["Investment area"] == a]
     with cols[i % 3]:
         if unit == "US$":
             ch = (
@@ -116,20 +205,64 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# ---------------- donut: how the areas compare in size ----------------
+st.markdown(f"#### How the investment areas compare, 2026–2030 ({funder_pick})")
+donut_src = (
+    m.groupby("Investment area")["Amount"].sum().reset_index().query("Amount > 0")
+)
+donut_src["Share of total"] = donut_src["Amount"] / donut_src["Amount"].sum()
+area_scale = alt.Scale(
+    domain=list(lib.AREA_COLORS.keys()), range=list(lib.AREA_COLORS.values())
+)
+donut = (
+    alt.Chart(donut_src)
+    .mark_arc(innerRadius=75, stroke="#fcfcfb", strokeWidth=2)
+    .encode(
+        theta=alt.Theta("Amount:Q"),
+        color=alt.Color(
+            "Investment area:N",
+            scale=area_scale,
+            legend=alt.Legend(labelLimit=0, title=None, orient="right"),
+            sort=alt.EncodingSortField(field="Amount", op="sum", order="descending"),
+        ),
+        order=alt.Order("Amount:Q", sort="descending"),
+        tooltip=[
+            "Investment area",
+            alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026–2030"),
+            alt.Tooltip("Share of total:Q", format=".1%"),
+        ],
+    )
+    .properties(height=330)
+)
+dc1, dc2 = st.columns([3, 2])
+with dc1:
+    st.altair_chart(donut, use_container_width=True)
+with dc2:
+    top = donut_src.sort_values("Amount", ascending=False).head(5)
+    st.markdown("**Largest areas**")
+    for _, r in top.iterrows():
+        st.markdown(
+            f"- {r['Investment area']}: **{lib.fmt_usd(r['Amount'])}** "
+            f"({r['Share of total']:.0%})"
+        )
+    st.caption("Respects the funder toggle in the sidebar. Hover a segment for details.")
+
 # ---------------- detail table ----------------
 with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
-    tidy = lib.load_budget_tidy()
-    detail = tidy[tidy["Country"] == country]
+    detail = lib.load_budget_tidy()
+    detail = detail[detail["Country"] == country]
     st.dataframe(
         detail,
         use_container_width=True,
         hide_index=True,
         column_config={
+            "Amount": st.column_config.NumberColumn(format="localized"),
             "Source (MoU PDF)": st.column_config.LinkColumn("Source (MoU PDF)",
-                                                            display_text="open PDF")
+                                                            display_text="open PDF"),
         },
     )
     st.caption(
-        "Only rows with Row type = 'Line item' (plus existing-government rows) feed the "
-        "charts above; other row types are excluded to avoid double counting."
+        "Click any column header to sort. Only rows with Row type = 'Line item' (plus "
+        "existing-government rows) feed the charts above; other row types are excluded "
+        "to avoid double counting."
     )

@@ -61,6 +61,7 @@ k4.metric("USG share of combined", f"{100 * tot_usg / combined:.0f}%" if combine
 country_scale = alt.Scale(
     domain=list(lib.COUNTRY_COLORS.keys()), range=list(lib.COUNTRY_COLORS.values())
 )
+COUNTRY_LEGEND = alt.Legend(labelLimit=0, title=None)  # labelLimit=0 -> never truncate
 
 
 def nudge_ties(plot: pd.DataFrame, col: str, step: float = 0.008) -> pd.DataFrame:
@@ -98,7 +99,7 @@ if unit == "US$":
         .encode(
             x=alt.X("Year:O", axis=YEAR_AXIS),
             y=alt.Y("Amount:Q", title="US$ per year", axis=alt.Axis(format="~s")),
-            color=alt.Color("Country:N", scale=country_scale),
+            color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
             opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
             strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
             tooltip=["Country", "Year", alt.Tooltip("Amount:Q", format=",.0f")],
@@ -124,7 +125,7 @@ else:
             x=alt.X("Year:O", axis=YEAR_AXIS),
             y=alt.Y("ShareDisp:Q", title="USG share of combined",
                     axis=alt.Axis(format=".0%"), scale=alt.Scale(domain=[0, 1])),
-            color=alt.Color("Country:N", scale=country_scale),
+            color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
             opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
             strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
             tooltip=[
@@ -149,7 +150,7 @@ tot = lib.five_year_totals(m, area)
 funder_color = alt.Color(
     "Funder:N",
     scale=alt.Scale(domain=["USG", lib.GOV_LABEL], range=[lib.USG_COLOR, lib.GOV_COLOR]),
-    legend=alt.Legend(orient="bottom", title=None),
+    legend=alt.Legend(orient="bottom", title=None, labelLimit=0),
 )
 if unit == "US$":
     ch2 = (
@@ -185,7 +186,16 @@ with st.expander("Data behind these charts"):
     show = m.pivot_table(
         index=["Country", "Funder"], columns="Year", values="Amount", aggfunc="sum"
     ).reset_index()
-    st.dataframe(show, use_container_width=True, hide_index=True)
+    show.columns = [str(c) for c in show.columns]
+    year_cols = [c for c in show.columns if c.isdigit()]
+    st.dataframe(
+        show,
+        use_container_width=True,
+        hide_index=True,
+        column_config={c: st.column_config.NumberColumn(c, format="localized")
+                       for c in year_cols},
+    )
+    st.caption("Click any column header to sort (A–Z / small–big).")
     st.download_button(
         "Download full tidy budget table (CSV)",
         (lib.DATA / "budget_tidy.csv").read_bytes(),

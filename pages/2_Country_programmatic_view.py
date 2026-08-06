@@ -71,15 +71,20 @@ SECTION_BLURB = {
 }
 
 
-def indicator_chart(sub: pd.DataFrame, is_pct: bool) -> alt.Chart:
+def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_days: bool = False) -> alt.Chart:
     label = sub["Indicator"].iat[0]
     short = label if len(label) <= 55 else label[:52] + "…"
-    y = alt.Y(
-        "Value:Q",
-        title=None,
-        scale=alt.Scale(domain=[0, 100]) if is_pct else alt.Scale(zero=False),
-        axis=alt.Axis(format="d") if is_pct else alt.Axis(format="~s"),
-    )
+    if is_days:
+        # 7-1-7 commitments: fixed 0-10 day axis so the 7 / 1 / 7 pattern reads instantly
+        y = alt.Y("Value:Q", title=None,
+                  scale=alt.Scale(domain=[0, 10]),
+                  axis=alt.Axis(values=[0, 1, 7, 10], format="d"))
+    elif is_pct:
+        y = alt.Y("Value:Q", title=None, scale=alt.Scale(domain=[0, 100]),
+                  axis=alt.Axis(format="d"))
+    else:
+        y = alt.Y("Value:Q", title=None, scale=alt.Scale(zero=False),
+                  axis=alt.Axis(format="~s"))
     return (
         alt.Chart(sub)
         .mark_line(point=True, strokeWidth=2.5, color=lib.USG_COLOR)
@@ -92,6 +97,20 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool) -> alt.Chart:
     )
 
 
+def order_717(indicators):
+    """Detect -> notify -> complete response, regardless of print order in the MoU."""
+    def key(name):
+        t = name.lower()
+        if "detect" in t:
+            return 0
+        if "notif" in t or "escalat" in t:
+            return 1
+        if "complete" in t or "respond" in t or "response" in t or "implement" in t:
+            return 2
+        return 3
+    return sorted(indicators, key=key)
+
+
 for section in SECTION_ORDER:
     sec = m[m["Metric type"] == section]
     if sec.empty:
@@ -99,15 +118,18 @@ for section in SECTION_ORDER:
     st.markdown(f"#### {section} metrics")
     st.caption(SECTION_BLURB.get(section, ""))
     indicators = list(dict.fromkeys(sec["Indicator"]))  # preserve MoU order
+    if section == "Outbreak response (7-1-7)":
+        indicators = order_717(indicators)
     cols = st.columns(3)
     for i, ind in enumerate(indicators):
         sub = sec[sec["Indicator"] == ind].dropna(subset=["Value"])
         if sub.empty:
             continue
         is_pct = (sub["Value type"] == "Percentage").all()
+        is_days = (sub["Value type"] == "Days").all()
         with cols[i % 3]:
             unit_lbl = sub["Unit"].iat[0]
-            st.altair_chart(indicator_chart(sub, is_pct), use_container_width=True)
+            st.altair_chart(indicator_chart(sub, is_pct, is_days), use_container_width=True)
             st.caption(f"Unit: {unit_lbl}")
 
 # ---------------- detail table ----------------
@@ -117,10 +139,12 @@ with st.expander("Data table & download"):
         use_container_width=True,
         hide_index=True,
         column_config={
+            "Value": st.column_config.NumberColumn(format="localized"),
             "Source (MoU PDF)": st.column_config.LinkColumn("Source (MoU PDF)",
-                                                            display_text="open PDF")
+                                                            display_text="open PDF"),
         },
     )
+    st.caption("Click any column header to sort.")
     st.download_button(
         "Download full tidy programmatic table (CSV)",
         (lib.DATA / "programmatic_tidy.csv").read_bytes(),

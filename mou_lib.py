@@ -27,6 +27,23 @@ COUNTRY_COLORS = {
     "Uganda": "#52514e",
 }
 
+# One fixed color per investment area (donut & composition charts)
+AREA_COLORS = {
+    "Laboratory commodities": "#2a78d6",
+    "Laboratory systems": "#86b6ef",
+    "Frontline lab workers": "#1baf7a",
+    "Frontline healthcare workers": "#008300",
+    "Other commodities": "#eb6834",
+    "Surveillance & outbreak response": "#e34948",
+    "Data systems": "#4a3aa7",
+    "Strategic assistance / investment": "#eda100",
+    "Management & operations": "#898781",
+    "Programme management": "#c3c2b7",
+    "Technical assistance": "#e87ba4",
+    "Other health sector co-investment": "#52514e",
+    "Commodities & HRH co-investment": "#b7d3f6",
+}
+
 AREA_ORDER = [
     "All areas combined",
     "Laboratory commodities",

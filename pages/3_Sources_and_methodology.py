@@ -37,9 +37,9 @@ st.dataframe(
     hide_index=True,
     column_config={
         "MoU PDF URL": st.column_config.LinkColumn("MoU PDF"),
-        "Total agreement (USD)": st.column_config.NumberColumn(format="$%d"),
-        "USG (USD)": st.column_config.NumberColumn(format="$%d"),
-        "Co-financing (USD)": st.column_config.NumberColumn(format="$%d"),
+        "Total agreement (USD)": st.column_config.NumberColumn(format="dollar"),
+        "USG (USD)": st.column_config.NumberColumn(format="dollar"),
+        "Co-financing (USD)": st.column_config.NumberColumn(format="dollar"),
         "USG share": st.column_config.NumberColumn(format="percent"),
     },
 )
