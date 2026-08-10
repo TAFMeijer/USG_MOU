@@ -120,6 +120,28 @@ def five_year_totals(df: pd.DataFrame, area: str) -> pd.DataFrame:
     return tot
 
 
+# Indicators where a FALL is the improvement (deaths, mortality, new cases…).
+# These get a zero-based y-axis so the decline reads in true proportion rather
+# than being exaggerated by a zoomed axis.
+LOWER_IS_BETTER_KEYWORDS = (
+    "death", "mortality", "cases", "diagnos", "incidence", "prevalence",
+    "transmission rate", "stockout", "product loss", "lead time",
+    "test positivity",
+)
+# Higher-is-better indicators that would otherwise trip a keyword above.
+# Non-polio AFP rate is a surveillance-SENSITIVITY measure: a higher rate means
+# the system is detecting more suspected cases, which is the goal.
+LOWER_IS_BETTER_EXCEPTIONS = ("non-polio afp",)
+
+
+def is_lower_better(indicator: str) -> bool:
+    """True when a decline in this indicator is the intended direction."""
+    t = (indicator or "").lower()
+    if any(k in t for k in LOWER_IS_BETTER_EXCEPTIONS):
+        return False
+    return any(k in t for k in LOWER_IS_BETTER_KEYWORDS)
+
+
 def fmt_usd(v: float) -> str:
     if pd.isna(v):
         return "–"

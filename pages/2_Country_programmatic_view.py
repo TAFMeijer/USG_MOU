@@ -71,10 +71,10 @@ SECTION_BLURB = {
 }
 
 
-def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_days: bool = False) -> alt.Chart:
+def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_717: bool = False) -> alt.Chart:
     label = sub["Indicator"].iat[0]
     short = label if len(label) <= 55 else label[:52] + "…"
-    if is_days:
+    if is_717:
         # 7-1-7 commitments: fixed 0-10 day axis so the 7 / 1 / 7 pattern reads instantly
         y = alt.Y("Value:Q", title=None,
                   scale=alt.Scale(domain=[0, 10]),
@@ -82,12 +82,19 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_days: bool = False) -> a
     elif is_pct:
         y = alt.Y("Value:Q", title=None, scale=alt.Scale(domain=[0, 100]),
                   axis=alt.Axis(format="d"))
+    elif lib.is_lower_better(label):
+        # Deaths / mortality / new cases: anchor at zero so the size of the
+        # promised reduction is read in true proportion.
+        top = float(sub["Value"].max())
+        y = alt.Y("Value:Q", title=None,
+                  scale=alt.Scale(domain=[0, top * 1.08 if top > 0 else 1]),
+                  axis=alt.Axis(format="~s"))
     else:
         y = alt.Y("Value:Q", title=None, scale=alt.Scale(zero=False),
                   axis=alt.Axis(format="~s"))
     # Tall plotting area so small target movements (e.g. 91% -> 95% on the fixed
     # 0-100 scale) stay visible; the flat 7-1-7 day commitments don't need it.
-    height = 180 if is_days else 340
+    height = 180 if is_717 else 340
     return (
         alt.Chart(sub)
         .mark_line(point=True, strokeWidth=2.5, color=lib.USG_COLOR)
@@ -136,11 +143,16 @@ for section in SECTION_ORDER:
         if sub.empty:
             continue
         is_pct = (sub["Value type"] == "Percentage").all()
-        is_days = (sub["Value type"] == "Days").all()
+        # Only the 7-1-7 commitments get the 0-10 day axis — other day-unit
+        # indicators (e.g. procurement lead time, 201 days) must not be squeezed onto it.
+        is_717 = section == "Outbreak response (7-1-7)"
         with cols[i % 3]:
             unit_lbl = sub["Unit"].iat[0]
-            st.altair_chart(indicator_chart(sub, is_pct, is_days), use_container_width=True)
-            st.caption(f"Unit: {unit_lbl}")
+            st.altair_chart(indicator_chart(sub, is_pct, is_717), use_container_width=True)
+            if not is_717 and not is_pct and lib.is_lower_better(ind):
+                st.caption(f"Unit: {unit_lbl} · ▼ lower is better (axis from 0)")
+            else:
+                st.caption(f"Unit: {unit_lbl}")
 
 # ---------------- detail table ----------------
 with st.expander("Data table & download"):
