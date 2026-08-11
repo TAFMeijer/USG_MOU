@@ -2,6 +2,8 @@
 
 *Derived analysis, 11 Aug 2026. Reproducible via `analysis/fte_rate_imputation.py` on `data/budget_tidy.csv`. Nothing here is printed in the MoU unless flagged as such.*
 
+> **Rev. 2 (same day): new-vs-existing FTE correction.** The MoU's FTE tables print "New" and "Existing" columns where Existing(t) = cumulative prior-year new absorptions (2029 shows the 2028 cohort as "existing"). Workers absorbed in year t are paid every later year, so the government funds **new + previously absorbed** each year: labs 62 → 125 → 187 FTEs and HCW 1,001 → 1,924 → 2,846 in 2028–30 — 374 and 5,771 FTE-years, double the new-column-only figures used in rev. 1. All numbers below are corrected; the rates and method are unchanged. See `Gov_HRH_imputation_all_countries.md` for the cross-country roll-out.
+
 ## The question
 
 Cameroon's MoU gives government FTE commitments for frontline lab workers and healthcare workers, but no government $ for those lines (only USG $). Can we derive a $/FTE rate from the USG side (2026 budget ÷ USG-funded FTEs), check its consistency, apply it to the government FTEs — and does summing the resulting line items get close to the $450M commitment?
@@ -34,16 +36,16 @@ Three takeaways. First, Kenya's MoU literally applies the USG 2026 lab rate to g
 
 ## 3. Imputed government contribution (Cameroon)
 
-Government FTEs are zero in 2026–27, then lab 62/63/62 and HCW 1,001/923/922 in 2028–30 (187 and 2,846 FTE-years respectively).
+Government-funded FTEs (new + previously absorbed) are zero in 2026–27, then lab 62/125/187 and HCW 1,001/1,924/2,846 in 2028–30 — 374 and 5,771 FTE-years respectively.
 
 | Scenario | Lab $ | HCW $ | HRH total | + new commodities ($10.4M) |
 |---|---|---|---|---|
-| **A: flat 2026 USG rate (canonical)** | **$1.16M** | **$12.52M** | **$13.68M** | **$24.11M** |
-| B: 2026 rate + 3%/yr inflation | $1.26M | $13.68M | $14.94M | $25.37M |
-| C: blended 5-yr USG rate | $1.31M | $13.93M | $15.24M | $25.67M |
-| D: peer-gov rate (Moz $4.0k HCW) | $1.16M | $11.38M | $12.54M | $22.98M |
+| **A: flat 2026 USG rate (canonical)** | **$2.31M** | **$25.39M** | **$27.70M** | **$38.14M** |
+| B: 2026 rate + 3%/yr inflation | $2.55M | $28.01M | $30.57M | $41.00M |
+| C: blended 5-yr USG rate | $2.62M | $28.24M | $30.86M | $41.29M |
+| D: peer-gov rate (Moz $4.0k HCW) | $2.31M | $23.08M | $25.40M | $35.83M |
 
-The scenario spread is narrow (±10%), so the answer is robust to the rate choice: the government's itemised labs & HCW commitment is worth **~$13–15M**, and all itemised "new" government line items together are worth **~$24M** over the MoU term (~$30M if the "existing/continuing" commodity rows are included).
+The scenario spread is narrow (±10%), so the answer is robust to the rate choice: the government's itemised labs & HCW commitment is worth **~$25–31M**, and all itemised "new" government line items together are worth **~$38M** over the MoU term (~$44M if the "existing/continuing" commodity rows are included).
 
 ## 4. Does this get close to $450M? No — and the MoU says why
 
@@ -53,15 +55,15 @@ Appendix 1 (p.23) nests three different numbers:
 |---|---|---|
 | Total health expenditure increase over 2025 baseline | **$450M** | Macro budget commitment ($30M→$150M/yr, cumulative increments); 1:1 USG reduction if missed |
 | "Within" it: commodities & HRH co-investment | **$72.6M** | Printed aggregate ($11.67M→$20.29M/yr) |
-| Within that: itemised new minimums (incl. imputed HRH) | **~$24M** | The line items — the only part that is specified |
+| Within that: itemised new minimums (incl. imputed HRH) | **~$38M** | The line items — the only part that is specified |
 
-Summing line items gets to ~5% of $450M, and even the printed co-investment aggregate is only 16% of it. This is by construction, not by data gap: the $450M is the outer envelope (total government health spending growth — salaries, infrastructure, everything), sized to headline-match the USG's $399.25M, and the MoU's own language places the co-investment "within" it. **No amount of line-item summing will reach $450M**, because ~$377M of it is deliberately unitemised.
+Summing line items gets to ~8% of $450M, and even the printed co-investment aggregate is only 16% of it. This is by construction, not by data gap: the $450M is the outer envelope (total government health spending growth — salaries, infrastructure, everything), sized to headline-match the USG's $399.25M, and the MoU's own language places the co-investment "within" it. **No amount of line-item summing will reach $450M**, because ~$377M of it is deliberately unitemised.
 
-The more interesting gap is the middle one: itemised + imputed lines explain only **~⅓ of the $72.6M** co-investment aggregate. The aggregate runs at $11.67M/yr in 2026–27 when every itemised government line is zero — so it must embed ~$11.7M/yr of existing/baseline commodity & HRH spending that the MoU never itemises. Closing the residual gap with the government FTEs alone would require $11–15k/FTE, ~2.5–3× the USG rate — implausible as salaries, plausible as baseline + civil-service costing.
+The middle gap is where the cumulative-FTE correction pays off: itemised + imputed lines now explain **~52% of the $72.6M** co-investment aggregate, and the fit improves sharply over time — 2028: $6.4M itemised vs $13.3M printed; 2029: $12.2M vs $15.7M; **2030: $19.6M vs $20.3M (96%)**. The unexplained residual is concentrated in 2026–27, when the aggregate runs at $11.67M/yr while every itemised government line is zero — consistent with ~$11.7M/yr of existing/baseline commodity & HRH spending that the MoU never itemises, which the itemised new commitments progressively replace as the ramp-up proceeds. By the end of the term the printed aggregate is almost fully accounted for by priceable line items.
 
 ## 5. Bottom line
 
-The back-engineering works and is validated by peer MoUs (Kenya does exactly this internally; use the flat 2026 rate, no inflation adjustment). It prices Cameroon's government labs & HCW commitment at **~$13.7M** and total itemised government effort at **~$24M**. It does not bring line items close to $450M — instead it shows precisely how the $450M decomposes: **$450M pledge ⊃ $72.6M co-investment ⊃ ~$24M specified line items**, i.e. only ~5% of the headline government commitment is traceable to concrete, priceable deliverables. That framing — "what share of the headline pledge is itemisable?" — may be the more useful metric to compare across all nine countries.
+The back-engineering works and is validated by peer MoUs (Kenya does exactly this internally; use the flat 2026 rate, no inflation adjustment), provided the New/Existing columns are read cumulatively. It prices Cameroon's government labs & HCW commitment at **~$27.7M** and total itemised government effort at **~$38M**. It does not bring line items close to $450M — instead it shows precisely how the $450M decomposes: **$450M pledge ⊃ $72.6M co-investment ⊃ ~$38M specified line items**, i.e. ~8% of the headline government commitment is traceable to concrete, priceable deliverables (though by 2030 the yearly co-investment aggregate is ~96% explained). That framing — "what share of the headline pledge is itemisable?" — may be the more useful metric to compare across all nine countries.
 
 ### Caveats
 

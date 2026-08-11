@@ -84,11 +84,22 @@ derived from the *same MoU's USG side* (2026 unit rate, flat nominal), or from
 peer-country government rates where no in-country rate exists. This is the MoUs' own
 convention — Ethiopia's printed government HCW $ equals its USG FTE drawdown × the USG
 2026 rate ($1,748) to the dollar, and Kenya's printed government lab rate ($12,548) equals
-its USG 2026 rate. Imputed amounts (5-yr): Cameroon $13.7M (HCW + lab, own 2026 rates) ·
-Ethiopia labs $1.1M (own constant rate) · Mozambique labs $1.4M (own marginal rate,
-$6,600/FTE) · Rwanda $14.1M (own 2026 rates; its $ and FTE tables misalign — low
-confidence) · Uganda labs $4.3M (peer rate, wage-adjusted) · **Côte d'Ivoire $76.2M (peer
-rates only — its MoU prints no HRH $ at all; range $39–107M — treat with caution)**.
+its USG 2026 rate.
+
+**New vs Existing FTEs.** The FTE tables print a "New" and an "Existing" column, where
+*Existing is written from each year's own perspective*: Existing(t) = pre-MoU baseline +
+cumulative prior-year new absorptions. A worker absorbed in year t is paid in every later
+year, so the imputation funds **new + previously absorbed FTEs each year** (e.g. Cameroon
+labs: 62 → 125 → 187 FTEs, i.e. $0.38M → $0.77M → $1.16M). Pre-MoU baseline workforces
+(Côte d'Ivoire: 39,800 HCW + 1,900 lab; Uganda: 2,199 lab) are **excluded** — they are
+baseline effort, not MoU co-financing. The printed Existing columns are recorded in
+`budget_tidy.csv` as `Row type = "Line item - existing (excl. from headline total)"`.
+
+Imputed amounts (5-yr): Cameroon $27.7M (HCW + lab, own 2026 rates) · Ethiopia labs $1.1M
+(own constant rate) · Mozambique labs $1.4M (own marginal rate, $6,600/FTE) · Rwanda
+$14.1M (own 2026 rates; its $ and FTE tables misalign — low confidence) · Uganda labs
+$8.0M (peer rate, wage-adjusted) · **Côte d'Ivoire $190.6M (peer rates only — its MoU
+prints no HRH $ at all; range $97–268M — treat with caution)**.
 Every imputed row is flagged `Row type = "Imputed (derived - not printed in MoU)"` in
 `data/budget_tidy.csv` with FTEs, rate and confidence in its Source note; the sidebar /
 overview toggle removes them entirely. Full derivation: `analysis/fte_rate_imputation_all.py`

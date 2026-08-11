@@ -75,9 +75,10 @@ if include_imputed:
     st.caption(
         "Government figures include **imputed $** for frontline labs & healthcare "
         "workers where the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, "
-        "Mozambique labs, Rwanda, Uganda labs, Côte d'Ivoire — ~$111M in total, of "
-        "which ~$76M is Côte d'Ivoire on peer-country rates). Toggle it off to see "
-        "printed dollars only; method and ranges on **Sources & methodology**."
+        "Mozambique labs, Rwanda, Uganda labs, Côte d'Ivoire — ~$243M in total, of "
+        "which ~$191M is Côte d'Ivoire on peer-country rates). Workers absorbed in "
+        "year t are funded in every later year (new + prior absorptions). Toggle it "
+        "off to see printed dollars only; method and ranges on **Sources & methodology**."
     )
 
 country_scale = alt.Scale(
