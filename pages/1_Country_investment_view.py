@@ -12,8 +12,16 @@ YEAR_AXIS = alt.Axis(labelAngle=-45, labelFontSize=13, labelFontWeight="bold", t
 
 
 @st.cache_data
-def data():
-    return lib.add_share(lib.load_budget_series())
+def data(include_imputed: bool):
+    df = lib.load_budget_series()
+    if not include_imputed:
+        df = df[df["Basis"] != lib.BASIS_IMPUTED]
+    # Per-area gov series are single-basis, so keeping Basis in the grain adds no
+    # duplicate lines to the panels; "All areas combined" (KPIs only) may carry a
+    # printed + an imputed row per year, which .sum() handles.
+    df = df.groupby(["Country", "Investment area", "Year", "Funder", "Basis"],
+                    as_index=False)["Amount"].sum()
+    return lib.add_share(df)
 
 
 @st.cache_data
@@ -21,7 +29,13 @@ def countries_meta():
     return lib.load_countries().set_index("Country")
 
 
-df = data()
+include_imputed = st.sidebar.toggle(
+    "Include imputed govt $ (labs & HCW)", value=True,
+    help="Government FTE commitments priced at USG unit rates where the MoU prints "
+         "FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, Rwanda, "
+         "Uganda labs, Côte d'Ivoire). Shown as dashed lines. See Sources & methodology.",
+)
+df = data(include_imputed)
 meta = countries_meta()
 PAL = lib.palette()  # follows the active (system-preference) theme
 
@@ -56,6 +70,14 @@ k2.metric("Govt co-financing (new + existing)", lib.fmt_usd(gov_t))
 k3.metric("Combined (itemised)", lib.fmt_usd(comb_t))
 k4.metric("USG share of combined", f"{100 * usg_t / comb_t:.0f}%" if comb_t else "–")
 
+# flag the imputed component of the headline government figure, when included
+imp_t = lib.imputed_total(df, country)
+if include_imputed and imp_t > 0:
+    st.caption(
+        f"⚠️ The government figures include **{lib.fmt_usd(imp_t)} of imputed $** "
+        "for frontline labs & healthcare workers — " + lib.IMPUTED_CAPTION
+    )
+
 # printed MoU footnotes that qualify this country's headline totals
 hfns = lib.budget_footnotes(area="All areas combined", country=country)
 if hfns:
@@ -88,6 +110,13 @@ st.markdown(
 
 funder_scale = alt.Scale(
     domain=["USG", lib.GOV_LABEL], range=[PAL["usg"], PAL["gov"]]
+)
+# Solid = printed in the MoU; dashed = imputed from FTE commitments
+basis_dash = alt.StrokeDash(
+    "Basis:N",
+    scale=alt.Scale(domain=[lib.BASIS_PRINTED, lib.BASIS_IMPUTED],
+                    range=[[1, 0], [6, 4]]),
+    legend=None,
 )
 
 # ---- 2026 mix of Other commodities (Appendix 2) for the in-grid micro-donut ----
@@ -239,7 +268,10 @@ for i, (kind, a) in enumerate(panels):
                     x=alt.X("Year:O", axis=YEAR_AXIS),
                     y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
                     color=alt.Color("Funder:N", scale=funder_scale, legend=None),
-                    tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f")]
+                    strokeDash=basis_dash,
+                    detail="Basis:N",
+                    tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f"),
+                             "Basis"]
                     + note_tt,
                 )
                 .properties(height=190, title=alt.TitleParams(a, fontSize=13))
@@ -260,8 +292,10 @@ for i, (kind, a) in enumerate(panels):
                     y=alt.Y("Share:Q", title=None, axis=alt.Axis(format=".0%"),
                             scale=alt.Scale(domain=[0, 1])),
                     color=alt.Color("Funder:N", scale=funder_scale, legend=None),
+                    strokeDash=basis_dash,
+                    detail="Basis:N",
                     tooltip=["Funder", "Year", alt.Tooltip("Share:Q", format=".0%"),
-                             alt.Tooltip("Amount:Q", format=",.0f")] + note_tt,
+                             alt.Tooltip("Amount:Q", format=",.0f"), "Basis"] + note_tt,
                 )
                 .properties(height=190, title=alt.TitleParams(a, fontSize=13))
             )
@@ -277,7 +311,9 @@ for i, (kind, a) in enumerate(panels):
 
 st.markdown(
     f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
-    f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>',
+    f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>'
+    + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">- - imputed from '
+       'FTEs</span>' if include_imputed and imp_t > 0 else ""),
     unsafe_allow_html=True,
 )
 
@@ -408,8 +444,10 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
     st.caption(
         f"{len(detail):,} rows shown. Click any column header to sort; the 🔍 icon in the "
         "table toolbar does a live full-text search. Only rows with Row type = 'Line item' "
-        "(plus existing-government rows) feed the charts above; other row types are "
-        "excluded to avoid double counting. 'MoU footnote (verbatim)' holds the notes the "
-        "MoU itself prints on its tables, carried across the full 5-year line; "
+        "(plus existing-government rows) feed the charts above — and, when the sidebar "
+        "toggle is on, rows with Row type = 'Imputed (derived - not printed in MoU)', "
+        "whose Source note records the FTEs, rate and confidence used. Other row types "
+        "are excluded to avoid double counting. 'MoU footnote (verbatim)' holds the notes "
+        "the MoU itself prints on its tables, carried across the full 5-year line; "
         "'MoU footnote location' pinpoints the marked cells."
     )

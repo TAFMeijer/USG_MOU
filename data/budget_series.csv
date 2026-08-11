@@ -1,576 +1,633 @@
-﻿Country,Investment area,Year,Funder,Amount
-Cameroon,All areas combined,2026,Government,0
-Cameroon,All areas combined,2027,Government,0
-Cameroon,All areas combined,2028,Government,1624519
-Cameroon,All areas combined,2029,Government,4544519
-Cameroon,All areas combined,2030,Government,10430000
-Cameroon,All areas combined,2026,USG,100930000
-Cameroon,All areas combined,2027,USG,91530000
-Cameroon,All areas combined,2028,USG,85940000
-Cameroon,All areas combined,2029,USG,72930000
-Cameroon,All areas combined,2030,USG,47940000
-Cameroon,Data systems,2026,USG,13370000
-Cameroon,Data systems,2027,USG,12120000
-Cameroon,Data systems,2028,USG,11380000
-Cameroon,Data systems,2029,USG,9660000
-Cameroon,Data systems,2030,USG,6350000
-Cameroon,Frontline healthcare workers,2026,USG,22170000
-Cameroon,Frontline healthcare workers,2027,USG,20110000
-Cameroon,Frontline healthcare workers,2028,USG,18880000
-Cameroon,Frontline healthcare workers,2029,USG,16020000
-Cameroon,Frontline healthcare workers,2030,USG,10530000
-Cameroon,Frontline lab workers,2026,USG,1930000
-Cameroon,Frontline lab workers,2027,USG,1750000
-Cameroon,Frontline lab workers,2028,USG,1640000
-Cameroon,Frontline lab workers,2029,USG,1390000
-Cameroon,Frontline lab workers,2030,USG,920000
-Cameroon,Laboratory commodities,2026,Government,0
-Cameroon,Laboratory commodities,2027,Government,0
-Cameroon,Laboratory commodities,2028,Government,524519
-Cameroon,Laboratory commodities,2029,Government,1824519
-Cameroon,Laboratory commodities,2030,Government,4600000
-Cameroon,Laboratory commodities,2026,USG,5630000
-Cameroon,Laboratory commodities,2027,USG,5630000
-Cameroon,Laboratory commodities,2028,USG,5110000
-Cameroon,Laboratory commodities,2029,USG,4330000
-Cameroon,Laboratory commodities,2030,USG,2850000
-Cameroon,Management & operations,2026,USG,19100000
-Cameroon,Management & operations,2027,USG,15690000
-Cameroon,Management & operations,2028,USG,15290000
-Cameroon,Management & operations,2029,USG,12980000
-Cameroon,Management & operations,2030,USG,8530000
-Cameroon,Other commodities,2026,Government,0
-Cameroon,Other commodities,2027,Government,0
-Cameroon,Other commodities,2028,Government,1100000
-Cameroon,Other commodities,2029,Government,2720000
-Cameroon,Other commodities,2030,Government,5830000
-Cameroon,Other commodities,2026,USG,11800000
-Cameroon,Other commodities,2027,USG,11800000
-Cameroon,Other commodities,2028,USG,10700000
-Cameroon,Other commodities,2029,USG,9080000
-Cameroon,Other commodities,2030,USG,5970000
-Cameroon,Strategic assistance / investment,2026,USG,18470000
-Cameroon,Strategic assistance / investment,2027,USG,16750000
-Cameroon,Strategic assistance / investment,2028,USG,15730000
-Cameroon,Strategic assistance / investment,2029,USG,13350000
-Cameroon,Strategic assistance / investment,2030,USG,8770000
-Cameroon,Surveillance & outbreak response,2026,USG,8460000
-Cameroon,Surveillance & outbreak response,2027,USG,7680000
-Cameroon,Surveillance & outbreak response,2028,USG,7210000
-Cameroon,Surveillance & outbreak response,2029,USG,6120000
-Cameroon,Surveillance & outbreak response,2030,USG,4020000
-Côte d'Ivoire,All areas combined,2026,Government,36000000
-Côte d'Ivoire,All areas combined,2027,Government,46700000
-Côte d'Ivoire,All areas combined,2028,Government,52900000
-Côte d'Ivoire,All areas combined,2029,Government,57600000
-Côte d'Ivoire,All areas combined,2030,Government,61800000
-Côte d'Ivoire,All areas combined,2026,USG,102081040
-Côte d'Ivoire,All areas combined,2027,USG,96545040
-Côte d'Ivoire,All areas combined,2028,USG,92845040
-Côte d'Ivoire,All areas combined,2029,USG,76541040
-Côte d'Ivoire,All areas combined,2030,USG,55621040
-Côte d'Ivoire,Data systems,2026,USG,16000000
-Côte d'Ivoire,Data systems,2027,USG,16000000
-Côte d'Ivoire,Data systems,2028,USG,12500000
-Côte d'Ivoire,Data systems,2029,USG,11000000
-Côte d'Ivoire,Data systems,2030,USG,11000000
-Côte d'Ivoire,Laboratory commodities,2026,Government,11000000
-Côte d'Ivoire,Laboratory commodities,2027,Government,11700000
-Côte d'Ivoire,Laboratory commodities,2028,Government,12400000
-Côte d'Ivoire,Laboratory commodities,2029,Government,13100000
-Côte d'Ivoire,Laboratory commodities,2030,Government,13800000
-Côte d'Ivoire,Laboratory commodities,2026,USG,4600000
-Côte d'Ivoire,Laboratory commodities,2027,USG,3900000
-Côte d'Ivoire,Laboratory commodities,2028,USG,3200000
-Côte d'Ivoire,Laboratory commodities,2029,USG,2500000
-Côte d'Ivoire,Laboratory commodities,2030,USG,1800000
-Côte d'Ivoire,Other commodities,2026,Government,25000000
-Côte d'Ivoire,Other commodities,2027,Government,35000000
-Côte d'Ivoire,Other commodities,2028,Government,40500000
-Côte d'Ivoire,Other commodities,2029,Government,44500000
-Côte d'Ivoire,Other commodities,2030,Government,48000000
-Côte d'Ivoire,Other commodities,2026,USG,30500000
-Côte d'Ivoire,Other commodities,2027,USG,19500000
-Côte d'Ivoire,Other commodities,2028,USG,18500000
-Côte d'Ivoire,Other commodities,2029,USG,10000000
-Côte d'Ivoire,Other commodities,2030,USG,6500000
-Côte d'Ivoire,Strategic assistance / investment,2026,USG,47065040
-Côte d'Ivoire,Strategic assistance / investment,2027,USG,53229040
-Côte d'Ivoire,Strategic assistance / investment,2028,USG,54729040
-Côte d'Ivoire,Strategic assistance / investment,2029,USG,49125040
-Côte d'Ivoire,Strategic assistance / investment,2030,USG,32405040
-Côte d'Ivoire,Surveillance & outbreak response,2026,USG,3916000
-Côte d'Ivoire,Surveillance & outbreak response,2027,USG,3916000
-Côte d'Ivoire,Surveillance & outbreak response,2028,USG,3916000
-Côte d'Ivoire,Surveillance & outbreak response,2029,USG,3916000
-Côte d'Ivoire,Surveillance & outbreak response,2030,USG,3916000
-Ethiopia,All areas combined,2026,Government,0
-Ethiopia,All areas combined,2027,Government,14427776
-Ethiopia,All areas combined,2028,Government,28855553
-Ethiopia,All areas combined,2029,Government,43281581
-Ethiopia,All areas combined,2030,Government,57709358
-Ethiopia,All areas combined,2026,USG,189000001
-Ethiopia,All areas combined,2027,USG,240124220
-Ethiopia,All areas combined,2028,USG,232003620
-Ethiopia,All areas combined,2029,USG,175001809
-Ethiopia,All areas combined,2030,USG,126040000
-Ethiopia,Data systems,2026,USG,6283383
-Ethiopia,Data systems,2027,USG,5026706
-Ethiopia,Data systems,2028,USG,3770030
-Ethiopia,Data systems,2029,USG,2513353
-Ethiopia,Data systems,2030,USG,1256677
-Ethiopia,Frontline healthcare workers,2026,Government,0
-Ethiopia,Frontline healthcare workers,2027,Government,3543790
-Ethiopia,Frontline healthcare workers,2028,Government,7087580
-Ethiopia,Frontline healthcare workers,2029,Government,10629621
-Ethiopia,Frontline healthcare workers,2030,Government,14173411
-Ethiopia,Frontline healthcare workers,2026,USG,14173411
-Ethiopia,Frontline healthcare workers,2027,USG,10629621
-Ethiopia,Frontline healthcare workers,2028,USG,7087580
-Ethiopia,Frontline healthcare workers,2029,USG,3543790
-Ethiopia,Frontline healthcare workers,2030,USG,0
-Ethiopia,Frontline lab workers,2026,USG,433565
-Ethiopia,Frontline lab workers,2027,USG,323802
-Ethiopia,Frontline lab workers,2028,USG,219527
-Ethiopia,Frontline lab workers,2029,USG,109763
-Ethiopia,Frontline lab workers,2030,USG,0
-Ethiopia,Laboratory commodities,2026,Government,0
-Ethiopia,Laboratory commodities,2027,Government,3139149
-Ethiopia,Laboratory commodities,2028,Government,6278298
-Ethiopia,Laboratory commodities,2029,Government,9417448
-Ethiopia,Laboratory commodities,2030,Government,12556597
-Ethiopia,Laboratory commodities,2026,USG,12556597
-Ethiopia,Laboratory commodities,2027,USG,9417448
-Ethiopia,Laboratory commodities,2028,USG,6278299
-Ethiopia,Laboratory commodities,2029,USG,3139149
-Ethiopia,Laboratory commodities,2030,USG,0
-Ethiopia,Laboratory systems,2026,Government,0
-Ethiopia,Laboratory systems,2027,Government,618810
-Ethiopia,Laboratory systems,2028,Government,1237620
-Ethiopia,Laboratory systems,2029,Government,1856430
-Ethiopia,Laboratory systems,2030,Government,2475240
-Ethiopia,Laboratory systems,2026,USG,2475240
-Ethiopia,Laboratory systems,2027,USG,1856430
-Ethiopia,Laboratory systems,2028,USG,1237620
-Ethiopia,Laboratory systems,2029,USG,618810
-Ethiopia,Laboratory systems,2030,USG,0
-Ethiopia,Other commodities,2026,Government,0
-Ethiopia,Other commodities,2027,Government,7126027
-Ethiopia,Other commodities,2028,Government,14252055
-Ethiopia,Other commodities,2029,Government,21378082
-Ethiopia,Other commodities,2030,Government,28504110
-Ethiopia,Other commodities,2026,USG,28504110
-Ethiopia,Other commodities,2027,USG,28504110
-Ethiopia,Other commodities,2028,USG,14252055
-Ethiopia,Other commodities,2029,USG,7126027
-Ethiopia,Other commodities,2030,USG,0
-Ethiopia,Strategic assistance / investment,2026,USG,117060845
-Ethiopia,Strategic assistance / investment,2027,USG,176947735
-Ethiopia,Strategic assistance / investment,2028,USG,192399309
-Ethiopia,Strategic assistance / investment,2029,USG,151745056
-Ethiopia,Strategic assistance / investment,2030,USG,119727654
-Ethiopia,Surveillance & outbreak response,2026,USG,7512850
-Ethiopia,Surveillance & outbreak response,2027,USG,7418368
-Ethiopia,Surveillance & outbreak response,2028,USG,6759200
-Ethiopia,Surveillance & outbreak response,2029,USG,6205861
-Ethiopia,Surveillance & outbreak response,2030,USG,5055669
-Kenya,All areas combined,2026,Government,108044445
-Kenya,All areas combined,2027,Government,142445629
-Kenya,All areas combined,2028,Government,199879692
-Kenya,All areas combined,2029,Government,220072480
-Kenya,All areas combined,2030,Government,235028926
-Kenya,All areas combined,2026,USG,389436360
-Kenya,All areas combined,2027,USG,364996360
-Kenya,All areas combined,2028,USG,320722360
-Kenya,All areas combined,2029,USG,306622360
-Kenya,All areas combined,2030,USG,151804360
-Kenya,Data systems,2026,USG,30000000
-Kenya,Data systems,2027,USG,75000000
-Kenya,Data systems,2028,USG,50000000
-Kenya,Data systems,2029,USG,10000000
-Kenya,Data systems,2030,USG,10000000
-Kenya,Frontline healthcare workers,2026,Government,0
-Kenya,Frontline healthcare workers,2027,Government,0
-Kenya,Frontline healthcare workers,2028,Government,45735429
-Kenya,Frontline healthcare workers,2029,Government,45735429
-Kenya,Frontline healthcare workers,2030,Government,45735429
-Kenya,Frontline healthcare workers,2026,USG,45735429
-Kenya,Frontline healthcare workers,2027,USG,30490286
-Kenya,Frontline healthcare workers,2028,USG,0
-Kenya,Frontline healthcare workers,2029,USG,0
-Kenya,Frontline healthcare workers,2030,USG,0
-Kenya,Frontline lab workers,2026,Government,0
-Kenya,Frontline lab workers,2027,Government,0
-Kenya,Frontline lab workers,2028,Government,6462293
-Kenya,Frontline lab workers,2029,Government,6462293
-Kenya,Frontline lab workers,2030,Government,6462293
-Kenya,Frontline lab workers,2026,USG,6462293
-Kenya,Frontline lab workers,2027,USG,4308195
-Kenya,Frontline lab workers,2028,USG,2154098
-Kenya,Frontline lab workers,2029,USG,0
-Kenya,Frontline lab workers,2030,USG,0
-Kenya,Laboratory commodities,2026,Government,2116279
-Kenya,Laboratory commodities,2027,Government,6604571
-Kenya,Laboratory commodities,2028,Government,11840912
-Kenya,Laboratory commodities,2029,Government,17077253
-Kenya,Laboratory commodities,2030,Government,17077253
-Kenya,Laboratory commodities,2026,USG,14960974
-Kenya,Laboratory commodities,2027,USG,10472682
-Kenya,Laboratory commodities,2028,USG,5236341
-Kenya,Laboratory commodities,2029,USG,0
-Kenya,Laboratory commodities,2030,USG,0
-Kenya,Other commodities,2026,Government,105928166
-Kenya,Other commodities,2027,Government,135841058
-Kenya,Other commodities,2028,Government,135841058
-Kenya,Other commodities,2029,Government,150797505
-Kenya,Other commodities,2030,Government,165753951
-Kenya,Other commodities,2026,USG,94782231
-Kenya,Other commodities,2027,USG,44869339
-Kenya,Other commodities,2028,USG,44869339
-Kenya,Other commodities,2029,USG,29912892
-Kenya,Other commodities,2030,USG,14956446
-Kenya,Programme management,2026,USG,90282837
-Kenya,Programme management,2027,USG,67712128
-Kenya,Programme management,2028,USG,45141418
-Kenya,Programme management,2029,USG,27084851
-Kenya,Programme management,2030,USG,9028284
-Kenya,Strategic assistance / investment,2026,USG,102706246
-Kenya,Strategic assistance / investment,2027,USG,127637380
-Kenya,Strategic assistance / investment,2028,USG,168814814
-Kenya,Strategic assistance / investment,2029,USG,235118267
-Kenya,Strategic assistance / investment,2030,USG,113313280
-Kenya,Surveillance & outbreak response,2026,USG,4506350
-Kenya,Surveillance & outbreak response,2027,USG,4506350
-Kenya,Surveillance & outbreak response,2028,USG,4506350
-Kenya,Surveillance & outbreak response,2029,USG,4506350
-Kenya,Surveillance & outbreak response,2030,USG,4506350
-Liberia,All areas combined,2026,Government,9111584
-Liberia,All areas combined,2027,Government,14808304
-Liberia,All areas combined,2028,Government,17265560
-Liberia,All areas combined,2029,Government,21694800
-Liberia,All areas combined,2030,Government,28645040
-Liberia,All areas combined,2026,USG,36699480
-Liberia,All areas combined,2027,USG,33785480
-Liberia,All areas combined,2028,USG,30589480
-Liberia,All areas combined,2029,USG,12635480
-Liberia,All areas combined,2030,USG,10708480
-Liberia,Data systems,2026,USG,8056796
-Liberia,Data systems,2027,USG,6705396
-Liberia,Data systems,2028,USG,6517396
-Liberia,Data systems,2029,USG,2054096
-Liberia,Data systems,2030,USG,2800000
-Liberia,Frontline healthcare workers,2026,Government,1189584
-Liberia,Frontline healthcare workers,2027,Government,3394320
-Liberia,Frontline healthcare workers,2028,Government,5426160
-Liberia,Frontline healthcare workers,2029,Government,7626000
-Liberia,Frontline healthcare workers,2030,Government,9825840
-Liberia,Frontline healthcare workers,2026,USG,1405536
-Liberia,Frontline healthcare workers,2027,USG,1008480
-Liberia,Frontline healthcare workers,2028,USG,784320
-Liberia,Frontline healthcare workers,2029,USG,392160
-Liberia,Frontline healthcare workers,2030,USG,0
-Liberia,Frontline lab workers,2026,Government,0
-Liberia,Frontline lab workers,2027,Government,1341984
-Liberia,Frontline lab workers,2028,Government,317400
-Liberia,Frontline lab workers,2029,Government,496800
-Liberia,Frontline lab workers,2030,Government,697200
-Liberia,Frontline lab workers,2026,USG,697200
-Liberia,Frontline lab workers,2027,USG,544800
-Liberia,Frontline lab workers,2028,USG,379800
-Liberia,Frontline lab workers,2029,USG,496800
-Liberia,Frontline lab workers,2030,USG,0
-Liberia,Laboratory commodities,2026,Government,1620000
-Liberia,Laboratory commodities,2027,Government,1670000
-Liberia,Laboratory commodities,2028,Government,1720000
-Liberia,Laboratory commodities,2029,Government,1770000
-Liberia,Laboratory commodities,2030,Government,1820000
-Liberia,Laboratory commodities,2026,USG,5560194
-Liberia,Laboratory commodities,2027,USG,5985544
-Liberia,Laboratory commodities,2028,USG,5480294
-Liberia,Laboratory commodities,2029,USG,1366244
-Liberia,Laboratory commodities,2030,USG,2760400
-Liberia,Other commodities,2026,Government,6302000
-Liberia,Other commodities,2027,Government,8402000
-Liberia,Other commodities,2028,Government,9802000
-Liberia,Other commodities,2029,Government,11802000
-Liberia,Other commodities,2030,Government,16302000
-Liberia,Other commodities,2026,USG,10539600
-Liberia,Other commodities,2027,USG,8439600
-Liberia,Other commodities,2028,USG,7039600
-Liberia,Other commodities,2029,USG,5039600
-Liberia,Other commodities,2030,USG,539600
-Liberia,Strategic assistance / investment,2026,USG,5754414
-Liberia,Strategic assistance / investment,2027,USG,5501970
-Liberia,Strategic assistance / investment,2028,USG,5244080
-Liberia,Strategic assistance / investment,2029,USG,470000
-Liberia,Strategic assistance / investment,2030,USG,450000
-Liberia,Surveillance & outbreak response,2026,USG,2519792
-Liberia,Surveillance & outbreak response,2027,USG,2519792
-Liberia,Surveillance & outbreak response,2028,USG,2519792
-Liberia,Surveillance & outbreak response,2029,USG,1519792
-Liberia,Surveillance & outbreak response,2030,USG,2519792
-Liberia,Technical assistance,2026,USG,2165948
-Liberia,Technical assistance,2027,USG,3079898
-Liberia,Technical assistance,2028,USG,2624198
-Liberia,Technical assistance,2029,USG,1296788
-Liberia,Technical assistance,2030,USG,1638688
-Mozambique,All areas combined,2026,Government,5000000
-Mozambique,All areas combined,2027,Government,12775572
-Mozambique,All areas combined,2028,Government,19596056
-Mozambique,All areas combined,2029,Government,24435367
-Mozambique,All areas combined,2030,Government,33766111
-Mozambique,All areas combined,2026,USG,441334000
-Mozambique,All areas combined,2027,USG,403734000
-Mozambique,All areas combined,2028,USG,386094000
-Mozambique,All areas combined,2029,USG,322034000
-Mozambique,All areas combined,2030,USG,276184000
-Mozambique,Data systems,2026,USG,16666385
-Mozambique,Data systems,2027,USG,28230116
-Mozambique,Data systems,2028,USG,18533429
-Mozambique,Data systems,2029,USG,11129710
-Mozambique,Data systems,2030,USG,8512439
-Mozambique,Frontline healthcare workers,2026,Government,0
-Mozambique,Frontline healthcare workers,2027,Government,4697311
-Mozambique,Frontline healthcare workers,2028,Government,9465621
-Mozambique,Frontline healthcare workers,2029,Government,14304932
-Mozambique,Frontline healthcare workers,2030,Government,18505242
-Mozambique,Frontline healthcare workers,2026,USG,36963448
-Mozambique,Frontline healthcare workers,2027,USG,32654200
-Mozambique,Frontline healthcare workers,2028,USG,27042028
-Mozambique,Frontline healthcare workers,2029,USG,24854804
-Mozambique,Frontline healthcare workers,2030,USG,21324198
-Mozambique,Frontline lab workers,2026,USG,858200
-Mozambique,Frontline lab workers,2027,USG,792200
-Mozambique,Frontline lab workers,2028,USG,660200
-Mozambique,Frontline lab workers,2029,USG,462200
-Mozambique,Frontline lab workers,2030,USG,0
-Mozambique,Laboratory commodities,2026,Government,0
-Mozambique,Laboratory commodities,2027,Government,0
-Mozambique,Laboratory commodities,2028,Government,0
-Mozambique,Laboratory commodities,2029,Government,0
-Mozambique,Laboratory commodities,2030,Government,0
-Mozambique,Laboratory commodities,2026,USG,32222465
-Mozambique,Laboratory commodities,2027,USG,32222465
-Mozambique,Laboratory commodities,2028,USG,32222465
-Mozambique,Laboratory commodities,2029,USG,32222465
-Mozambique,Laboratory commodities,2030,USG,32222465
-Mozambique,Other commodities,2026,Government,5000000
-Mozambique,Other commodities,2027,Government,8078261
-Mozambique,Other commodities,2028,Government,10130435
-Mozambique,Other commodities,2029,Government,10130435
-Mozambique,Other commodities,2030,Government,15260869
-Mozambique,Other commodities,2026,USG,69111507
-Mozambique,Other commodities,2027,USG,66111507
-Mozambique,Other commodities,2028,USG,64111507
-Mozambique,Other commodities,2029,USG,64111507
-Mozambique,Other commodities,2030,USG,59111507
-Mozambique,Strategic assistance / investment,2026,USG,278211995
-Mozambique,Strategic assistance / investment,2027,USG,216123512
-Mozambique,Strategic assistance / investment,2028,USG,237524371
-Mozambique,Strategic assistance / investment,2029,USG,169953314
-Mozambique,Strategic assistance / investment,2030,USG,150713391
-Mozambique,Surveillance & outbreak response,2026,USG,7300000
-Mozambique,Surveillance & outbreak response,2027,USG,27600000
-Mozambique,Surveillance & outbreak response,2028,USG,6000000
-Mozambique,Surveillance & outbreak response,2029,USG,19300000
-Mozambique,Surveillance & outbreak response,2030,USG,4300000
-Nigeria,All areas combined,2026,Government,344827586
-Nigeria,All areas combined,2027,Government,469977242
-Nigeria,All areas combined,2028,Government,595126896
-Nigeria,All areas combined,2029,Government,720276552
-Nigeria,All areas combined,2030,Government,845426207
-Nigeria,All areas combined,2026,USG,500719200
-Nigeria,All areas combined,2027,USG,455590740
-Nigeria,All areas combined,2028,USG,402010740
-Nigeria,All areas combined,2029,USG,358357140
-Nigeria,All areas combined,2030,USG,236852740
-Nigeria,Data systems,2026,Government,13793103
-Nigeria,Data systems,2027,Government,18799090
-Nigeria,Data systems,2028,Government,23805076
-Nigeria,Data systems,2029,Government,28811062
-Nigeria,Data systems,2030,Government,33817048
-Nigeria,Data systems,2026,USG,60000000
-Nigeria,Data systems,2027,USG,49000000
-Nigeria,Data systems,2028,USG,42000000
-Nigeria,Data systems,2029,USG,23000000
-Nigeria,Data systems,2030,USG,22000000
-Nigeria,Frontline healthcare workers,2026,Government,32758621
-Nigeria,Frontline healthcare workers,2027,Government,44647838
-Nigeria,Frontline healthcare workers,2028,Government,56537055
-Nigeria,Frontline healthcare workers,2029,Government,68426272
-Nigeria,Frontline healthcare workers,2030,Government,80315490
-Nigeria,Frontline healthcare workers,2026,USG,23600000
-Nigeria,Frontline healthcare workers,2027,USG,12000000
-Nigeria,Frontline healthcare workers,2028,USG,11800000
-Nigeria,Frontline healthcare workers,2029,USG,5900000
-Nigeria,Frontline healthcare workers,2030,USG,5700000
-Nigeria,Frontline lab workers,2026,Government,1724138
-Nigeria,Frontline lab workers,2027,Government,2349886
-Nigeria,Frontline lab workers,2028,Government,2975634
-Nigeria,Frontline lab workers,2029,Government,3601383
-Nigeria,Frontline lab workers,2030,Government,4227131
-Nigeria,Frontline lab workers,2026,USG,4447069
-Nigeria,Frontline lab workers,2027,USG,2335302
-Nigeria,Frontline lab workers,2028,USG,1223535
-Nigeria,Frontline lab workers,2029,USG,1611768
-Nigeria,Frontline lab workers,2030,USG,1500000
-Nigeria,Laboratory commodities,2026,USG,70312145
-Nigeria,Laboratory commodities,2027,USG,57688940
-Nigeria,Laboratory commodities,2028,USG,31611794
-Nigeria,Laboratory commodities,2029,USG,21992148
-Nigeria,Laboratory commodities,2030,USG,19633990
-Nigeria,Laboratory systems,2026,Government,24137931
-Nigeria,Laboratory systems,2027,Government,32898407
-Nigeria,Laboratory systems,2028,Government,41658883
-Nigeria,Laboratory systems,2029,Government,50419359
-Nigeria,Laboratory systems,2030,Government,59179834
-Nigeria,Other commodities,2026,Government,59310345
-Nigeria,Other commodities,2027,Government,80836086
-Nigeria,Other commodities,2028,Government,102361826
-Nigeria,Other commodities,2029,Government,123887567
-Nigeria,Other commodities,2030,Government,145413308
-Nigeria,Other commodities,2026,USG,133188061
-Nigeria,Other commodities,2027,USG,88948866
-Nigeria,Other commodities,2028,USG,85038295
-Nigeria,Other commodities,2029,USG,84562080
-Nigeria,Other commodities,2030,USG,50405150
-Nigeria,Strategic assistance / investment,2026,Government,185517241
-Nigeria,Strategic assistance / investment,2027,Government,252847756
-Nigeria,Strategic assistance / investment,2028,Government,320178270
-Nigeria,Strategic assistance / investment,2029,Government,387508785
-Nigeria,Strategic assistance / investment,2030,Government,454839299
-Nigeria,Strategic assistance / investment,2026,USG,205000925
-Nigeria,Strategic assistance / investment,2027,USG,241446632
-Nigeria,Strategic assistance / investment,2028,USG,226166116
-Nigeria,Strategic assistance / investment,2029,USG,217120144
-Nigeria,Strategic assistance / investment,2030,USG,133442600
-Nigeria,Surveillance & outbreak response,2026,Government,27586207
-Nigeria,Surveillance & outbreak response,2027,Government,37598179
-Nigeria,Surveillance & outbreak response,2028,Government,47610152
-Nigeria,Surveillance & outbreak response,2029,Government,57622124
-Nigeria,Surveillance & outbreak response,2030,Government,67634097
-Nigeria,Surveillance & outbreak response,2026,USG,4171000
-Nigeria,Surveillance & outbreak response,2027,USG,4171000
-Nigeria,Surveillance & outbreak response,2028,USG,4171000
-Nigeria,Surveillance & outbreak response,2029,USG,4171000
-Nigeria,Surveillance & outbreak response,2030,USG,4171000
-Rwanda,All areas combined,2026,Government,0
-Rwanda,All areas combined,2027,Government,0
-Rwanda,All areas combined,2028,Government,1172525
-Rwanda,All areas combined,2029,Government,13762338
-Rwanda,All areas combined,2030,Government,18719538
-Rwanda,All areas combined,2026,USG,31687664
-Rwanda,All areas combined,2027,USG,64075482
-Rwanda,All areas combined,2028,USG,42659660
-Rwanda,All areas combined,2029,USG,15801196
-Rwanda,All areas combined,2030,USG,3556000
-Rwanda,Data systems,2026,USG,1352974
-Rwanda,Data systems,2027,USG,3600000
-Rwanda,Data systems,2028,USG,0
-Rwanda,Data systems,2029,USG,0
-Rwanda,Data systems,2030,USG,0
-Rwanda,Frontline healthcare workers,2026,USG,4272578
-Rwanda,Frontline healthcare workers,2027,USG,6836124
-Rwanda,Frontline healthcare workers,2028,USG,5468899
-Rwanda,Frontline healthcare workers,2029,USG,230000
-Rwanda,Frontline healthcare workers,2030,USG,0
-Rwanda,Frontline lab workers,2026,USG,780319
-Rwanda,Frontline lab workers,2027,USG,1560637
-Rwanda,Frontline lab workers,2028,USG,1248510
-Rwanda,Frontline lab workers,2029,USG,115000
-Rwanda,Frontline lab workers,2030,USG,0
-Rwanda,Laboratory commodities,2026,Government,0
-Rwanda,Laboratory commodities,2027,Government,0
-Rwanda,Laboratory commodities,2028,Government,560525
-Rwanda,Laboratory commodities,2029,Government,1121049
-Rwanda,Laboratory commodities,2030,Government,1121049
-Rwanda,Laboratory commodities,2026,USG,560525
-Rwanda,Laboratory commodities,2027,USG,1121049
-Rwanda,Laboratory commodities,2028,USG,560525
-Rwanda,Laboratory commodities,2029,USG,0
-Rwanda,Laboratory commodities,2030,USG,0
-Rwanda,Other commodities,2026,Government,0
-Rwanda,Other commodities,2027,Government,0
-Rwanda,Other commodities,2028,Government,612000
-Rwanda,Other commodities,2029,Government,12641289
-Rwanda,Other commodities,2030,Government,17598489
-Rwanda,Other commodities,2026,USG,5735645
-Rwanda,Other commodities,2027,USG,17537289
-Rwanda,Other commodities,2028,USG,16925289
-Rwanda,Other commodities,2029,USG,4957200
-Rwanda,Other commodities,2030,USG,0
-Rwanda,Strategic assistance / investment,2026,USG,16522983
-Rwanda,Strategic assistance / investment,2027,USG,26627743
-Rwanda,Strategic assistance / investment,2028,USG,13657797
-Rwanda,Strategic assistance / investment,2029,USG,7036356
-Rwanda,Strategic assistance / investment,2030,USG,93360
-Rwanda,Surveillance & outbreak response,2026,USG,2462640
-Rwanda,Surveillance & outbreak response,2027,USG,6792640
-Rwanda,Surveillance & outbreak response,2028,USG,4798640
-Rwanda,Surveillance & outbreak response,2029,USG,3462640
-Rwanda,Surveillance & outbreak response,2030,USG,3462640
-Uganda,All areas combined,2026,Government,31808219
-Uganda,All areas combined,2027,Government,100985418
-Uganda,All areas combined,2028,Government,172985402
-Uganda,All areas combined,2029,Government,241485386
-Uganda,All areas combined,2030,Government,308778370
-Uganda,All areas combined,2026,USG,410692000
-Uganda,All areas combined,2027,USG,382192000
-Uganda,All areas combined,2028,USG,354692000
-Uganda,All areas combined,2029,USG,316892000
-Uganda,All areas combined,2030,USG,255492000
-Uganda,Data systems,2026,USG,26129831
-Uganda,Data systems,2027,USG,24779640
-Uganda,Data systems,2028,USG,25103354
-Uganda,Data systems,2029,USG,27294065
-Uganda,Data systems,2030,USG,9795399
-Uganda,Frontline healthcare workers,2026,Government,0
-Uganda,Frontline healthcare workers,2027,Government,19177200
-Uganda,Frontline healthcare workers,2028,Government,21177200
-Uganda,Frontline healthcare workers,2029,Government,19677200
-Uganda,Frontline healthcare workers,2030,Government,16970200
-Uganda,Frontline healthcare workers,2026,USG,28519570
-Uganda,Frontline healthcare workers,2027,USG,23635877
-Uganda,Frontline healthcare workers,2028,USG,16896027
-Uganda,Frontline healthcare workers,2029,USG,8715804
-Uganda,Frontline healthcare workers,2030,USG,0
-Uganda,Laboratory commodities,2026,Government,14054109
-Uganda,Laboratory commodities,2027,Government,24255648
-Uganda,Laboratory commodities,2028,Government,34457188
-Uganda,Laboratory commodities,2029,Government,44658727
-Uganda,Laboratory commodities,2030,Government,54860267
-Uganda,Laboratory commodities,2026,USG,52757874
-Uganda,Laboratory commodities,2027,USG,43525246
-Uganda,Laboratory commodities,2028,USG,34292618
-Uganda,Laboratory commodities,2029,USG,25059990
-Uganda,Laboratory commodities,2030,USG,16452728
-Uganda,Management & operations,2026,USG,24641520
-Uganda,Management & operations,2027,USG,22931520
-Uganda,Management & operations,2028,USG,21281520
-Uganda,Management & operations,2029,USG,19013520
-Uganda,Management & operations,2030,USG,15329520
-Uganda,Other commodities,2026,Government,17754110
-Uganda,Other commodities,2027,Government,27552554
-Uganda,Other commodities,2028,Government,37350998
-Uganda,Other commodities,2029,Government,47149443
-Uganda,Other commodities,2030,Government,56947887
-Uganda,Other commodities,2026,USG,50454474
-Uganda,Other commodities,2027,USG,41624941
-Uganda,Other commodities,2028,USG,32795408
-Uganda,Other commodities,2029,USG,23965875
-Uganda,Other commodities,2030,USG,21320105
-Uganda,Other health sector co-investment,2026,Government,0
-Uganda,Other health sector co-investment,2027,Government,30000016
-Uganda,Other health sector co-investment,2028,Government,80000016
-Uganda,Other health sector co-investment,2029,Government,130000016
-Uganda,Other health sector co-investment,2030,Government,180000016
-Uganda,Strategic assistance / investment,2026,USG,223096731
-Uganda,Strategic assistance / investment,2027,USG,220602776
-Uganda,Strategic assistance / investment,2028,USG,219231073
-Uganda,Strategic assistance / investment,2029,USG,207750746
-Uganda,Strategic assistance / investment,2030,USG,187502248
-Uganda,Surveillance & outbreak response,2026,USG,5092000
-Uganda,Surveillance & outbreak response,2027,USG,5092000
-Uganda,Surveillance & outbreak response,2028,USG,5092000
-Uganda,Surveillance & outbreak response,2029,USG,5092000
-Uganda,Surveillance & outbreak response,2030,USG,5092000
+Country,Investment area,Year,Funder,Amount,Basis
+Cameroon,All areas combined,2028,Government,4787608.0,Imputed from FTEs
+Cameroon,All areas combined,2029,Government,4450619.0,Imputed from FTEs
+Cameroon,All areas combined,2030,Government,4440033.0,Imputed from FTEs
+Cameroon,All areas combined,2026,Government,0.0,Printed in MoU
+Cameroon,All areas combined,2027,Government,0.0,Printed in MoU
+Cameroon,All areas combined,2028,Government,1624519.0,Printed in MoU
+Cameroon,All areas combined,2029,Government,4544519.0,Printed in MoU
+Cameroon,All areas combined,2030,Government,10430000.0,Printed in MoU
+Cameroon,All areas combined,2026,USG,100930000.0,Printed in MoU
+Cameroon,All areas combined,2027,USG,91530000.0,Printed in MoU
+Cameroon,All areas combined,2028,USG,85940000.0,Printed in MoU
+Cameroon,All areas combined,2029,USG,72930000.0,Printed in MoU
+Cameroon,All areas combined,2030,USG,47940000.0,Printed in MoU
+Cameroon,Data systems,2026,USG,13370000.0,Printed in MoU
+Cameroon,Data systems,2027,USG,12120000.0,Printed in MoU
+Cameroon,Data systems,2028,USG,11380000.0,Printed in MoU
+Cameroon,Data systems,2029,USG,9660000.0,Printed in MoU
+Cameroon,Data systems,2030,USG,6350000.0,Printed in MoU
+Cameroon,Frontline healthcare workers,2028,Government,4404082.0,Imputed from FTEs
+Cameroon,Frontline healthcare workers,2029,Government,4060907.0,Imputed from FTEs
+Cameroon,Frontline healthcare workers,2030,Government,4056507.0,Imputed from FTEs
+Cameroon,Frontline healthcare workers,2026,USG,22170000.0,Printed in MoU
+Cameroon,Frontline healthcare workers,2027,USG,20110000.0,Printed in MoU
+Cameroon,Frontline healthcare workers,2028,USG,18880000.0,Printed in MoU
+Cameroon,Frontline healthcare workers,2029,USG,16020000.0,Printed in MoU
+Cameroon,Frontline healthcare workers,2030,USG,10530000.0,Printed in MoU
+Cameroon,Frontline lab workers,2028,Government,383526.0,Imputed from FTEs
+Cameroon,Frontline lab workers,2029,Government,389712.0,Imputed from FTEs
+Cameroon,Frontline lab workers,2030,Government,383526.0,Imputed from FTEs
+Cameroon,Frontline lab workers,2026,USG,1930000.0,Printed in MoU
+Cameroon,Frontline lab workers,2027,USG,1750000.0,Printed in MoU
+Cameroon,Frontline lab workers,2028,USG,1640000.0,Printed in MoU
+Cameroon,Frontline lab workers,2029,USG,1390000.0,Printed in MoU
+Cameroon,Frontline lab workers,2030,USG,920000.0,Printed in MoU
+Cameroon,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Cameroon,Laboratory commodities,2027,Government,0.0,Printed in MoU
+Cameroon,Laboratory commodities,2028,Government,524519.0,Printed in MoU
+Cameroon,Laboratory commodities,2029,Government,1824519.0,Printed in MoU
+Cameroon,Laboratory commodities,2030,Government,4600000.0,Printed in MoU
+Cameroon,Laboratory commodities,2026,USG,5630000.0,Printed in MoU
+Cameroon,Laboratory commodities,2027,USG,5630000.0,Printed in MoU
+Cameroon,Laboratory commodities,2028,USG,5110000.0,Printed in MoU
+Cameroon,Laboratory commodities,2029,USG,4330000.0,Printed in MoU
+Cameroon,Laboratory commodities,2030,USG,2850000.0,Printed in MoU
+Cameroon,Management & operations,2026,USG,19100000.0,Printed in MoU
+Cameroon,Management & operations,2027,USG,15690000.0,Printed in MoU
+Cameroon,Management & operations,2028,USG,15290000.0,Printed in MoU
+Cameroon,Management & operations,2029,USG,12980000.0,Printed in MoU
+Cameroon,Management & operations,2030,USG,8530000.0,Printed in MoU
+Cameroon,Other commodities,2026,Government,0.0,Printed in MoU
+Cameroon,Other commodities,2027,Government,0.0,Printed in MoU
+Cameroon,Other commodities,2028,Government,1100000.0,Printed in MoU
+Cameroon,Other commodities,2029,Government,2720000.0,Printed in MoU
+Cameroon,Other commodities,2030,Government,5830000.0,Printed in MoU
+Cameroon,Other commodities,2026,USG,11800000.0,Printed in MoU
+Cameroon,Other commodities,2027,USG,11800000.0,Printed in MoU
+Cameroon,Other commodities,2028,USG,10700000.0,Printed in MoU
+Cameroon,Other commodities,2029,USG,9080000.0,Printed in MoU
+Cameroon,Other commodities,2030,USG,5970000.0,Printed in MoU
+Cameroon,Strategic assistance / investment,2026,USG,18470000.0,Printed in MoU
+Cameroon,Strategic assistance / investment,2027,USG,16750000.0,Printed in MoU
+Cameroon,Strategic assistance / investment,2028,USG,15730000.0,Printed in MoU
+Cameroon,Strategic assistance / investment,2029,USG,13350000.0,Printed in MoU
+Cameroon,Strategic assistance / investment,2030,USG,8770000.0,Printed in MoU
+Cameroon,Surveillance & outbreak response,2026,USG,8460000.0,Printed in MoU
+Cameroon,Surveillance & outbreak response,2027,USG,7680000.0,Printed in MoU
+Cameroon,Surveillance & outbreak response,2028,USG,7210000.0,Printed in MoU
+Cameroon,Surveillance & outbreak response,2029,USG,6120000.0,Printed in MoU
+Cameroon,Surveillance & outbreak response,2030,USG,4020000.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2027,Government,19059304.0,Imputed from FTEs
+Côte d'Ivoire,All areas combined,2028,Government,19059304.0,Imputed from FTEs
+Côte d'Ivoire,All areas combined,2029,Government,19059304.0,Imputed from FTEs
+Côte d'Ivoire,All areas combined,2030,Government,19059304.0,Imputed from FTEs
+Côte d'Ivoire,All areas combined,2026,Government,36000000.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2027,Government,46700000.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2028,Government,52900000.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2029,Government,57600000.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2030,Government,61800000.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2026,USG,102081040.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2027,USG,96545040.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2028,USG,92845040.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2029,USG,76541040.0,Printed in MoU
+Côte d'Ivoire,All areas combined,2030,USG,55621040.0,Printed in MoU
+Côte d'Ivoire,Data systems,2026,USG,16000000.0,Printed in MoU
+Côte d'Ivoire,Data systems,2027,USG,16000000.0,Printed in MoU
+Côte d'Ivoire,Data systems,2028,USG,12500000.0,Printed in MoU
+Côte d'Ivoire,Data systems,2029,USG,11000000.0,Printed in MoU
+Côte d'Ivoire,Data systems,2030,USG,11000000.0,Printed in MoU
+Côte d'Ivoire,Frontline healthcare workers,2027,Government,17512830.0,Imputed from FTEs
+Côte d'Ivoire,Frontline healthcare workers,2028,Government,17512830.0,Imputed from FTEs
+Côte d'Ivoire,Frontline healthcare workers,2029,Government,17512830.0,Imputed from FTEs
+Côte d'Ivoire,Frontline healthcare workers,2030,Government,17512830.0,Imputed from FTEs
+Côte d'Ivoire,Frontline lab workers,2027,Government,1546474.0,Imputed from FTEs
+Côte d'Ivoire,Frontline lab workers,2028,Government,1546474.0,Imputed from FTEs
+Côte d'Ivoire,Frontline lab workers,2029,Government,1546474.0,Imputed from FTEs
+Côte d'Ivoire,Frontline lab workers,2030,Government,1546474.0,Imputed from FTEs
+Côte d'Ivoire,Laboratory commodities,2026,Government,11000000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2027,Government,11700000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2028,Government,12400000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2029,Government,13100000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2030,Government,13800000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2026,USG,4600000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2027,USG,3900000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2028,USG,3200000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2029,USG,2500000.0,Printed in MoU
+Côte d'Ivoire,Laboratory commodities,2030,USG,1800000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2026,Government,25000000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2027,Government,35000000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2028,Government,40500000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2029,Government,44500000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2030,Government,48000000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2026,USG,30500000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2027,USG,19500000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2028,USG,18500000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2029,USG,10000000.0,Printed in MoU
+Côte d'Ivoire,Other commodities,2030,USG,6500000.0,Printed in MoU
+Côte d'Ivoire,Strategic assistance / investment,2026,USG,47065040.0,Printed in MoU
+Côte d'Ivoire,Strategic assistance / investment,2027,USG,53229040.0,Printed in MoU
+Côte d'Ivoire,Strategic assistance / investment,2028,USG,54729040.0,Printed in MoU
+Côte d'Ivoire,Strategic assistance / investment,2029,USG,49125040.0,Printed in MoU
+Côte d'Ivoire,Strategic assistance / investment,2030,USG,32405040.0,Printed in MoU
+Côte d'Ivoire,Surveillance & outbreak response,2026,USG,3916000.0,Printed in MoU
+Côte d'Ivoire,Surveillance & outbreak response,2027,USG,3916000.0,Printed in MoU
+Côte d'Ivoire,Surveillance & outbreak response,2028,USG,3916000.0,Printed in MoU
+Côte d'Ivoire,Surveillance & outbreak response,2029,USG,3916000.0,Printed in MoU
+Côte d'Ivoire,Surveillance & outbreak response,2030,USG,3916000.0,Printed in MoU
+Ethiopia,All areas combined,2027,Government,109763.0,Imputed from FTEs
+Ethiopia,All areas combined,2028,Government,214038.0,Imputed from FTEs
+Ethiopia,All areas combined,2029,Government,323802.0,Imputed from FTEs
+Ethiopia,All areas combined,2030,Government,433565.0,Imputed from FTEs
+Ethiopia,All areas combined,2026,Government,0.0,Printed in MoU
+Ethiopia,All areas combined,2027,Government,14427776.0,Printed in MoU
+Ethiopia,All areas combined,2028,Government,28855553.0,Printed in MoU
+Ethiopia,All areas combined,2029,Government,43281581.0,Printed in MoU
+Ethiopia,All areas combined,2030,Government,57709358.0,Printed in MoU
+Ethiopia,All areas combined,2026,USG,189000001.0,Printed in MoU
+Ethiopia,All areas combined,2027,USG,240124220.0,Printed in MoU
+Ethiopia,All areas combined,2028,USG,232003620.0,Printed in MoU
+Ethiopia,All areas combined,2029,USG,175001809.0,Printed in MoU
+Ethiopia,All areas combined,2030,USG,126040000.0,Printed in MoU
+Ethiopia,Data systems,2026,USG,6283383.0,Printed in MoU
+Ethiopia,Data systems,2027,USG,5026706.0,Printed in MoU
+Ethiopia,Data systems,2028,USG,3770030.0,Printed in MoU
+Ethiopia,Data systems,2029,USG,2513353.0,Printed in MoU
+Ethiopia,Data systems,2030,USG,1256677.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2027,Government,3543790.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2028,Government,7087580.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2029,Government,10629621.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2030,Government,14173411.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2026,USG,14173411.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2027,USG,10629621.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2028,USG,7087580.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2029,USG,3543790.0,Printed in MoU
+Ethiopia,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Ethiopia,Frontline lab workers,2027,Government,109763.0,Imputed from FTEs
+Ethiopia,Frontline lab workers,2028,Government,214038.0,Imputed from FTEs
+Ethiopia,Frontline lab workers,2029,Government,323802.0,Imputed from FTEs
+Ethiopia,Frontline lab workers,2030,Government,433565.0,Imputed from FTEs
+Ethiopia,Frontline lab workers,2026,USG,433565.0,Printed in MoU
+Ethiopia,Frontline lab workers,2027,USG,323802.0,Printed in MoU
+Ethiopia,Frontline lab workers,2028,USG,219527.0,Printed in MoU
+Ethiopia,Frontline lab workers,2029,USG,109763.0,Printed in MoU
+Ethiopia,Frontline lab workers,2030,USG,0.0,Printed in MoU
+Ethiopia,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Ethiopia,Laboratory commodities,2027,Government,3139149.0,Printed in MoU
+Ethiopia,Laboratory commodities,2028,Government,6278298.0,Printed in MoU
+Ethiopia,Laboratory commodities,2029,Government,9417448.0,Printed in MoU
+Ethiopia,Laboratory commodities,2030,Government,12556597.0,Printed in MoU
+Ethiopia,Laboratory commodities,2026,USG,12556597.0,Printed in MoU
+Ethiopia,Laboratory commodities,2027,USG,9417448.0,Printed in MoU
+Ethiopia,Laboratory commodities,2028,USG,6278299.0,Printed in MoU
+Ethiopia,Laboratory commodities,2029,USG,3139149.0,Printed in MoU
+Ethiopia,Laboratory commodities,2030,USG,0.0,Printed in MoU
+Ethiopia,Laboratory systems,2026,Government,0.0,Printed in MoU
+Ethiopia,Laboratory systems,2027,Government,618810.0,Printed in MoU
+Ethiopia,Laboratory systems,2028,Government,1237620.0,Printed in MoU
+Ethiopia,Laboratory systems,2029,Government,1856430.0,Printed in MoU
+Ethiopia,Laboratory systems,2030,Government,2475240.0,Printed in MoU
+Ethiopia,Laboratory systems,2026,USG,2475240.0,Printed in MoU
+Ethiopia,Laboratory systems,2027,USG,1856430.0,Printed in MoU
+Ethiopia,Laboratory systems,2028,USG,1237620.0,Printed in MoU
+Ethiopia,Laboratory systems,2029,USG,618810.0,Printed in MoU
+Ethiopia,Laboratory systems,2030,USG,0.0,Printed in MoU
+Ethiopia,Other commodities,2026,Government,0.0,Printed in MoU
+Ethiopia,Other commodities,2027,Government,7126027.0,Printed in MoU
+Ethiopia,Other commodities,2028,Government,14252055.0,Printed in MoU
+Ethiopia,Other commodities,2029,Government,21378082.0,Printed in MoU
+Ethiopia,Other commodities,2030,Government,28504110.0,Printed in MoU
+Ethiopia,Other commodities,2026,USG,28504110.0,Printed in MoU
+Ethiopia,Other commodities,2027,USG,28504110.0,Printed in MoU
+Ethiopia,Other commodities,2028,USG,14252055.0,Printed in MoU
+Ethiopia,Other commodities,2029,USG,7126027.0,Printed in MoU
+Ethiopia,Other commodities,2030,USG,0.0,Printed in MoU
+Ethiopia,Strategic assistance / investment,2026,USG,117060845.0,Printed in MoU
+Ethiopia,Strategic assistance / investment,2027,USG,176947735.0,Printed in MoU
+Ethiopia,Strategic assistance / investment,2028,USG,192399309.0,Printed in MoU
+Ethiopia,Strategic assistance / investment,2029,USG,151745056.0,Printed in MoU
+Ethiopia,Strategic assistance / investment,2030,USG,119727654.0,Printed in MoU
+Ethiopia,Surveillance & outbreak response,2026,USG,7512850.0,Printed in MoU
+Ethiopia,Surveillance & outbreak response,2027,USG,7418368.0,Printed in MoU
+Ethiopia,Surveillance & outbreak response,2028,USG,6759200.0,Printed in MoU
+Ethiopia,Surveillance & outbreak response,2029,USG,6205861.0,Printed in MoU
+Ethiopia,Surveillance & outbreak response,2030,USG,5055669.0,Printed in MoU
+Kenya,All areas combined,2026,Government,108044445.0,Printed in MoU
+Kenya,All areas combined,2027,Government,142445629.0,Printed in MoU
+Kenya,All areas combined,2028,Government,199879692.0,Printed in MoU
+Kenya,All areas combined,2029,Government,220072480.0,Printed in MoU
+Kenya,All areas combined,2030,Government,235028926.0,Printed in MoU
+Kenya,All areas combined,2026,USG,389436360.0,Printed in MoU
+Kenya,All areas combined,2027,USG,364996360.0,Printed in MoU
+Kenya,All areas combined,2028,USG,320722360.0,Printed in MoU
+Kenya,All areas combined,2029,USG,306622360.0,Printed in MoU
+Kenya,All areas combined,2030,USG,151804360.0,Printed in MoU
+Kenya,Data systems,2026,USG,30000000.0,Printed in MoU
+Kenya,Data systems,2027,USG,75000000.0,Printed in MoU
+Kenya,Data systems,2028,USG,50000000.0,Printed in MoU
+Kenya,Data systems,2029,USG,10000000.0,Printed in MoU
+Kenya,Data systems,2030,USG,10000000.0,Printed in MoU
+Kenya,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
+Kenya,Frontline healthcare workers,2027,Government,0.0,Printed in MoU
+Kenya,Frontline healthcare workers,2028,Government,45735429.0,Printed in MoU
+Kenya,Frontline healthcare workers,2029,Government,45735429.0,Printed in MoU
+Kenya,Frontline healthcare workers,2030,Government,45735429.0,Printed in MoU
+Kenya,Frontline healthcare workers,2026,USG,45735429.0,Printed in MoU
+Kenya,Frontline healthcare workers,2027,USG,30490286.0,Printed in MoU
+Kenya,Frontline healthcare workers,2028,USG,0.0,Printed in MoU
+Kenya,Frontline healthcare workers,2029,USG,0.0,Printed in MoU
+Kenya,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Kenya,Frontline lab workers,2026,Government,0.0,Printed in MoU
+Kenya,Frontline lab workers,2027,Government,0.0,Printed in MoU
+Kenya,Frontline lab workers,2028,Government,6462293.0,Printed in MoU
+Kenya,Frontline lab workers,2029,Government,6462293.0,Printed in MoU
+Kenya,Frontline lab workers,2030,Government,6462293.0,Printed in MoU
+Kenya,Frontline lab workers,2026,USG,6462293.0,Printed in MoU
+Kenya,Frontline lab workers,2027,USG,4308195.0,Printed in MoU
+Kenya,Frontline lab workers,2028,USG,2154098.0,Printed in MoU
+Kenya,Frontline lab workers,2029,USG,0.0,Printed in MoU
+Kenya,Frontline lab workers,2030,USG,0.0,Printed in MoU
+Kenya,Laboratory commodities,2026,Government,2116279.0,Printed in MoU
+Kenya,Laboratory commodities,2027,Government,6604571.0,Printed in MoU
+Kenya,Laboratory commodities,2028,Government,11840912.0,Printed in MoU
+Kenya,Laboratory commodities,2029,Government,17077253.0,Printed in MoU
+Kenya,Laboratory commodities,2030,Government,17077253.0,Printed in MoU
+Kenya,Laboratory commodities,2026,USG,14960974.0,Printed in MoU
+Kenya,Laboratory commodities,2027,USG,10472682.0,Printed in MoU
+Kenya,Laboratory commodities,2028,USG,5236341.0,Printed in MoU
+Kenya,Laboratory commodities,2029,USG,0.0,Printed in MoU
+Kenya,Laboratory commodities,2030,USG,0.0,Printed in MoU
+Kenya,Other commodities,2026,Government,105928166.0,Printed in MoU
+Kenya,Other commodities,2027,Government,135841058.0,Printed in MoU
+Kenya,Other commodities,2028,Government,135841058.0,Printed in MoU
+Kenya,Other commodities,2029,Government,150797505.0,Printed in MoU
+Kenya,Other commodities,2030,Government,165753951.0,Printed in MoU
+Kenya,Other commodities,2026,USG,94782231.0,Printed in MoU
+Kenya,Other commodities,2027,USG,44869339.0,Printed in MoU
+Kenya,Other commodities,2028,USG,44869339.0,Printed in MoU
+Kenya,Other commodities,2029,USG,29912892.0,Printed in MoU
+Kenya,Other commodities,2030,USG,14956446.0,Printed in MoU
+Kenya,Programme management,2026,USG,90282837.0,Printed in MoU
+Kenya,Programme management,2027,USG,67712128.0,Printed in MoU
+Kenya,Programme management,2028,USG,45141418.0,Printed in MoU
+Kenya,Programme management,2029,USG,27084851.0,Printed in MoU
+Kenya,Programme management,2030,USG,9028284.0,Printed in MoU
+Kenya,Strategic assistance / investment,2026,USG,102706246.0,Printed in MoU
+Kenya,Strategic assistance / investment,2027,USG,127637380.0,Printed in MoU
+Kenya,Strategic assistance / investment,2028,USG,168814814.0,Printed in MoU
+Kenya,Strategic assistance / investment,2029,USG,235118267.0,Printed in MoU
+Kenya,Strategic assistance / investment,2030,USG,113313280.0,Printed in MoU
+Kenya,Surveillance & outbreak response,2026,USG,4506350.0,Printed in MoU
+Kenya,Surveillance & outbreak response,2027,USG,4506350.0,Printed in MoU
+Kenya,Surveillance & outbreak response,2028,USG,4506350.0,Printed in MoU
+Kenya,Surveillance & outbreak response,2029,USG,4506350.0,Printed in MoU
+Kenya,Surveillance & outbreak response,2030,USG,4506350.0,Printed in MoU
+Liberia,All areas combined,2026,Government,9111584.0,Printed in MoU
+Liberia,All areas combined,2027,Government,14808304.0,Printed in MoU
+Liberia,All areas combined,2028,Government,17265560.0,Printed in MoU
+Liberia,All areas combined,2029,Government,21694800.0,Printed in MoU
+Liberia,All areas combined,2030,Government,28645040.0,Printed in MoU
+Liberia,All areas combined,2026,USG,36699480.0,Printed in MoU
+Liberia,All areas combined,2027,USG,33785480.0,Printed in MoU
+Liberia,All areas combined,2028,USG,30589480.0,Printed in MoU
+Liberia,All areas combined,2029,USG,12635480.0,Printed in MoU
+Liberia,All areas combined,2030,USG,10708480.0,Printed in MoU
+Liberia,Data systems,2026,USG,8056796.0,Printed in MoU
+Liberia,Data systems,2027,USG,6705396.0,Printed in MoU
+Liberia,Data systems,2028,USG,6517396.0,Printed in MoU
+Liberia,Data systems,2029,USG,2054096.0,Printed in MoU
+Liberia,Data systems,2030,USG,2800000.0,Printed in MoU
+Liberia,Frontline healthcare workers,2026,Government,1189584.0,Printed in MoU
+Liberia,Frontline healthcare workers,2027,Government,3394320.0,Printed in MoU
+Liberia,Frontline healthcare workers,2028,Government,5426160.0,Printed in MoU
+Liberia,Frontline healthcare workers,2029,Government,7626000.0,Printed in MoU
+Liberia,Frontline healthcare workers,2030,Government,9825840.0,Printed in MoU
+Liberia,Frontline healthcare workers,2026,USG,1405536.0,Printed in MoU
+Liberia,Frontline healthcare workers,2027,USG,1008480.0,Printed in MoU
+Liberia,Frontline healthcare workers,2028,USG,784320.0,Printed in MoU
+Liberia,Frontline healthcare workers,2029,USG,392160.0,Printed in MoU
+Liberia,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Liberia,Frontline lab workers,2026,Government,0.0,Printed in MoU
+Liberia,Frontline lab workers,2027,Government,1341984.0,Printed in MoU
+Liberia,Frontline lab workers,2028,Government,317400.0,Printed in MoU
+Liberia,Frontline lab workers,2029,Government,496800.0,Printed in MoU
+Liberia,Frontline lab workers,2030,Government,697200.0,Printed in MoU
+Liberia,Frontline lab workers,2026,USG,697200.0,Printed in MoU
+Liberia,Frontline lab workers,2027,USG,544800.0,Printed in MoU
+Liberia,Frontline lab workers,2028,USG,379800.0,Printed in MoU
+Liberia,Frontline lab workers,2029,USG,496800.0,Printed in MoU
+Liberia,Frontline lab workers,2030,USG,0.0,Printed in MoU
+Liberia,Laboratory commodities,2026,Government,1620000.0,Printed in MoU
+Liberia,Laboratory commodities,2027,Government,1670000.0,Printed in MoU
+Liberia,Laboratory commodities,2028,Government,1720000.0,Printed in MoU
+Liberia,Laboratory commodities,2029,Government,1770000.0,Printed in MoU
+Liberia,Laboratory commodities,2030,Government,1820000.0,Printed in MoU
+Liberia,Laboratory commodities,2026,USG,5560194.0,Printed in MoU
+Liberia,Laboratory commodities,2027,USG,5985544.0,Printed in MoU
+Liberia,Laboratory commodities,2028,USG,5480294.0,Printed in MoU
+Liberia,Laboratory commodities,2029,USG,1366244.0,Printed in MoU
+Liberia,Laboratory commodities,2030,USG,2760400.0,Printed in MoU
+Liberia,Other commodities,2026,Government,6302000.0,Printed in MoU
+Liberia,Other commodities,2027,Government,8402000.0,Printed in MoU
+Liberia,Other commodities,2028,Government,9802000.0,Printed in MoU
+Liberia,Other commodities,2029,Government,11802000.0,Printed in MoU
+Liberia,Other commodities,2030,Government,16302000.0,Printed in MoU
+Liberia,Other commodities,2026,USG,10539600.0,Printed in MoU
+Liberia,Other commodities,2027,USG,8439600.0,Printed in MoU
+Liberia,Other commodities,2028,USG,7039600.0,Printed in MoU
+Liberia,Other commodities,2029,USG,5039600.0,Printed in MoU
+Liberia,Other commodities,2030,USG,539600.0,Printed in MoU
+Liberia,Strategic assistance / investment,2026,USG,5754414.0,Printed in MoU
+Liberia,Strategic assistance / investment,2027,USG,5501970.0,Printed in MoU
+Liberia,Strategic assistance / investment,2028,USG,5244080.0,Printed in MoU
+Liberia,Strategic assistance / investment,2029,USG,470000.0,Printed in MoU
+Liberia,Strategic assistance / investment,2030,USG,450000.0,Printed in MoU
+Liberia,Surveillance & outbreak response,2026,USG,2519792.0,Printed in MoU
+Liberia,Surveillance & outbreak response,2027,USG,2519792.0,Printed in MoU
+Liberia,Surveillance & outbreak response,2028,USG,2519792.0,Printed in MoU
+Liberia,Surveillance & outbreak response,2029,USG,1519792.0,Printed in MoU
+Liberia,Surveillance & outbreak response,2030,USG,2519792.0,Printed in MoU
+Liberia,Technical assistance,2026,USG,2165948.0,Printed in MoU
+Liberia,Technical assistance,2027,USG,3079898.0,Printed in MoU
+Liberia,Technical assistance,2028,USG,2624198.0,Printed in MoU
+Liberia,Technical assistance,2029,USG,1296788.0,Printed in MoU
+Liberia,Technical assistance,2030,USG,1638688.0,Printed in MoU
+Mozambique,All areas combined,2027,Government,66000.0,Imputed from FTEs
+Mozambique,All areas combined,2028,Government,198000.0,Imputed from FTEs
+Mozambique,All areas combined,2029,Government,396000.0,Imputed from FTEs
+Mozambique,All areas combined,2030,Government,693000.0,Imputed from FTEs
+Mozambique,All areas combined,2026,Government,5000000.0,Printed in MoU
+Mozambique,All areas combined,2027,Government,12775572.0,Printed in MoU
+Mozambique,All areas combined,2028,Government,19596056.0,Printed in MoU
+Mozambique,All areas combined,2029,Government,24435367.0,Printed in MoU
+Mozambique,All areas combined,2030,Government,33766111.0,Printed in MoU
+Mozambique,All areas combined,2026,USG,441334000.0,Printed in MoU
+Mozambique,All areas combined,2027,USG,403734000.0,Printed in MoU
+Mozambique,All areas combined,2028,USG,386094000.0,Printed in MoU
+Mozambique,All areas combined,2029,USG,322034000.0,Printed in MoU
+Mozambique,All areas combined,2030,USG,276184000.0,Printed in MoU
+Mozambique,Data systems,2026,USG,16666385.0,Printed in MoU
+Mozambique,Data systems,2027,USG,28230116.0,Printed in MoU
+Mozambique,Data systems,2028,USG,18533429.0,Printed in MoU
+Mozambique,Data systems,2029,USG,11129710.0,Printed in MoU
+Mozambique,Data systems,2030,USG,8512439.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2027,Government,4697311.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2028,Government,9465621.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2029,Government,14304932.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2030,Government,18505242.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2026,USG,36963448.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2027,USG,32654200.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2028,USG,27042028.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2029,USG,24854804.0,Printed in MoU
+Mozambique,Frontline healthcare workers,2030,USG,21324198.0,Printed in MoU
+Mozambique,Frontline lab workers,2027,Government,66000.0,Imputed from FTEs
+Mozambique,Frontline lab workers,2028,Government,198000.0,Imputed from FTEs
+Mozambique,Frontline lab workers,2029,Government,396000.0,Imputed from FTEs
+Mozambique,Frontline lab workers,2030,Government,693000.0,Imputed from FTEs
+Mozambique,Frontline lab workers,2026,USG,858200.0,Printed in MoU
+Mozambique,Frontline lab workers,2027,USG,792200.0,Printed in MoU
+Mozambique,Frontline lab workers,2028,USG,660200.0,Printed in MoU
+Mozambique,Frontline lab workers,2029,USG,462200.0,Printed in MoU
+Mozambique,Frontline lab workers,2030,USG,0.0,Printed in MoU
+Mozambique,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Mozambique,Laboratory commodities,2027,Government,0.0,Printed in MoU
+Mozambique,Laboratory commodities,2028,Government,0.0,Printed in MoU
+Mozambique,Laboratory commodities,2029,Government,0.0,Printed in MoU
+Mozambique,Laboratory commodities,2030,Government,0.0,Printed in MoU
+Mozambique,Laboratory commodities,2026,USG,32222465.0,Printed in MoU
+Mozambique,Laboratory commodities,2027,USG,32222465.0,Printed in MoU
+Mozambique,Laboratory commodities,2028,USG,32222465.0,Printed in MoU
+Mozambique,Laboratory commodities,2029,USG,32222465.0,Printed in MoU
+Mozambique,Laboratory commodities,2030,USG,32222465.0,Printed in MoU
+Mozambique,Other commodities,2026,Government,5000000.0,Printed in MoU
+Mozambique,Other commodities,2027,Government,8078261.0,Printed in MoU
+Mozambique,Other commodities,2028,Government,10130435.0,Printed in MoU
+Mozambique,Other commodities,2029,Government,10130435.0,Printed in MoU
+Mozambique,Other commodities,2030,Government,15260869.0,Printed in MoU
+Mozambique,Other commodities,2026,USG,69111507.0,Printed in MoU
+Mozambique,Other commodities,2027,USG,66111507.0,Printed in MoU
+Mozambique,Other commodities,2028,USG,64111507.0,Printed in MoU
+Mozambique,Other commodities,2029,USG,64111507.0,Printed in MoU
+Mozambique,Other commodities,2030,USG,59111507.0,Printed in MoU
+Mozambique,Strategic assistance / investment,2026,USG,278211995.0,Printed in MoU
+Mozambique,Strategic assistance / investment,2027,USG,216123512.0,Printed in MoU
+Mozambique,Strategic assistance / investment,2028,USG,237524371.0,Printed in MoU
+Mozambique,Strategic assistance / investment,2029,USG,169953314.0,Printed in MoU
+Mozambique,Strategic assistance / investment,2030,USG,150713391.0,Printed in MoU
+Mozambique,Surveillance & outbreak response,2026,USG,7300000.0,Printed in MoU
+Mozambique,Surveillance & outbreak response,2027,USG,27600000.0,Printed in MoU
+Mozambique,Surveillance & outbreak response,2028,USG,6000000.0,Printed in MoU
+Mozambique,Surveillance & outbreak response,2029,USG,19300000.0,Printed in MoU
+Mozambique,Surveillance & outbreak response,2030,USG,4300000.0,Printed in MoU
+Nigeria,All areas combined,2026,Government,344827586.0,Printed in MoU
+Nigeria,All areas combined,2027,Government,469977242.0,Printed in MoU
+Nigeria,All areas combined,2028,Government,595126896.0,Printed in MoU
+Nigeria,All areas combined,2029,Government,720276552.0,Printed in MoU
+Nigeria,All areas combined,2030,Government,845426207.0,Printed in MoU
+Nigeria,All areas combined,2026,USG,500719200.0,Printed in MoU
+Nigeria,All areas combined,2027,USG,455590740.0,Printed in MoU
+Nigeria,All areas combined,2028,USG,402010740.0,Printed in MoU
+Nigeria,All areas combined,2029,USG,358357140.0,Printed in MoU
+Nigeria,All areas combined,2030,USG,236852740.0,Printed in MoU
+Nigeria,Data systems,2026,Government,13793103.0,Printed in MoU
+Nigeria,Data systems,2027,Government,18799090.0,Printed in MoU
+Nigeria,Data systems,2028,Government,23805076.0,Printed in MoU
+Nigeria,Data systems,2029,Government,28811062.0,Printed in MoU
+Nigeria,Data systems,2030,Government,33817048.0,Printed in MoU
+Nigeria,Data systems,2026,USG,60000000.0,Printed in MoU
+Nigeria,Data systems,2027,USG,49000000.0,Printed in MoU
+Nigeria,Data systems,2028,USG,42000000.0,Printed in MoU
+Nigeria,Data systems,2029,USG,23000000.0,Printed in MoU
+Nigeria,Data systems,2030,USG,22000000.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2026,Government,32758621.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2027,Government,44647838.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2028,Government,56537055.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2029,Government,68426272.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2030,Government,80315490.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2026,USG,23600000.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2027,USG,12000000.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2028,USG,11800000.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2029,USG,5900000.0,Printed in MoU
+Nigeria,Frontline healthcare workers,2030,USG,5700000.0,Printed in MoU
+Nigeria,Frontline lab workers,2026,Government,1724138.0,Printed in MoU
+Nigeria,Frontline lab workers,2027,Government,2349886.0,Printed in MoU
+Nigeria,Frontline lab workers,2028,Government,2975634.0,Printed in MoU
+Nigeria,Frontline lab workers,2029,Government,3601383.0,Printed in MoU
+Nigeria,Frontline lab workers,2030,Government,4227131.0,Printed in MoU
+Nigeria,Frontline lab workers,2026,USG,4447069.0,Printed in MoU
+Nigeria,Frontline lab workers,2027,USG,2335302.0,Printed in MoU
+Nigeria,Frontline lab workers,2028,USG,1223535.0,Printed in MoU
+Nigeria,Frontline lab workers,2029,USG,1611768.0,Printed in MoU
+Nigeria,Frontline lab workers,2030,USG,1500000.0,Printed in MoU
+Nigeria,Laboratory commodities,2026,USG,70312145.0,Printed in MoU
+Nigeria,Laboratory commodities,2027,USG,57688940.0,Printed in MoU
+Nigeria,Laboratory commodities,2028,USG,31611794.0,Printed in MoU
+Nigeria,Laboratory commodities,2029,USG,21992148.0,Printed in MoU
+Nigeria,Laboratory commodities,2030,USG,19633990.0,Printed in MoU
+Nigeria,Laboratory systems,2026,Government,24137931.0,Printed in MoU
+Nigeria,Laboratory systems,2027,Government,32898407.0,Printed in MoU
+Nigeria,Laboratory systems,2028,Government,41658883.0,Printed in MoU
+Nigeria,Laboratory systems,2029,Government,50419359.0,Printed in MoU
+Nigeria,Laboratory systems,2030,Government,59179834.0,Printed in MoU
+Nigeria,Other commodities,2026,Government,59310345.0,Printed in MoU
+Nigeria,Other commodities,2027,Government,80836086.0,Printed in MoU
+Nigeria,Other commodities,2028,Government,102361826.0,Printed in MoU
+Nigeria,Other commodities,2029,Government,123887567.0,Printed in MoU
+Nigeria,Other commodities,2030,Government,145413308.0,Printed in MoU
+Nigeria,Other commodities,2026,USG,133188061.0,Printed in MoU
+Nigeria,Other commodities,2027,USG,88948866.0,Printed in MoU
+Nigeria,Other commodities,2028,USG,85038295.0,Printed in MoU
+Nigeria,Other commodities,2029,USG,84562080.0,Printed in MoU
+Nigeria,Other commodities,2030,USG,50405150.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2026,Government,185517241.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2027,Government,252847756.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2028,Government,320178270.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2029,Government,387508785.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2030,Government,454839299.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2026,USG,205000925.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2027,USG,241446632.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2028,USG,226166116.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2029,USG,217120144.0,Printed in MoU
+Nigeria,Strategic assistance / investment,2030,USG,133442600.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2026,Government,27586207.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2027,Government,37598179.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2028,Government,47610152.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2029,Government,57622124.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2030,Government,67634097.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2026,USG,4171000.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2027,USG,4171000.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2028,USG,4171000.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2029,USG,4171000.0,Printed in MoU
+Nigeria,Surveillance & outbreak response,2030,USG,4171000.0,Printed in MoU
+Rwanda,All areas combined,2027,Government,1602746.0,Imputed from FTEs
+Rwanda,All areas combined,2028,Government,2457574.0,Imputed from FTEs
+Rwanda,All areas combined,2029,Government,4982990.0,Imputed from FTEs
+Rwanda,All areas combined,2030,Government,5015391.0,Imputed from FTEs
+Rwanda,All areas combined,2026,Government,0.0,Printed in MoU
+Rwanda,All areas combined,2027,Government,0.0,Printed in MoU
+Rwanda,All areas combined,2028,Government,1172525.0,Printed in MoU
+Rwanda,All areas combined,2029,Government,13762338.0,Printed in MoU
+Rwanda,All areas combined,2030,Government,18719538.0,Printed in MoU
+Rwanda,All areas combined,2026,USG,31687664.0,Printed in MoU
+Rwanda,All areas combined,2027,USG,64075482.0,Printed in MoU
+Rwanda,All areas combined,2028,USG,42659660.0,Printed in MoU
+Rwanda,All areas combined,2029,USG,15801196.0,Printed in MoU
+Rwanda,All areas combined,2030,USG,3556000.0,Printed in MoU
+Rwanda,Data systems,2026,USG,1352974.0,Printed in MoU
+Rwanda,Data systems,2027,USG,3600000.0,Printed in MoU
+Rwanda,Data systems,2028,USG,0.0,Printed in MoU
+Rwanda,Data systems,2029,USG,0.0,Printed in MoU
+Rwanda,Data systems,2030,USG,0.0,Printed in MoU
+Rwanda,Frontline healthcare workers,2027,Government,854828.0,Imputed from FTEs
+Rwanda,Frontline healthcare workers,2028,Government,1709656.0,Imputed from FTEs
+Rwanda,Frontline healthcare workers,2029,Government,4235072.0,Imputed from FTEs
+Rwanda,Frontline healthcare workers,2030,Government,4235072.0,Imputed from FTEs
+Rwanda,Frontline healthcare workers,2026,USG,4272578.0,Printed in MoU
+Rwanda,Frontline healthcare workers,2027,USG,6836124.0,Printed in MoU
+Rwanda,Frontline healthcare workers,2028,USG,5468899.0,Printed in MoU
+Rwanda,Frontline healthcare workers,2029,USG,230000.0,Printed in MoU
+Rwanda,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Rwanda,Frontline lab workers,2027,Government,747918.0,Imputed from FTEs
+Rwanda,Frontline lab workers,2028,Government,747918.0,Imputed from FTEs
+Rwanda,Frontline lab workers,2029,Government,747918.0,Imputed from FTEs
+Rwanda,Frontline lab workers,2030,Government,780319.0,Imputed from FTEs
+Rwanda,Frontline lab workers,2026,USG,780319.0,Printed in MoU
+Rwanda,Frontline lab workers,2027,USG,1560637.0,Printed in MoU
+Rwanda,Frontline lab workers,2028,USG,1248510.0,Printed in MoU
+Rwanda,Frontline lab workers,2029,USG,115000.0,Printed in MoU
+Rwanda,Frontline lab workers,2030,USG,0.0,Printed in MoU
+Rwanda,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Rwanda,Laboratory commodities,2027,Government,0.0,Printed in MoU
+Rwanda,Laboratory commodities,2028,Government,560525.0,Printed in MoU
+Rwanda,Laboratory commodities,2029,Government,1121049.0,Printed in MoU
+Rwanda,Laboratory commodities,2030,Government,1121049.0,Printed in MoU
+Rwanda,Laboratory commodities,2026,USG,560525.0,Printed in MoU
+Rwanda,Laboratory commodities,2027,USG,1121049.0,Printed in MoU
+Rwanda,Laboratory commodities,2028,USG,560525.0,Printed in MoU
+Rwanda,Laboratory commodities,2029,USG,0.0,Printed in MoU
+Rwanda,Laboratory commodities,2030,USG,0.0,Printed in MoU
+Rwanda,Other commodities,2026,Government,0.0,Printed in MoU
+Rwanda,Other commodities,2027,Government,0.0,Printed in MoU
+Rwanda,Other commodities,2028,Government,612000.0,Printed in MoU
+Rwanda,Other commodities,2029,Government,12641289.0,Printed in MoU
+Rwanda,Other commodities,2030,Government,17598489.0,Printed in MoU
+Rwanda,Other commodities,2026,USG,5735645.0,Printed in MoU
+Rwanda,Other commodities,2027,USG,17537289.0,Printed in MoU
+Rwanda,Other commodities,2028,USG,16925289.0,Printed in MoU
+Rwanda,Other commodities,2029,USG,4957200.0,Printed in MoU
+Rwanda,Other commodities,2030,USG,0.0,Printed in MoU
+Rwanda,Strategic assistance / investment,2026,USG,16522983.0,Printed in MoU
+Rwanda,Strategic assistance / investment,2027,USG,26627743.0,Printed in MoU
+Rwanda,Strategic assistance / investment,2028,USG,13657797.0,Printed in MoU
+Rwanda,Strategic assistance / investment,2029,USG,7036356.0,Printed in MoU
+Rwanda,Strategic assistance / investment,2030,USG,93360.0,Printed in MoU
+Rwanda,Surveillance & outbreak response,2026,USG,2462640.0,Printed in MoU
+Rwanda,Surveillance & outbreak response,2027,USG,6792640.0,Printed in MoU
+Rwanda,Surveillance & outbreak response,2028,USG,4798640.0,Printed in MoU
+Rwanda,Surveillance & outbreak response,2029,USG,3462640.0,Printed in MoU
+Rwanda,Surveillance & outbreak response,2030,USG,3462640.0,Printed in MoU
+Uganda,All areas combined,2027,Government,390554.0,Imputed from FTEs
+Uganda,All areas combined,2028,Government,665639.0,Imputed from FTEs
+Uganda,All areas combined,2029,Government,1185245.0,Imputed from FTEs
+Uganda,All areas combined,2030,Government,2078424.0,Imputed from FTEs
+Uganda,All areas combined,2026,Government,31808219.0,Printed in MoU
+Uganda,All areas combined,2027,Government,100985418.0,Printed in MoU
+Uganda,All areas combined,2028,Government,172985402.0,Printed in MoU
+Uganda,All areas combined,2029,Government,241485386.0,Printed in MoU
+Uganda,All areas combined,2030,Government,308778370.0,Printed in MoU
+Uganda,All areas combined,2026,USG,410692000.0,Printed in MoU
+Uganda,All areas combined,2027,USG,382192000.0,Printed in MoU
+Uganda,All areas combined,2028,USG,354692000.0,Printed in MoU
+Uganda,All areas combined,2029,USG,316892000.0,Printed in MoU
+Uganda,All areas combined,2030,USG,255492000.0,Printed in MoU
+Uganda,Data systems,2026,USG,26129831.0,Printed in MoU
+Uganda,Data systems,2027,USG,24779640.0,Printed in MoU
+Uganda,Data systems,2028,USG,25103354.0,Printed in MoU
+Uganda,Data systems,2029,USG,27294065.0,Printed in MoU
+Uganda,Data systems,2030,USG,9795399.0,Printed in MoU
+Uganda,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
+Uganda,Frontline healthcare workers,2027,Government,19177200.0,Printed in MoU
+Uganda,Frontline healthcare workers,2028,Government,21177200.0,Printed in MoU
+Uganda,Frontline healthcare workers,2029,Government,19677200.0,Printed in MoU
+Uganda,Frontline healthcare workers,2030,Government,16970200.0,Printed in MoU
+Uganda,Frontline healthcare workers,2026,USG,28519570.0,Printed in MoU
+Uganda,Frontline healthcare workers,2027,USG,23635877.0,Printed in MoU
+Uganda,Frontline healthcare workers,2028,USG,16896027.0,Printed in MoU
+Uganda,Frontline healthcare workers,2029,USG,8715804.0,Printed in MoU
+Uganda,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Uganda,Frontline lab workers,2027,Government,390554.0,Imputed from FTEs
+Uganda,Frontline lab workers,2028,Government,665639.0,Imputed from FTEs
+Uganda,Frontline lab workers,2029,Government,1185245.0,Imputed from FTEs
+Uganda,Frontline lab workers,2030,Government,2078424.0,Imputed from FTEs
+Uganda,Laboratory commodities,2026,Government,14054109.0,Printed in MoU
+Uganda,Laboratory commodities,2027,Government,24255648.0,Printed in MoU
+Uganda,Laboratory commodities,2028,Government,34457188.0,Printed in MoU
+Uganda,Laboratory commodities,2029,Government,44658727.0,Printed in MoU
+Uganda,Laboratory commodities,2030,Government,54860267.0,Printed in MoU
+Uganda,Laboratory commodities,2026,USG,52757874.0,Printed in MoU
+Uganda,Laboratory commodities,2027,USG,43525246.0,Printed in MoU
+Uganda,Laboratory commodities,2028,USG,34292618.0,Printed in MoU
+Uganda,Laboratory commodities,2029,USG,25059990.0,Printed in MoU
+Uganda,Laboratory commodities,2030,USG,16452728.0,Printed in MoU
+Uganda,Management & operations,2026,USG,24641520.0,Printed in MoU
+Uganda,Management & operations,2027,USG,22931520.0,Printed in MoU
+Uganda,Management & operations,2028,USG,21281520.0,Printed in MoU
+Uganda,Management & operations,2029,USG,19013520.0,Printed in MoU
+Uganda,Management & operations,2030,USG,15329520.0,Printed in MoU
+Uganda,Other commodities,2026,Government,17754110.0,Printed in MoU
+Uganda,Other commodities,2027,Government,27552554.0,Printed in MoU
+Uganda,Other commodities,2028,Government,37350998.0,Printed in MoU
+Uganda,Other commodities,2029,Government,47149443.0,Printed in MoU
+Uganda,Other commodities,2030,Government,56947887.0,Printed in MoU
+Uganda,Other commodities,2026,USG,50454474.0,Printed in MoU
+Uganda,Other commodities,2027,USG,41624941.0,Printed in MoU
+Uganda,Other commodities,2028,USG,32795408.0,Printed in MoU
+Uganda,Other commodities,2029,USG,23965875.0,Printed in MoU
+Uganda,Other commodities,2030,USG,21320105.0,Printed in MoU
+Uganda,Other health sector co-investment,2026,Government,0.0,Printed in MoU
+Uganda,Other health sector co-investment,2027,Government,30000016.0,Printed in MoU
+Uganda,Other health sector co-investment,2028,Government,80000016.0,Printed in MoU
+Uganda,Other health sector co-investment,2029,Government,130000016.0,Printed in MoU
+Uganda,Other health sector co-investment,2030,Government,180000016.0,Printed in MoU
+Uganda,Strategic assistance / investment,2026,USG,223096731.0,Printed in MoU
+Uganda,Strategic assistance / investment,2027,USG,220602776.0,Printed in MoU
+Uganda,Strategic assistance / investment,2028,USG,219231073.0,Printed in MoU
+Uganda,Strategic assistance / investment,2029,USG,207750746.0,Printed in MoU
+Uganda,Strategic assistance / investment,2030,USG,187502248.0,Printed in MoU
+Uganda,Surveillance & outbreak response,2026,USG,5092000.0,Printed in MoU
+Uganda,Surveillance & outbreak response,2027,USG,5092000.0,Printed in MoU
+Uganda,Surveillance & outbreak response,2028,USG,5092000.0,Printed in MoU
+Uganda,Surveillance & outbreak response,2029,USG,5092000.0,Printed in MoU
+Uganda,Surveillance & outbreak response,2030,USG,5092000.0,Printed in MoU

@@ -22,11 +22,17 @@ st.caption(
 
 
 @st.cache_data
-def data():
-    return lib.add_share(lib.load_budget_series())
+def data(include_imputed: bool):
+    df = lib.load_budget_series()
+    if not include_imputed:
+        df = df[df["Basis"] != lib.BASIS_IMPUTED]
+    # Collapse Basis so each Country x Area x Year x Funder is one line/bar again
+    # ("All areas combined" can carry a printed and an imputed row per year).
+    df = df.groupby(["Country", "Investment area", "Year", "Funder"],
+                    as_index=False)["Amount"].sum()
+    return lib.add_share(df)
 
 
-df = data()
 PAL = lib.palette()  # follows the active (system-preference) theme
 
 # Year axis style: bigger, bold, -45°
@@ -38,10 +44,17 @@ hover = alt.selection_point(fields=["Country"], bind="legend", on="pointerover",
 
 # ---------------- controls ----------------
 c1, c2, c3 = st.columns([2, 1, 2])
-with c1:
-    area = st.selectbox("Investment area", lib.area_options(df), index=0)
 with c2:
     unit = st.radio("Unit", ["US$", "% of combined"], horizontal=True)
+    include_imputed = st.toggle(
+        "Incl. imputed govt $", value=True,
+        help="Government FTE commitments priced at USG unit rates where the MoU "
+             "prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, "
+             "Rwanda, Uganda labs, Côte d'Ivoire). See Sources & methodology.",
+    )
+df = data(include_imputed)
+with c1:
+    area = st.selectbox("Investment area", lib.area_options(df), index=0)
 with c3:
     countries = st.multiselect(
         "Countries", sorted(df["Country"].unique()), default=sorted(df["Country"].unique())
@@ -58,6 +71,14 @@ k2.metric("Government, 5-yr total", lib.fmt_usd(tot_gov))
 combined = tot_usg + tot_gov
 k3.metric("Combined", lib.fmt_usd(combined))
 k4.metric("USG share of combined", f"{100 * tot_usg / combined:.0f}%" if combined else "–")
+if include_imputed:
+    st.caption(
+        "Government figures include **imputed $** for frontline labs & healthcare "
+        "workers where the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, "
+        "Mozambique labs, Rwanda, Uganda labs, Côte d'Ivoire — ~$111M in total, of "
+        "which ~$76M is Côte d'Ivoire on peer-country rates). Toggle it off to see "
+        "printed dollars only; method and ranges on **Sources & methodology**."
+    )
 
 country_scale = alt.Scale(
     domain=list(PAL["country"].keys()), range=list(PAL["country"].values())
@@ -220,5 +241,7 @@ with st.expander("Data behind these charts"):
 st.info(
     "Countries without a published existing-funding split (Nigeria, Ethiopia, Rwanda) "
     "show new co-financing only — their true government shares are understated. "
-    "Full caveats on the **Sources & methodology** page."
+    "Government $ for frontline labs & healthcare workers in Cameroon, Ethiopia, "
+    "Mozambique, Rwanda, Uganda and Côte d'Ivoire are imputed from FTE commitments "
+    "when the toggle above is on. Full caveats on the **Sources & methodology** page."
 )

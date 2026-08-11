@@ -62,12 +62,42 @@ AREA_ORDER = [
 
 GOV_LABEL = "Government (new + existing)"
 
+# Basis of each dollar series: printed in the MoU, or imputed from government FTE
+# commitments at USG unit rates (analysis/fte_rate_imputation_all.py). Imputed
+# rows are appended to the data files by analysis/apply_imputation_to_dashboard.py.
+BASIS_PRINTED = "Printed in MoU"
+BASIS_IMPUTED = "Imputed from FTEs"
+IMPUTED_ROW_TYPE = "Imputed (derived - not printed in MoU)"
+
+IMPUTED_CAPTION = (
+    "Imputed government $ (dashed lines) are **derived, not printed in the MoU**: "
+    "government FTE commitments × a $/FTE rate taken from the same MoU's USG side "
+    "(or peer-country rates where none exists). Ethiopia's and Kenya's MoUs apply "
+    "exactly this arithmetic internally. Method, rates and confidence ranges: "
+    "**Sources & methodology**."
+)
+
 
 def load_budget_series() -> pd.DataFrame:
-    """Aggregated, safely summable series: Country x Investment area x Year x Funder."""
+    """Aggregated, safely summable series: Country x Investment area x Year x Funder.
+
+    Carries a `Basis` column (BASIS_PRINTED / BASIS_IMPUTED); pages that offer an
+    "include imputed" toggle filter on it before aggregating.
+    """
     df = pd.read_csv(DATA / "budget_series.csv")
     df["Funder"] = df["Funder"].replace({"Government": GOV_LABEL})
+    if "Basis" not in df.columns:
+        df["Basis"] = BASIS_PRINTED
+    df["Basis"] = df["Basis"].fillna(BASIS_PRINTED)
     return df
+
+
+def imputed_total(df: pd.DataFrame, country: str) -> float:
+    """5-yr imputed government $ for one country in a budget-series frame
+    (0 when the frame was loaded without imputed rows)."""
+    m = df[(df["Country"] == country) & (df.get("Basis") == BASIS_IMPUTED)
+           & (df["Investment area"] != "All areas combined")]
+    return float(m["Amount"].sum())
 
 
 def load_budget_tidy() -> pd.DataFrame:
