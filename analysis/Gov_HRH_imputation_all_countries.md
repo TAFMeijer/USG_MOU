@@ -48,6 +48,20 @@ Peer rate benchmarks used: government HCW $/FTE — Ethiopia $1,748, Uganda $1,8
 
 Imputation closes the last ~26% of the picture: roughly $939M of government HRH commitments across the nine countries, of which $696M was printed and ~$243M recovered from FTE tables. About $191M of the imputed total sits in Côte d'Ivoire alone on peer rates only — flag it wherever this is presented.
 
+## The pre-MoU baseline workforce: visible and filterable
+
+Four MoUs tabulate the government's *existing* workforce — the pre-MoU stock inside the "Existing # FTEs Funded" columns (its 2026 value, before any absorption rolls in). Valued at the same rates as the imputation (`imputed_baseline_workforce.csv`):
+
+| Country | Baseline FTEs (2026 stock) | Rate basis | 5-yr value |
+|---|---|---|---|
+| Côte d'Ivoire | 39,800 HCW + 1,900 lab | peer medians | **$729.0M** |
+| Mozambique | 38,462 HCW (App. 3 cadres) | own gov rate (~$3,989) | **$767.1M** |
+| Uganda | 51,213 HCW + 2,199 lab | own gov rate ($1,849) / adj. peer | **$510.8M** |
+| Liberia | 6,577 HCW + 538 lab | own gov rates | **$156.0M** |
+| **Total tabulated baseline effort** | | | **≈ $2.16bn** |
+
+Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no workforce baseline (their Existing columns start at zero or don't exist). Note the two table variants: CIV/Uganda/Mozambique roll absorbed cohorts into Existing over time (baseline = the 2026 value), while Liberia holds Existing constant at the baseline and accumulates absorption inside its New column — both reduce to the same decomposition. This ~$2.16bn is **baseline effort, not MoU co-financing** — more than double the ~$939M of MoU HRH commitments — and it is exactly the "existing government funding" that co-funding summaries fold into their government headline columns. In the dashboard it is a separate dotted series with its own toggle, so it can be seen and excluded at will.
+
 ## Bonus harvest: Mozambique's cadre tables (App. 3, pp. 36–37)
 
 Mozambique's appendix breaks the HCW commitment into six cadre tables — G2G absorption (400/yr), Clinical Officers, Doctors, Nurses, Pharmacy Technicians, CHWs/APS — each with USG-funded, government-new, government-existing and government-total FTEs per year. Now captured in `moz_cadre_fte.csv`. Three things it shows:

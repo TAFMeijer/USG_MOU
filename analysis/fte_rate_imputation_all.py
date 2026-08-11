@@ -31,9 +31,16 @@ Internal validations (MoUs that do this arithmetic themselves):
   . Mozambique:   gov HCW priced at ~$4,000 marginal; lab $ decomposes exactly
                   into $165,200 fixed + $6,600/FTE (residual 0.0000).
 
+Pre-MoU BASELINE workforces (the 2026 value of each printed Existing column)
+are valued separately in imputed_baseline_workforce.csv — visible, filterable,
+never mixed into the MoU co-financing totals. Baselines printed in the MoUs:
+CIV 39,800 HCW + 1,900 lab; Uganda 51,213 HCW + 2,199 lab; Mozambique 38,462
+HCW (App.3 cadres); Liberia 6,577 HCW + 538 lab. None printed elsewhere.
+
 Usage:  python fte_rate_imputation_all.py [path/to/budget_tidy.csv]
 Writes: imputed_gov_hrh_all_countries.csv  (imputed rows, tidy-compatible)
         gov_hrh_summary_by_country.csv     (printed + imputed + method + range)
+        imputed_baseline_workforce.csv     (pre-MoU baseline $, per year)
 """
 import sys
 from pathlib import Path
@@ -157,6 +164,34 @@ imp.to_csv(HERE / "imputed_gov_hrh_all_countries.csv", index=False)
 s = pd.DataFrame(summary).sort_values(["Status", "Country", "Area"])
 s.to_csv(HERE / "gov_hrh_summary_by_country.csv", index=False)
 
+# --------------------------------------------- pre-MoU baseline workforce $
+# Baseline stock = the 2026 value of each printed Existing column, held constant
+# (growth in those columns is absorbed cohorts, already counted above / in
+# printed $). Priced at own-country government rates where they exist.
+BASELINES = [
+    # (country, area, FTEs/yr, rate, rate label)
+    ("Côte d'Ivoire", HCW, 39800, PEER_HCW_MEDIAN, "peer gov HCW median"),
+    ("Côte d'Ivoire", LAB, 1900, PEER_LAB_MEDIAN, "peer lab median"),
+    ("Uganda", HCW, 51213, peer_hcw["Uganda"], "own printed gov HCW rate"),
+    ("Uganda", LAB, 2199, PEER_LAB_MEDIAN * UGA_WAGE_FACTOR, "peer lab median x wage factor"),
+    ("Mozambique", HCW, 38462, peer_hcw["Mozambique"], "own printed gov HCW rate"),
+    ("Liberia", HCW, 6577, peer_hcw["Liberia"], "own printed gov HCW rate"),
+    ("Liberia", LAB, 538, gov_rate_median("Liberia", LAB), "own printed gov lab rate"),
+]
+base_rows = []
+for country, area, ftes, rate, lbl in BASELINES:
+    for y in YRS[:5]:
+        base_rows.append({
+            "Country": country, "Investment area": area, "Year": y,
+            "Funder": "Government", "Amount": round(ftes * rate, 0), "Unit": "USD",
+            "Row type": "Imputed baseline (pre-MoU - derived)",
+            "Source note": f"Pre-MoU baseline workforce: {ftes:,} existing FTEs "
+                           f"(2026 value of the printed Existing column) x ${rate:,.2f}/FTE "
+                           f"({lbl}); baseline effort, NOT MoU co-financing",
+        })
+baseline = pd.DataFrame(base_rows)
+baseline.to_csv(HERE / "imputed_baseline_workforce.csv", index=False)
+
 pd.options.display.float_format = "{:,.0f}".format
 print("Peer gov HCW rates:", {k: round(v) for k, v in peer_hcw.items()},
       "-> median", round(PEER_HCW_MEDIAN))
@@ -171,4 +206,7 @@ prt = s[s["Status"] == "printed in MoU"]["Gov $ (central)"].sum()
 print(f"Printed gov HRH $ across MoUs:      {prt:>15,.0f}")
 print(f"Imputed, own-rate (high/med conf):  {own:>15,.0f}")
 print(f"Imputed, peer-rate (low conf):      {low:>15,.0f}")
-print(f"TOTAL government HRH effort:        {prt + own + low:>15,.0f}")
+print(f"TOTAL government HRH commitment:    {prt + own + low:>15,.0f}")
+print(f"Pre-MoU baseline workforce (sep.):  {baseline['Amount'].sum():>15,.0f}")
+print("\nBaseline by country/area (5-yr):")
+print(baseline.groupby(["Country", "Investment area"])["Amount"].sum().to_string())

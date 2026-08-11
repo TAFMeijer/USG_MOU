@@ -67,7 +67,9 @@ GOV_LABEL = "Government (new + existing)"
 # rows are appended to the data files by analysis/apply_imputation_to_dashboard.py.
 BASIS_PRINTED = "Printed in MoU"
 BASIS_IMPUTED = "Imputed from FTEs"
+BASIS_BASELINE = "Imputed baseline (pre-MoU)"
 IMPUTED_ROW_TYPE = "Imputed (derived - not printed in MoU)"
+BASELINE_ROW_TYPE = "Imputed baseline (pre-MoU - derived)"
 
 IMPUTED_CAPTION = (
     "Imputed government $ (dashed lines) are **derived, not printed in the MoU**: "
@@ -75,6 +77,13 @@ IMPUTED_CAPTION = (
     "(or peer-country rates where none exists). Ethiopia's and Kenya's MoUs apply "
     "exactly this arithmetic internally. Method, rates and confidence ranges: "
     "**Sources & methodology**."
+)
+
+BASELINE_CAPTION = (
+    "Pre-MoU baseline workforce $ (dotted lines) value the **existing government "
+    "workforce the MoU tabulates** (the 2026 'Existing # FTEs Funded' stock) at the "
+    "same rates — baseline effort that predates the MoU, **not** MoU co-financing. "
+    "Printed for Côte d'Ivoire, Uganda, Mozambique and Liberia only."
 )
 
 
@@ -92,10 +101,10 @@ def load_budget_series() -> pd.DataFrame:
     return df
 
 
-def imputed_total(df: pd.DataFrame, country: str) -> float:
-    """5-yr imputed government $ for one country in a budget-series frame
-    (0 when the frame was loaded without imputed rows)."""
-    m = df[(df["Country"] == country) & (df.get("Basis") == BASIS_IMPUTED)
+def imputed_total(df: pd.DataFrame, country: str, basis: str = BASIS_IMPUTED) -> float:
+    """5-yr imputed (or baseline) government $ for one country in a
+    budget-series frame (0 when the frame was loaded without those rows)."""
+    m = df[(df["Country"] == country) & (df.get("Basis") == basis)
            & (df["Investment area"] != "All areas combined")]
     return float(m["Amount"].sum())
 

@@ -22,12 +22,14 @@ st.caption(
 
 
 @st.cache_data
-def data(include_imputed: bool):
+def data(include_imputed: bool, include_baseline: bool):
     df = lib.load_budget_series()
     if not include_imputed:
         df = df[df["Basis"] != lib.BASIS_IMPUTED]
+    if not include_baseline:
+        df = df[df["Basis"] != lib.BASIS_BASELINE]
     # Collapse Basis so each Country x Area x Year x Funder is one line/bar again
-    # ("All areas combined" can carry a printed and an imputed row per year).
+    # ("All areas combined" can carry several rows per year).
     df = df.groupby(["Country", "Investment area", "Year", "Funder"],
                     as_index=False)["Amount"].sum()
     return lib.add_share(df)
@@ -52,7 +54,13 @@ with c2:
              "prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, "
              "Rwanda, Uganda labs, Côte d'Ivoire). See Sources & methodology.",
     )
-df = data(include_imputed)
+    include_baseline = st.toggle(
+        "Incl. pre-MoU baseline workforce $", value=True,
+        help="Existing government workforce tabulated by the MoUs (CIV, Uganda, "
+             "Mozambique, Liberia), valued at the same rates — ~$2.16bn over the "
+             "term. Baseline effort, not MoU co-financing.",
+    )
+df = data(include_imputed, include_baseline)
 with c1:
     area = st.selectbox("Investment area", lib.area_options(df), index=0)
 with c3:
@@ -71,14 +79,26 @@ k2.metric("Government, 5-yr total", lib.fmt_usd(tot_gov))
 combined = tot_usg + tot_gov
 k3.metric("Combined", lib.fmt_usd(combined))
 k4.metric("USG share of combined", f"{100 * tot_usg / combined:.0f}%" if combined else "–")
+caps = []
 if include_imputed:
+    caps.append(
+        "**imputed $** for frontline labs & HCW where the MoU prints FTEs but no "
+        "dollars (Cameroon, Ethiopia labs, Mozambique labs, Rwanda, Uganda labs, "
+        "Côte d'Ivoire — ~$243M, of which ~$191M is Côte d'Ivoire on peer rates; "
+        "workers absorbed in year t stay funded in every later year)"
+    )
+if include_baseline:
+    caps.append(
+        "**pre-MoU baseline workforce $** — the existing government workforce the "
+        "MoUs tabulate (CIV 39,800 HCW + 1,900 lab; Uganda 51,213 + 2,199; Mozambique "
+        "38,462 HCW; Liberia 6,577 + 538), valued at the same rates: ~$2.16bn of "
+        "baseline effort, not MoU co-financing"
+    )
+if caps:
     st.caption(
-        "Government figures include **imputed $** for frontline labs & healthcare "
-        "workers where the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, "
-        "Mozambique labs, Rwanda, Uganda labs, Côte d'Ivoire — ~$243M in total, of "
-        "which ~$191M is Côte d'Ivoire on peer-country rates). Workers absorbed in "
-        "year t are funded in every later year (new + prior absorptions). Toggle it "
-        "off to see printed dollars only; method and ranges on **Sources & methodology**."
+        "Government figures include " + "; and ".join(caps)
+        + ". Toggle off above to see printed dollars only; method and ranges on "
+        "**Sources & methodology**."
     )
 
 country_scale = alt.Scale(

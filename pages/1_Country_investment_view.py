@@ -12,13 +12,16 @@ YEAR_AXIS = alt.Axis(labelAngle=-45, labelFontSize=13, labelFontWeight="bold", t
 
 
 @st.cache_data
-def data(include_imputed: bool):
+def data(include_imputed: bool, include_baseline: bool):
     df = lib.load_budget_series()
     if not include_imputed:
         df = df[df["Basis"] != lib.BASIS_IMPUTED]
-    # Per-area gov series are single-basis, so keeping Basis in the grain adds no
-    # duplicate lines to the panels; "All areas combined" (KPIs only) may carry a
-    # printed + an imputed row per year, which .sum() handles.
+    if not include_baseline:
+        df = df[df["Basis"] != lib.BASIS_BASELINE]
+    # Per-area gov series are single-basis per (imputed/baseline are separate
+    # series), so keeping Basis in the grain draws them as distinct lines;
+    # "All areas combined" (KPIs only) may carry several rows per year, which
+    # .sum() handles.
     df = df.groupby(["Country", "Investment area", "Year", "Funder", "Basis"],
                     as_index=False)["Amount"].sum()
     return lib.add_share(df)
@@ -33,9 +36,17 @@ include_imputed = st.sidebar.toggle(
     "Include imputed govt $ (labs & HCW)", value=True,
     help="Government FTE commitments priced at USG unit rates where the MoU prints "
          "FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, Rwanda, "
-         "Uganda labs, Côte d'Ivoire). Shown as dashed lines. See Sources & methodology.",
+         "Uganda labs, Côte d'Ivoire). Workers absorbed in year t stay funded in "
+         "every later year. Shown as dashed lines. See Sources & methodology.",
 )
-df = data(include_imputed)
+include_baseline = st.sidebar.toggle(
+    "Include pre-MoU baseline workforce $", value=True,
+    help="The existing government workforce the MoU tabulates (2026 'Existing # FTEs "
+         "Funded' stock), valued at the same rates: Côte d'Ivoire 39,800 HCW + 1,900 "
+         "lab; Uganda 51,213 + 2,199; Mozambique 38,462 HCW; Liberia 6,577 + 538. "
+         "Baseline effort, not MoU co-financing. Shown as dotted lines.",
+)
+df = data(include_imputed, include_baseline)
 meta = countries_meta()
 PAL = lib.palette()  # follows the active (system-preference) theme
 
@@ -70,12 +81,18 @@ k2.metric("Govt co-financing (new + existing)", lib.fmt_usd(gov_t))
 k3.metric("Combined (itemised)", lib.fmt_usd(comb_t))
 k4.metric("USG share of combined", f"{100 * usg_t / comb_t:.0f}%" if comb_t else "–")
 
-# flag the imputed component of the headline government figure, when included
+# flag the imputed / baseline components of the headline government figure
 imp_t = lib.imputed_total(df, country)
+base_t = lib.imputed_total(df, country, lib.BASIS_BASELINE)
 if include_imputed and imp_t > 0:
     st.caption(
         f"⚠️ The government figures include **{lib.fmt_usd(imp_t)} of imputed $** "
         "for frontline labs & healthcare workers — " + lib.IMPUTED_CAPTION
+    )
+if include_baseline and base_t > 0:
+    st.caption(
+        f"⚠️ They also include **{lib.fmt_usd(base_t)} of pre-MoU baseline "
+        "workforce $** — " + lib.BASELINE_CAPTION
     )
 
 # printed MoU footnotes that qualify this country's headline totals
@@ -111,11 +128,12 @@ st.markdown(
 funder_scale = alt.Scale(
     domain=["USG", lib.GOV_LABEL], range=[PAL["usg"], PAL["gov"]]
 )
-# Solid = printed in the MoU; dashed = imputed from FTE commitments
+# Solid = printed in the MoU; dashed = imputed from FTE commitments;
+# dotted = pre-MoU baseline workforce
 basis_dash = alt.StrokeDash(
     "Basis:N",
-    scale=alt.Scale(domain=[lib.BASIS_PRINTED, lib.BASIS_IMPUTED],
-                    range=[[1, 0], [6, 4]]),
+    scale=alt.Scale(domain=[lib.BASIS_PRINTED, lib.BASIS_IMPUTED, lib.BASIS_BASELINE],
+                    range=[[1, 0], [6, 4], [2, 3]]),
     legend=None,
 )
 
@@ -351,7 +369,9 @@ st.markdown(
     f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
     f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>'
     + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">- - imputed from '
-       'FTEs</span>' if include_imputed and imp_t > 0 else ""),
+       'FTEs</span>' if include_imputed and imp_t > 0 else "")
+    + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">·· pre-MoU baseline '
+       'workforce</span>' if include_baseline and base_t > 0 else ""),
     unsafe_allow_html=True,
 )
 

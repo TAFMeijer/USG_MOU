@@ -22,44 +22,62 @@ DATA = HERE.parent / "data"
 
 BASIS_PRINTED = "Printed in MoU"
 BASIS_IMPUTED = "Imputed from FTEs"
+BASIS_BASELINE = "Imputed baseline (pre-MoU)"
 IMPUTED_ROW_TYPE = "Imputed (derived - not printed in MoU)"
+BASELINE_ROW_TYPE = "Imputed baseline (pre-MoU - derived)"
 
 imp = pd.read_csv(HERE / "imputed_gov_hrh_all_countries.csv")
 imp = imp[imp["Amount"] > 0].copy()
 imp["Year"] = imp["Year"].astype(int)
+base = pd.read_csv(HERE / "imputed_baseline_workforce.csv")
+base = base[base["Amount"] > 0].copy()
+base["Year"] = base["Year"].astype(int)
 
 # ---------------------------------------------------------------- series file
 s = pd.read_csv(DATA / "budget_series.csv", encoding="utf-8-sig")
 if "Basis" not in s.columns:
     s["Basis"] = BASIS_PRINTED
 s["Basis"] = s["Basis"].fillna(BASIS_PRINTED)
-s = s[s["Basis"] != BASIS_IMPUTED]  # idempotency
+s = s[~s["Basis"].isin([BASIS_IMPUTED, BASIS_BASELINE])]  # idempotency
 
-area_rows = imp[["Country", "Investment area", "Year", "Funder", "Amount"]].copy()
-all_rows = (
-    imp.groupby(["Country", "Year"], as_index=False)["Amount"].sum()
-    .assign(**{"Investment area": "All areas combined", "Funder": "Government"})
-)
-new = pd.concat([area_rows, all_rows[area_rows.columns]], ignore_index=True)
-new["Basis"] = BASIS_IMPUTED
+COLS = ["Country", "Investment area", "Year", "Funder", "Amount"]
 
-out = pd.concat([s, new], ignore_index=True)
+
+def with_all_areas(frame, basis):
+    area_rows = frame[COLS].copy()
+    all_rows = (
+        frame.groupby(["Country", "Year"], as_index=False)["Amount"].sum()
+        .assign(**{"Investment area": "All areas combined", "Funder": "Government"})
+    )
+    out = pd.concat([area_rows, all_rows[COLS]], ignore_index=True)
+    out["Basis"] = basis
+    return out
+
+
+new = with_all_areas(imp, BASIS_IMPUTED)
+new_base = with_all_areas(base, BASIS_BASELINE)
+
+out = pd.concat([s, new, new_base], ignore_index=True)
 out = out.sort_values(["Country", "Investment area", "Funder", "Basis", "Year"])
 out.to_csv(DATA / "budget_series.csv", index=False)
-print(f"budget_series.csv: {len(s)} printed + {len(new)} imputed rows "
-      f"(imputed $ total {new[new['Investment area'] != 'All areas combined']['Amount'].sum():,.0f})")
+print(f"budget_series.csv: {len(s)} printed + {len(new)} imputed + {len(new_base)} baseline rows "
+      f"(imputed $ {new[new['Investment area'] != 'All areas combined']['Amount'].sum():,.0f}; "
+      f"baseline $ {new_base[new_base['Investment area'] != 'All areas combined']['Amount'].sum():,.0f})")
 
 # ------------------------------------------------------------------ tidy file
 t = pd.read_csv(DATA / "budget_tidy.csv", encoding="utf-8-sig")
-t = t[t["Row type"] != IMPUTED_ROW_TYPE]  # idempotency
+t = t[~t["Row type"].isin([IMPUTED_ROW_TYPE, BASELINE_ROW_TYPE])]  # idempotency
 
-tidy_new = imp.copy()
-tidy_new["Unit"] = "USD"
-tidy_new["Row type"] = IMPUTED_ROW_TYPE
-for col in t.columns:
-    if col not in tidy_new.columns:
-        tidy_new[col] = ""
-tidy_new = tidy_new[t.columns]
+adds = []
+for frame, rowtype in [(imp, IMPUTED_ROW_TYPE), (base, BASELINE_ROW_TYPE)]:
+    x = frame.copy()
+    x["Unit"] = "USD"
+    x["Row type"] = rowtype
+    for col in t.columns:
+        if col not in x.columns:
+            x[col] = ""
+    adds.append(x[t.columns])
+tidy_new = pd.concat(adds, ignore_index=True)
 
 pd.concat([t, tidy_new], ignore_index=True).to_csv(DATA / "budget_tidy.csv", index=False)
-print(f"budget_tidy.csv: {len(t)} rows + {len(tidy_new)} imputed rows")
+print(f"budget_tidy.csv: {len(t)} rows + {len(tidy_new)} imputed/baseline rows")

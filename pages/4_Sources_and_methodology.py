@@ -105,6 +105,18 @@ Every imputed row is flagged `Row type = "Imputed (derived - not printed in MoU)
 overview toggle removes them entirely. Full derivation: `analysis/fte_rate_imputation_all.py`
 and `analysis/Gov_HRH_imputation_all_countries.md`.
 
+**Pre-MoU baseline workforce (dotted lines / second toggle).** Four MoUs also tabulate the
+government's *existing* workforce — the pre-MoU baseline stock in the "Existing # FTEs
+Funded" columns: **Côte d'Ivoire 39,800 HCW + 1,900 lab · Uganda 51,213 HCW + 2,199 lab ·
+Mozambique 38,462 HCW (App. 3 cadres) · Liberia 6,577 HCW + 538 lab**. Valued at the same
+rates this is **~$2.16bn over the term** (CIV $729M · Moz $767M · Uganda $511M · Liberia
+$156M) — an order of magnitude above the ~$939M of MoU HRH commitments, and the concrete
+form of the "existing government funding" the co-funding summaries fold into their
+headlines. It is shown as its own dotted series (`Basis = "Imputed baseline (pre-MoU)"`,
+`Row type = "Imputed baseline (pre-MoU - derived)"`) precisely so it can be seen *and*
+filtered out — it is baseline effort, not MoU co-financing. Kenya, Cameroon, Ethiopia,
+Rwanda and Nigeria print no workforce baseline.
+
 **Known gaps in the sources.**
 - Kenya USG excludes a "cost of doing business & audits" margin (~$97.9M over the term).
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
