@@ -150,7 +150,10 @@ def commodity_bucket(item: str) -> str:
 
 
 @st.cache_data
-def commodity_mix(cty: str) -> pd.DataFrame:
+def commodity_mix(cty: str):
+    """Donut source + the total of any App.2 rows printed as SEPARATE tables
+    (e.g. Uganda's MCH equipment/infrastructure), which are excluded from the
+    donut so it reconciles to the Other Commodities 2026 line item."""
     tidy = lib.load_budget_tidy()
     mx = tidy[
         (tidy["Country"] == cty)
@@ -160,17 +163,50 @@ def commodity_mix(cty: str) -> pd.DataFrame:
         & (tidy["Investment area"] == "Other commodities")
     ].copy()
     if mx.empty:
-        return mx
+        return mx, 0.0
+    sep = mx["Category (as printed in MoU)"].str.contains(
+        "separate table", case=False, na=False
+    )
+    sep_total = float(mx.loc[sep, "Amount"].sum())
+    mx = mx[~sep]
     mx["Item"] = (
         mx["Category (as printed in MoU)"].str.split(":", n=1).str[-1].str.strip()
     )
     mx["Bucket"] = mx["Item"].map(commodity_bucket)
     out = mx.groupby("Bucket")["Amount"].sum().reset_index()
     out["Share"] = out["Amount"] / out["Amount"].sum()
-    return out
+    return out, sep_total
 
 
-mix = commodity_mix(country)
+mix, mix_sep_total = commodity_mix(country)
+
+# Countries where App.2 legitimately does NOT equal the 2026 line item, per the
+# MoU's own text — shown under the donut instead of the generic delta warning.
+MIX_RECON_NOTES = {
+    "Rwanda": "App. 2 prints the full $11.47M annual commodity basket; per §2.3.2, "
+              "50% of it is funded by the separate Bridge Plan, so this MoU's 2026 "
+              "line item is the other half ($5.74M). The mix shares still apply.",
+}
+
+
+def mix_recon_caption(cty: str, donut_total: float, sep_total: float) -> str:
+    """One-line reconciliation of the donut total vs the 2026 USG line item."""
+    line26 = df[
+        (df["Country"] == cty) & (df["Investment area"] == "Other commodities")
+        & (df["Year"] == 2026) & (df["Funder"] == "USG")
+    ]["Amount"].sum()
+    if cty in MIX_RECON_NOTES:
+        txt = "⚠️ " + MIX_RECON_NOTES[cty]
+    elif abs(donut_total - line26) < 10_000:
+        txt = f"Items sum to the 2026 USG line item ({lib.fmt_usd(line26)})."
+    else:
+        txt = (f"⚠️ App. 2 items sum to {lib.fmt_usd(donut_total)} vs "
+               f"{lib.fmt_usd(line26)} 2026 line item — unexplained gap.")
+    if sep_total:
+        txt += (f" Excludes {lib.fmt_usd(sep_total)} of MCH equipment & "
+                "infrastructure printed as separate App. 2 tables (not part of "
+                "this line item).")
+    return txt
 
 
 def mix_donut(mx: pd.DataFrame) -> alt.Chart:
@@ -252,7 +288,9 @@ for i, (kind, a) in enumerate(panels):
             st.markdown(
                 f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
                 "⚠️ 2026 snapshot (App. 2) — this split is not "
-                "published in the yearly data for 2027–30.</div>",
+                "published in the yearly data for 2027–30. "
+                f"{mix_recon_caption(country, mix['Amount'].sum(), mix_sep_total)}"
+                "</div>",
                 unsafe_allow_html=True,
             )
         continue
