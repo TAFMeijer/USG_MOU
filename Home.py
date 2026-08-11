@@ -58,10 +58,10 @@ with c2:
     )
     include_baseline = st.toggle(
         "Incl. pre-MoU / existing funding $", value=True,
-        help="Existing government workforce valued at reference rates (~$2.65bn; "
+        help=lib.md("Existing government workforce valued at reference rates (~$2.65bn; "
              "CIV, Uganda, Mozambique, Liberia) plus printed existing commodity "
              "funding carried from 2026 (~$889M; Kenya, Uganda, CIV, Liberia, "
-             "Mozambique). Baseline effort, not MoU co-financing.",
+             "Mozambique). Baseline effort, not MoU co-financing."),
     )
 df = data(include_imputed, include_baseline)
 with c1:
@@ -101,11 +101,11 @@ if include_baseline:
         "effort, not MoU co-financing"
     )
 if caps:
-    st.caption(
+    st.caption(lib.md(
         "Government figures include " + "; and ".join(caps)
         + ". Toggle off above to see printed dollars only; method and ranges on "
         "**Sources & methodology**."
-    )
+    ))
 
 country_scale = alt.Scale(
     domain=list(PAL["country"].keys()), range=list(PAL["country"].values())
@@ -265,10 +265,10 @@ with st.expander("Data behind these charts"):
         mime="text/csv",
     )
 
-st.info(
+st.info(lib.md(
     "Countries without a published existing-funding split (Nigeria, Ethiopia, Rwanda) "
     "show new co-financing only — their true government shares are understated. "
     "Government $ for frontline labs & healthcare workers in Cameroon, Ethiopia, "
     "Mozambique, Rwanda, Uganda and Côte d'Ivoire are imputed from FTE commitments "
     "when the toggle above is on. Full caveats on the **Sources & methodology** page."
-)
+))

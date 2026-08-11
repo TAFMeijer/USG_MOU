@@ -48,6 +48,15 @@ include_baseline = st.sidebar.toggle(
          "(dash-dot; Kenya, Uganda, CIV, Liberia, Mozambique). Baseline effort, "
          "not MoU co-financing.",
 )
+show_usg_ref = st.sidebar.toggle(
+    "Show USG 2026-level reference", value=True,
+    help=lib.md("Thin dotted line at the USG's 2026 funding level in each panel — the "
+                "de-facto pre-MoU baseline the USG carries into year one (Rwanda's "
+                "MoU states 2026 = what the USG 'currently funds'). Reference only: "
+                "the USG side is fully priced in the MoU, so this is never added to "
+                "any total — the gap between it and the actual USG line is the "
+                "planned withdrawal the government side is expected to absorb."),
+)
 df = data(include_imputed, include_baseline)
 meta = countries_meta()
 PAL = lib.palette()  # follows the active (system-preference) theme
@@ -88,15 +97,27 @@ imp_t = lib.imputed_total(df, country)
 base_t = (lib.imputed_total(df, country, lib.BASIS_BASELINE)
           + lib.imputed_total(df, country, lib.BASIS_PRINTED_EXISTING))
 if include_imputed and imp_t > 0:
-    st.caption(
+    st.caption(lib.md(
         f"⚠️ The government figures include **{lib.fmt_usd(imp_t)} of imputed $** "
         "for frontline labs & healthcare workers — " + lib.IMPUTED_CAPTION
-    )
+    ))
 if include_baseline and base_t > 0:
-    st.caption(
+    st.caption(lib.md(
         f"⚠️ They also include **{lib.fmt_usd(base_t)} of pre-MoU / existing "
         "funding $** — " + lib.BASELINE_CAPTION
-    )
+    ))
+if show_usg_ref:
+    _u26 = cc.loc[(cc["Funder"] == "USG") & (cc["Year"] == 2026), "Amount"].sum()
+    if _u26 > 0 and usg_t > 0:
+        _ref5 = 5 * _u26
+        st.caption(lib.md(
+            f"USG reference: holding its 2026 level ({lib.fmt_usd(_u26)}/yr) flat "
+            f"would total **{lib.fmt_usd(_ref5)}** over 2026–30; the MoU plans "
+            f"{lib.fmt_usd(usg_t)} — a planned withdrawal of "
+            f"**{lib.fmt_usd(_ref5 - usg_t)}** ({100 * (_ref5 - usg_t) / _ref5:.0f}%) "
+            "for the government side to absorb. Thin dotted line in the panels; "
+            "reference only, never added to totals (the USG side is fully priced)."
+        ))
 
 # printed MoU footnotes that qualify this country's headline totals
 hfns = lib.budget_footnotes(area="All areas combined", country=country)
@@ -104,7 +125,7 @@ if hfns:
     st.markdown(lib.footnote_block(hfns), unsafe_allow_html=True)
 
 share = row["USG share"]
-st.caption(
+st.caption(lib.md(
     f"For reference, the **KFF headline** for {country} is "
     f"{lib.fmt_usd(row['Total agreement (USD)'])} total — "
     f"{lib.fmt_usd(row['USG (USD)'])} USG / "
@@ -113,7 +134,7 @@ st.caption(
     + ". KFF counts each MoU's headline pledge, which for some countries is a "
     "domestic-expenditure-increase commitment rather than itemised funding, so it can "
     "differ from the itemised amounts charted on this page — see Sources & methodology."
-)
+))
 
 # ---------------- small multiples ----------------
 m = df[
@@ -306,12 +327,12 @@ for i, (kind, a) in enumerate(panels):
     if kind == "mix":
         with cols[i % 3]:
             st.altair_chart(mix_donut(mix), use_container_width=True)
-            st.markdown(mix_legend_html(mix), unsafe_allow_html=True)
+            st.markdown(lib.md(mix_legend_html(mix)), unsafe_allow_html=True)
             st.markdown(
                 f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
                 "⚠️ 2026 snapshot (App. 2) — this split is not "
                 "published in the yearly data for 2027–30. "
-                f"{mix_recon_caption(country, mix['Amount'].sum(), mix_sep_total)}"
+                f"{lib.md(mix_recon_caption(country, mix['Amount'].sum(), mix_sep_total))}"
                 "</div>",
                 unsafe_allow_html=True,
             )
@@ -336,6 +357,21 @@ for i, (kind, a) in enumerate(panels):
                 )
                 .properties(height=190, title=alt.TitleParams(a, fontSize=13))
             )
+            if show_usg_ref and "USG" in funders:
+                u26 = sub.loc[(sub["Funder"] == "USG") & (sub["Year"] == 2026),
+                              "Amount"].sum()
+                if u26 > 0:
+                    ref = pd.DataFrame(
+                        {"Year": sorted(sub["Year"].unique()), "Amount": u26})
+                    ch = ch + (
+                        alt.Chart(ref)
+                        .mark_line(strokeDash=[2, 2], strokeWidth=1.3,
+                                   color=PAL["usg"], opacity=0.5)
+                        .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="Amount:Q",
+                                tooltip=[alt.Tooltip(
+                                    "Amount:Q", format=",.0f",
+                                    title="USG 2026 level (reference)")])
+                    )
             st.altair_chart(ch, use_container_width=True)
             if panel_fns:
                 st.markdown(lib.footnote_block(panel_fns, size_px=10),

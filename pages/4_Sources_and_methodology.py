@@ -46,7 +46,7 @@ st.dataframe(
 
 # ---------------- methodology ----------------
 st.subheader("Methodology & caveats")
-st.markdown(
+st.markdown(lib.md(
     """
 **Extraction.** Each published MoU PDF was transcribed table by table (budget appendices and
 Section-1 indicator tables), then independently verified against the source document. Three
@@ -137,6 +137,19 @@ continuation) are MoU-era commitments and stay in the main series. With the togg
 government $ in 2026 reduces to genuine day-one new co-financing — chiefly Nigeria,
 whose MoU prints a $344.8M government commitment already in 2026.
 
+**USG 2026-level reference (thin dotted line / third toggle).** There is no separate USG
+baseline layer to add: unlike the government side, the USG's funding is fully priced in
+every MoU, and its 2026 amount *is* its pre-MoU baseline carried into year one (several
+MoUs plan "100% support" in 2026; Rwanda's §2.3.2 states 2026 equals what the USG
+"currently funds"). Summing a USG baseline on top of the printed lines would double-count.
+Instead the Country view can overlay each panel with the USG's 2026 level held flat — a
+counterfactual reference whose gap to the actual USG line is the **planned withdrawal**
+the government side is expected to absorb (e.g. Cameroon: $504.6M at 2026-level vs
+$399.3M planned = $105.4M / 21% withdrawal). Never added to any total. Known USG
+undercounts remain: Kenya's ~$97.9M cost-of-doing-business margin, Nigeria's & Ethiopia's
+~6% M&O carve-outs, and Rwanda's Bridge-Plan half of the commodity basket sit outside the
+MoU budget lines.
+
 **Known gaps in the sources.**
 - Kenya USG excludes a "cost of doing business & audits" margin (~$97.9M over the term).
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
@@ -149,7 +162,7 @@ whose MoU prints a $344.8M government commitment already in 2026.
 **Reproducibility.** The tidy tables in `data/` are the single source of truth; the charts
 never hardcode a number.
 """
-)
+))
 
 st.caption(
     "Dashboard data compiled August 2026 from the sources above. "

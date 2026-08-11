@@ -194,6 +194,13 @@ def is_lower_better(indicator: str) -> bool:
     return any(k in t for k in LOWER_IS_BETTER_KEYWORDS)
 
 
+def md(text: str) -> str:
+    """Escape $ so Streamlit's markdown doesn't typeset dollar amounts as
+    LaTeX math (paired $...$ turns prose into serif italics). Wrap every
+    st.caption / st.markdown / help string that contains dollar amounts."""
+    return text.replace("$", "\\$")
+
+
 def fmt_usd(v: float) -> str:
     if pd.isna(v):
         return "–"
@@ -326,7 +333,7 @@ def footnote_block(notes: list, size_px: int = 12) -> str:
             if n.get("marked") else ""
         )
         lines.append(
-            f"<div>* <b>{n['Country']}</b> — “{n['text']}”{marked} "
+            f"<div>* <b>{n['Country']}</b> — “{md(str(n['text']))}”{marked} "
             f"<span style='opacity:.75'>[{n['src']}]</span></div>"
         )
     muted = palette()["muted"]
