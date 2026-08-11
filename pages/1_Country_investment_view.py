@@ -17,7 +17,7 @@ def data(include_imputed: bool, include_baseline: bool):
     if not include_imputed:
         df = df[df["Basis"] != lib.BASIS_IMPUTED]
     if not include_baseline:
-        df = df[df["Basis"] != lib.BASIS_BASELINE]
+        df = df[~df["Basis"].isin(lib.BASELINE_BASES)]
     # Per-area gov series are single-basis per (imputed/baseline are separate
     # series), so keeping Basis in the grain draws them as distinct lines;
     # "All areas combined" (KPIs only) may carry several rows per year, which
@@ -41,11 +41,12 @@ include_imputed = st.sidebar.toggle(
          "t stay funded in every later year. Dashed lines. See Sources & methodology.",
 )
 include_baseline = st.sidebar.toggle(
-    "Include pre-MoU baseline workforce $", value=True,
-    help="The existing government workforce the MoU tabulates (2026 'Existing # FTEs "
-         "Funded' stock), valued at the same rates: Uganda 49,014 HCW + 2,199 lab; "
-         "Côte d'Ivoire 39,800 + 1,900; Mozambique 38,462 HCW; Liberia 6,577 + 538. "
-         "Baseline effort, not MoU co-financing. Shown as dotted lines.",
+    "Include pre-MoU / existing funding $", value=True,
+    help="Two pre-MoU components: the existing government workforce the MoU "
+         "tabulates, valued at reference rates (dotted; CIV, Uganda, Mozambique, "
+         "Liberia), and the printed existing commodity funding carried from 2026 "
+         "(dash-dot; Kenya, Uganda, CIV, Liberia, Mozambique). Baseline effort, "
+         "not MoU co-financing.",
 )
 df = data(include_imputed, include_baseline)
 meta = countries_meta()
@@ -84,7 +85,8 @@ k4.metric("USG share of combined", f"{100 * usg_t / comb_t:.0f}%" if comb_t else
 
 # flag the imputed / baseline components of the headline government figure
 imp_t = lib.imputed_total(df, country)
-base_t = lib.imputed_total(df, country, lib.BASIS_BASELINE)
+base_t = (lib.imputed_total(df, country, lib.BASIS_BASELINE)
+          + lib.imputed_total(df, country, lib.BASIS_PRINTED_EXISTING))
 if include_imputed and imp_t > 0:
     st.caption(
         f"⚠️ The government figures include **{lib.fmt_usd(imp_t)} of imputed $** "
@@ -92,8 +94,8 @@ if include_imputed and imp_t > 0:
     )
 if include_baseline and base_t > 0:
     st.caption(
-        f"⚠️ They also include **{lib.fmt_usd(base_t)} of pre-MoU baseline "
-        "workforce $** — " + lib.BASELINE_CAPTION
+        f"⚠️ They also include **{lib.fmt_usd(base_t)} of pre-MoU / existing "
+        "funding $** — " + lib.BASELINE_CAPTION
     )
 
 # printed MoU footnotes that qualify this country's headline totals
@@ -133,8 +135,9 @@ funder_scale = alt.Scale(
 # dotted = pre-MoU baseline workforce
 basis_dash = alt.StrokeDash(
     "Basis:N",
-    scale=alt.Scale(domain=[lib.BASIS_PRINTED, lib.BASIS_IMPUTED, lib.BASIS_BASELINE],
-                    range=[[1, 0], [6, 4], [2, 3]]),
+    scale=alt.Scale(domain=[lib.BASIS_PRINTED, lib.BASIS_IMPUTED, lib.BASIS_BASELINE,
+                            lib.BASIS_PRINTED_EXISTING],
+                    range=[[1, 0], [6, 4], [2, 3], [8, 3, 2, 3]]),
     legend=None,
 )
 
@@ -371,8 +374,8 @@ st.markdown(
     f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>'
     + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">- - imputed from '
        'FTEs</span>' if include_imputed and imp_t > 0 else "")
-    + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">·· pre-MoU baseline '
-       'workforce</span>' if include_baseline and base_t > 0 else ""),
+    + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">·· / -·- pre-MoU '
+       'baseline & existing funding</span>' if include_baseline and base_t > 0 else ""),
     unsafe_allow_html=True,
 )
 

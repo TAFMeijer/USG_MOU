@@ -27,7 +27,7 @@ def data(include_imputed: bool, include_baseline: bool):
     if not include_imputed:
         df = df[df["Basis"] != lib.BASIS_IMPUTED]
     if not include_baseline:
-        df = df[df["Basis"] != lib.BASIS_BASELINE]
+        df = df[~df["Basis"].isin(lib.BASELINE_BASES)]
     # Collapse Basis so each Country x Area x Year x Funder is one line/bar again
     # ("All areas combined" can carry several rows per year).
     df = df.groupby(["Country", "Investment area", "Year", "Funder"],
@@ -50,15 +50,18 @@ with c2:
     unit = st.radio("Unit", ["US$", "% of combined"], horizontal=True)
     include_imputed = st.toggle(
         "Incl. imputed govt $", value=True,
-        help="Government FTE commitments priced at USG unit rates where the MoU "
-             "prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, "
-             "Rwanda, Uganda labs, Côte d'Ivoire). See Sources & methodology.",
+        help="Government FTE commitments priced at government/USG unit rates where "
+             "the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique "
+             "labs, Rwanda, Côte d'Ivoire) — or, for Uganda, prices only each year's "
+             "new cohort (absorbed-cohort continuation imputed). See Sources & "
+             "methodology.",
     )
     include_baseline = st.toggle(
-        "Incl. pre-MoU baseline workforce $", value=True,
-        help="Existing government workforce tabulated by the MoUs (CIV, Uganda, "
-             "Mozambique, Liberia), valued at the same rates — ~$2.16bn over the "
-             "term. Baseline effort, not MoU co-financing.",
+        "Incl. pre-MoU / existing funding $", value=True,
+        help="Existing government workforce valued at reference rates (~$2.65bn; "
+             "CIV, Uganda, Mozambique, Liberia) plus printed existing commodity "
+             "funding carried from 2026 (~$889M; Kenya, Uganda, CIV, Liberia, "
+             "Mozambique). Baseline effort, not MoU co-financing.",
     )
 df = data(include_imputed, include_baseline)
 with c1:
@@ -90,10 +93,12 @@ if include_imputed:
     )
 if include_baseline:
     caps.append(
-        "**pre-MoU baseline workforce $** — the existing government workforce the "
-        "MoUs tabulate (Uganda 49,014 HCW + 2,199 lab; CIV 39,800 + 1,900; Mozambique "
-        "38,462 HCW; Liberia 6,577 + 538), valued at the same rates: ~$2.65bn of "
-        "baseline effort, not MoU co-financing"
+        "**pre-MoU / existing funding $** — the existing government workforce the "
+        "MoUs tabulate, valued at reference rates (~$2.65bn: Uganda 49,014 HCW + "
+        "2,199 lab; CIV 39,800 + 1,900; Mozambique 38,462 HCW; Liberia 6,577 + 538), "
+        "plus ~$889M of printed existing commodity funding carried from 2026 "
+        "(Kenya $540M, Uganda $154M, CIV $130M, Liberia $40M, Moz $25M) — baseline "
+        "effort, not MoU co-financing"
     )
 if caps:
     st.caption(

@@ -68,6 +68,9 @@ GOV_LABEL = "Government (new + existing)"
 BASIS_PRINTED = "Printed in MoU"
 BASIS_IMPUTED = "Imputed from FTEs"
 BASIS_BASELINE = "Imputed baseline (pre-MoU)"
+BASIS_PRINTED_EXISTING = "Printed in MoU (existing/pre-MoU)"
+# Both pre-MoU components, removed together by the baseline toggle:
+BASELINE_BASES = [BASIS_BASELINE, BASIS_PRINTED_EXISTING]
 IMPUTED_ROW_TYPE = "Imputed (derived - not printed in MoU)"
 BASELINE_ROW_TYPE = "Imputed baseline (pre-MoU - derived)"
 
@@ -80,10 +83,13 @@ IMPUTED_CAPTION = (
 )
 
 BASELINE_CAPTION = (
-    "Pre-MoU baseline workforce $ (dotted lines) value the **existing government "
-    "workforce the MoU tabulates** (the 2026 'Existing # FTEs Funded' stock) at the "
-    "same rates — baseline effort that predates the MoU, **not** MoU co-financing. "
-    "Printed for Côte d'Ivoire, Uganda, Mozambique and Liberia only."
+    "Pre-MoU baseline $ covers two components: the **existing government workforce** "
+    "the MoU tabulates (2026 'Existing # FTEs Funded' stock, valued at the same "
+    "rates — dotted lines; CIV, Uganda, Mozambique, Liberia) and the **printed "
+    "existing commodity funding** the MoUs carry from 2026 (dash-dot; Kenya, Uganda, "
+    "CIV, Liberia, Mozambique). Baseline effort that predates the MoU, **not** MoU "
+    "co-financing. Growth above the 2026 level and series starting at zero are "
+    "MoU-era commitments and stay in the main series."
 )
 
 
