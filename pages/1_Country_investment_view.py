@@ -34,16 +34,17 @@ def countries_meta():
 
 include_imputed = st.sidebar.toggle(
     "Include imputed govt $ (labs & HCW)", value=True,
-    help="Government FTE commitments priced at USG unit rates where the MoU prints "
-         "FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, Rwanda, "
-         "Uganda labs, Côte d'Ivoire). Workers absorbed in year t stay funded in "
-         "every later year. Shown as dashed lines. See Sources & methodology.",
+    help="Government FTE commitments priced at government/USG unit rates where the "
+         "MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, "
+         "Rwanda, Côte d'Ivoire) — or, for Uganda, prices only each year's new cohort "
+         "(the continuation of absorbed cohorts is imputed). Workers absorbed in year "
+         "t stay funded in every later year. Dashed lines. See Sources & methodology.",
 )
 include_baseline = st.sidebar.toggle(
     "Include pre-MoU baseline workforce $", value=True,
     help="The existing government workforce the MoU tabulates (2026 'Existing # FTEs "
-         "Funded' stock), valued at the same rates: Côte d'Ivoire 39,800 HCW + 1,900 "
-         "lab; Uganda 51,213 + 2,199; Mozambique 38,462 HCW; Liberia 6,577 + 538. "
+         "Funded' stock), valued at the same rates: Uganda 49,014 HCW + 2,199 lab; "
+         "Côte d'Ivoire 39,800 + 1,900; Mozambique 38,462 HCW; Liberia 6,577 + 538. "
          "Baseline effort, not MoU co-financing. Shown as dotted lines.",
 )
 df = data(include_imputed, include_baseline)

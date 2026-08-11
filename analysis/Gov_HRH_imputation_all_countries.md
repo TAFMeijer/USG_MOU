@@ -1,6 +1,14 @@
 # Government HRH contributions across all nine MoUs — printed, imputed, and harvested
 
-*Derived analysis, 11 Aug 2026 (rev. 2 — new-vs-existing FTE correction, same day). Extends the Cameroon pilot (`Cameroon_FTE_rate_analysis.md`) to every country. Reproducible via `analysis/fte_rate_imputation_all.py`; imputed rows in `imputed_gov_hrh_all_countries.csv`; per-country summary in `gov_hrh_summary_by_country.csv`; harvested Mozambique cadre tables in `moz_cadre_fte.csv`.*
+*Derived analysis, 11 Aug 2026 (rev. 3 — Uganda cadre correction). Extends the Cameroon pilot (`Cameroon_FTE_rate_analysis.md`) to every country. Reproducible via `analysis/fte_rate_imputation_all.py`; imputed rows in `imputed_gov_hrh_all_countries.csv`; per-country summary in `gov_hrh_summary_by_country.csv`; cadre tables in `moz_cadre_fte.csv` and `uganda_cadre_fte.csv`.*
+
+## Rev. 3: Uganda, corrected from its cadre tables
+
+The Uganda gov HCW series previously used (10,584/11,588/10,520/4,714) was a **double count in the aggregation**: the tidy data faithfully stores both App.3's national roll-up (New = 5,355/5,897/5,449/2,678) *and* its cadre breakdown as line items, and summing them added the roll-up to its own parts (5,355 + 5,229 cadre-sum = 10,584). The roll-up is now tagged as a subtotal; the seven cadre tables (`uganda_cadre_fte.csv` — labs, epidemiologists, medical, nurses & midwives, CHEWs, pharmacists, social workers) sum to the national New column **exactly**, per year, and data is stored at cadre level and rolled up from there. Three consequences:
+
+1. **Uganda's real rate.** Printed gov $ ÷ national new cohort = $3,581 / $3,591 / $3,611 — near-flat — then $6,337 in 2030 as the cohort mix shifts from CHEWs (85–93% of early cohorts) to clinical cadres. Own rate: **$3,601** (median), not the $1,849 the wrong denominator produced.
+2. **Uganda's printed $ prices only each year's NEW cohort.** Absorbed cohorts move into the Existing column unpriced. Their continued salaries — 32,222 HCW + 1,086 lab FTE-years — are now imputed at the own rate: **+$122.8M** on top of the printed $77.0M. No other MoU works this way (Ethiopia, Mozambique, Liberia, Kenya all price cumulative funding).
+3. **Ripple effects.** The peer gov HCW median moves from $3,368 to **$3,601** (lifting Côte d'Ivoire to $187.3M), and Uganda's baseline — 49,014 HCW (national 51,213 net of its 2,199 lab component, which has its own series) — revalues to **$883M**, making Uganda the largest tabulated baseline of all nine countries.
 
 ## Rev. 2: reading the New / Existing columns correctly
 
@@ -27,8 +35,9 @@ So where a country gives us FTEs without $, applying that country's own USG unit
 | Cameroon | HCW + lab | 5,771 + 374 | own USG 2026 rates | **$27.70M** | 25.4–30.9M | medium |
 | Rwanda | HCW | 7,061 | $1,563 (own USG 2026) | **$11.03M** | 11.0–18.0M | low |
 | Rwanda | Lab workers | 1,120 | $2,700 (own USG 2026) | **$3.02M** | 3.0–6.8M | low |
-| Uganda | Lab workers | 2,358 | $3,396 (peer median × wage factor) | **$8.01M** | 4.4–14.6M | low |
-| Côte d'Ivoire | HCW | 52,000 | $3,368 (peer gov median) | **$175.13M** | 90.9–236.1M | low |
+| Uganda | HCW (continuation) | 32,222 | $3,601 (own new-cohort rate) | **$116.04M** | 115.4–128.0M | medium |
+| Uganda | Lab (continuation) | 1,086 | $6,186 (peer lab median) | **$6.72M** | 2.7–6.7M | low |
+| Côte d'Ivoire | HCW | 52,000 | $3,601 (peer gov median) | **$187.26M** | 90.9–236.1M | low |
 | Côte d'Ivoire | Lab workers | 2,500 | $6,186 (peer lab median) | **$15.46M** | 6.2–31.4M | low |
 
 Confidence notes. Ethiopia and Mozambique labs are handover mirrors (gov FTEs ramp up exactly as USG FTEs ramp down) priced at rates the MoU applies consistently — these are as close to "printed" as an imputation gets. Rwanda's $ (App.1) and FTE (Sec 2.2.3/2.4.3) series visibly misalign (its lab rate would swing from $2,700 to $104,042), so only the 2026 rate is usable and the blended-rate upper bound is wide. Uganda's lab rate is scaled down from the peer lab median by Uganda's own wage level (its gov HCW rate, $1,849, is 55% of the peer median). Côte d'Ivoire prints no HRH $ anywhere — USG side included — so both lines rest entirely on peer rates; at ~$191M it is by far the largest and least certain imputation (5,200 new HCW absorbed *per year*, cumulating to 20,800 funded in 2030), its USG HCW FTE series mixes salaried staff with ITN/SMC campaign workers, and its printed 2028 Total column is internally inconsistent (52,500 vs the 50,200 its own columns imply — the difference is that year's USG count). Check the cadre and the table arithmetic before using the CIV figure externally.
@@ -39,14 +48,14 @@ Peer rate benchmarks used: government HCW $/FTE — Ethiopia $1,748, Uganda $1,8
 
 | Component | 5-yr value |
 |---|---|
-| Printed in the MoUs (Ethiopia, Kenya†, Liberia, Moz HCW, Nigeria, Uganda HCW) | **$696.1M** |
-| Imputed, own-country rates (Cameroon, Ethiopia lab, Moz lab) | **$30.1M** |
-| Imputed, low confidence (Rwanda, Uganda lab, Côte d'Ivoire) | **$212.7M** |
-| **Total government frontline-HRH effort** | **≈ $939M** |
+| Printed in the MoUs (Ethiopia, Kenya†, Liberia, Moz HCW, Nigeria, Uganda HCW new cohorts) | **$696.1M** |
+| Imputed, high/medium confidence (Cameroon, Ethiopia lab, Moz lab, Uganda HCW continuation) | **$146.2M** |
+| Imputed, low confidence (Rwanda, Uganda lab continuation, Côte d'Ivoire) | **$223.5M** |
+| **Total government frontline-HRH commitment** | **≈ $1.07bn** |
 
 † Kenya's series runs six years (2026–2031). Nigeria's $297.6M is printed without any FTE counts, so its implied rate can't be checked.
 
-Imputation closes the last ~26% of the picture: roughly $939M of government HRH commitments across the nine countries, of which $696M was printed and ~$243M recovered from FTE tables. About $191M of the imputed total sits in Côte d'Ivoire alone on peer rates only — flag it wherever this is presented.
+Imputation closes ~35% of the picture: roughly $1.07bn of government HRH commitments across the nine countries, of which $696M was printed and ~$370M recovered from FTE tables. The two big imputed blocks — Côte d'Ivoire's ~$203M (peer rates only) and Uganda's ~$123M continuation — deserve flags wherever this is presented, for opposite reasons: CIV's rests on no in-country price at all, Uganda's on a well-identified own rate but a pricing convention no other MoU uses.
 
 ## The pre-MoU baseline workforce: visible and filterable
 
@@ -54,13 +63,13 @@ Four MoUs tabulate the government's *existing* workforce — the pre-MoU stock i
 
 | Country | Baseline FTEs (2026 stock) | Rate basis | 5-yr value |
 |---|---|---|---|
-| Côte d'Ivoire | 39,800 HCW + 1,900 lab | peer medians | **$729.0M** |
+| Uganda | 49,014 HCW + 2,199 lab (national 51,213 net of lab) | own new-cohort rate ($3,601) / peer lab | **$950.6M** |
+| Côte d'Ivoire | 39,800 HCW + 1,900 lab | peer medians | **$775.4M** |
 | Mozambique | 38,462 HCW (App. 3 cadres) | own gov rate (~$3,989) | **$767.1M** |
-| Uganda | 51,213 HCW + 2,199 lab | own gov rate ($1,849) / adj. peer | **$510.8M** |
 | Liberia | 6,577 HCW + 538 lab | own gov rates | **$156.0M** |
-| **Total tabulated baseline effort** | | | **≈ $2.16bn** |
+| **Total tabulated baseline effort** | | | **≈ $2.65bn** |
 
-Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no workforce baseline (their Existing columns start at zero or don't exist). Note the two table variants: CIV/Uganda/Mozambique roll absorbed cohorts into Existing over time (baseline = the 2026 value), while Liberia holds Existing constant at the baseline and accumulates absorption inside its New column — both reduce to the same decomposition. This ~$2.16bn is **baseline effort, not MoU co-financing** — more than double the ~$939M of MoU HRH commitments — and it is exactly the "existing government funding" that co-funding summaries fold into their government headline columns. In the dashboard it is a separate dotted series with its own toggle, so it can be seen and excluded at will.
+Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no workforce baseline (their Existing columns start at zero or don't exist). Note the two table variants: CIV/Uganda/Mozambique roll absorbed cohorts into Existing over time (baseline = the 2026 value), while Liberia holds Existing constant at the baseline and accumulates absorption inside its New column — both reduce to the same decomposition. This ~$2.65bn is **baseline effort, not MoU co-financing** — two and a half times the ~$1.07bn of MoU HRH commitments — and it is exactly the "existing government funding" that co-funding summaries fold into their government headline columns. In the dashboard it is a separate dotted series with its own toggle, so it can be seen and excluded at will.
 
 ## Bonus harvest: Mozambique's cadre tables (App. 3, pp. 36–37)
 

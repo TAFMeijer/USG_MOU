@@ -83,15 +83,16 @@ caps = []
 if include_imputed:
     caps.append(
         "**imputed $** for frontline labs & HCW where the MoU prints FTEs but no "
-        "dollars (Cameroon, Ethiopia labs, Mozambique labs, Rwanda, Uganda labs, "
-        "Côte d'Ivoire — ~$243M, of which ~$191M is Côte d'Ivoire on peer rates; "
+        "dollars — or, for Uganda, prices only each year's new cohort (~$370M in "
+        "total: Côte d'Ivoire ~$203M on peer rates, Uganda ~$123M of absorbed-cohort "
+        "continuation, Cameroon $27.7M, Rwanda $14.1M, Ethiopia/Moz labs $2.4M; "
         "workers absorbed in year t stay funded in every later year)"
     )
 if include_baseline:
     caps.append(
         "**pre-MoU baseline workforce $** — the existing government workforce the "
-        "MoUs tabulate (CIV 39,800 HCW + 1,900 lab; Uganda 51,213 + 2,199; Mozambique "
-        "38,462 HCW; Liberia 6,577 + 538), valued at the same rates: ~$2.16bn of "
+        "MoUs tabulate (Uganda 49,014 HCW + 2,199 lab; CIV 39,800 + 1,900; Mozambique "
+        "38,462 HCW; Liberia 6,577 + 538), valued at the same rates: ~$2.65bn of "
         "baseline effort, not MoU co-financing"
     )
 if caps:

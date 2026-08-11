@@ -87,8 +87,14 @@ def gov_rate_median(country, area):
     r = [usd[y] / fte[y] for y in YRS if fte[y] > 0 and usd[y] > 0]
     return pd.Series(r).median() if r else None
 
-peer_hcw = {c: gov_rate_median(c, HCW) for c in ["Kenya", "Liberia", "Mozambique", "Uganda"]}
+peer_hcw = {c: gov_rate_median(c, HCW) for c in ["Kenya", "Liberia", "Mozambique"]}
 peer_hcw["Ethiopia"] = 14173411 / 8107  # printed gov $ / mirrored FTEs (see validations)
+# Uganda's printed gov $ prices each year's NEW cohort of the NATIONAL HRH roll-up
+# (incl. lab cadres): 19,177,200/5,355=3,581 . 21,177,200/5,897=3,591 .
+# 19,677,200/5,449=3,611 . 16,970,200/2,678=6,337 (2030 mix shifts CHEW->clinical).
+# Own rate = median of those four.
+peer_hcw["Uganda"] = pd.Series(
+    [19177200 / 5355, 21177200 / 5897, 19677200 / 5449, 16970200 / 2678]).median()
 PEER_HCW_MEDIAN = pd.Series(peer_hcw).median()
 
 peer_lab = {"Kenya": gov_rate_median("Kenya", LAB), "Liberia": gov_rate_median("Liberia", LAB),
@@ -112,36 +118,49 @@ PLANS = [
      "own USG 2026 rate (App.1 $ vs Sec FTEs misaligned)", "low"),
     ("Rwanda", LAB, 780319 / 289, 780319 / 289, 3704466 / 614,
      "own USG 2026 rate (App.1 $ vs Sec FTEs misaligned)", "low"),
-    ("Uganda", LAB, None, None, None,  # rates filled below
-     "peer lab median x Uganda wage factor; cumulative new (2,199 baseline excl.)", "low"),
+    # CONTINUATION mode: Uganda's printed $ prices each year's NEW cohort only —
+    # absorbed cohorts move into the Existing column unpriced. Impute the
+    # continued salaries of previously absorbed cohorts (funded minus new).
+    ("Uganda", HCW, None, None, None,
+     "CONTINUATION of absorbed cohorts (printed $ covers new cohorts only); own rate", "medium"),
+    ("Uganda", LAB, None, None, None,
+     "CONTINUATION of absorbed lab cohorts (new-year costs sit in the printed HRH $)", "low"),
     ("Côte d'Ivoire", HCW, None, None, None,
      "peer government HCW median; cumulative new (39,800 baseline excl.)", "low"),
     ("Côte d'Ivoire", LAB, None, None, None,
      "peer lab median; cumulative new (1,900 baseline excl.)", "low"),
 ]
 PEER_FILL = {
-    ("Uganda", LAB): (PEER_LAB_MEDIAN * UGA_WAGE_FACTOR, peer_hcw["Uganda"], PEER_LAB_MEDIAN),
+    ("Uganda", HCW): (peer_hcw["Uganda"], 19177200 / 5355, 77001800 / 19379),
+    ("Uganda", LAB): (PEER_LAB_MEDIAN * UGA_WAGE_FACTOR, gov_rate_median("Liberia", LAB), PEER_LAB_MEDIAN),
     ("Côte d'Ivoire", HCW): (PEER_HCW_MEDIAN, min(peer_hcw.values()), max(peer_hcw.values())),
     ("Côte d'Ivoire", LAB): (PEER_LAB_MEDIAN, min(peer_lab.values()), max(peer_lab.values())),
 }
+CONTINUATION = {("Uganda", HCW), ("Uganda", LAB)}
 
 imputed_rows, summary = [], []
 for country, area, rate, lo, hi, method, conf in PLANS:
     if rate is None:
         rate, lo, hi = PEER_FILL[(country, area)]
     fte = funded_ftes(country, area)
-    assert get(country, area, "Government", "USD").sum() == 0, f"{country}/{area} has printed $"
+    if (country, area) in CONTINUATION:
+        fte = (fte - get(country, area, "Government", "FTEs")).clip(lower=0)
+    else:
+        assert get(country, area, "Government", "USD").sum() == 0, f"{country}/{area} has printed $"
+    label = ("prior-year absorbed cohorts, continued" if (country, area) in CONTINUATION
+             else "new + prior-year absorptions")
     for y in YRS:
         if fte[y] > 0:
             imputed_rows.append({
                 "Country": country, "Investment area": area, "Year": y,
                 "Funder": "Government", "Amount": round(fte[y] * rate, 0), "Unit": "USD",
                 "Row type": "Imputed (derived - not printed in MoU)",
-                "Source note": f"Imputed: {int(fte[y])} Gov FTEs funded (new + prior-year "
-                               f"absorptions) x ${rate:,.2f}/FTE ({method}); confidence "
+                "Source note": f"Imputed: {int(fte[y])} Gov FTEs ({label}) x "
+                               f"${rate:,.2f}/FTE ({method}); confidence "
                                f"{conf}; range ${lo:,.0f}-${hi:,.0f}/FTE",
             })
-    summary.append({"Country": country, "Area": area, "Status": "IMPUTED",
+    summary.append({"Country": country, "Area": area,
+                    "Status": "IMPUTED (continuation)" if (country, area) in CONTINUATION else "IMPUTED",
                     "Gov FTE-years": fte.sum(), "Rate used": round(rate, 2),
                     "Gov $ (central)": round(fte.sum() * rate, 0),
                     "Gov $ (low)": round(fte.sum() * lo, 0),
@@ -172,7 +191,8 @@ BASELINES = [
     # (country, area, FTEs/yr, rate, rate label)
     ("Côte d'Ivoire", HCW, 39800, PEER_HCW_MEDIAN, "peer gov HCW median"),
     ("Côte d'Ivoire", LAB, 1900, PEER_LAB_MEDIAN, "peer lab median"),
-    ("Uganda", HCW, 51213, peer_hcw["Uganda"], "own printed gov HCW rate"),
+    # Uganda national baseline 51,213 minus its 2,199 lab component (own rows)
+    ("Uganda", HCW, 49014, peer_hcw["Uganda"], "own new-cohort rate (median $3,601)"),
     ("Uganda", LAB, 2199, PEER_LAB_MEDIAN * UGA_WAGE_FACTOR, "peer lab median x wage factor"),
     ("Mozambique", HCW, 38462, peer_hcw["Mozambique"], "own printed gov HCW rate"),
     ("Liberia", HCW, 6577, peer_hcw["Liberia"], "own printed gov HCW rate"),
@@ -200,12 +220,13 @@ print("Peer lab rates:    ", {k: round(v) for k, v in peer_lab.items()},
 print()
 print(s.to_string(index=False))
 print()
-own = s[(s["Status"] == "IMPUTED") & (s["Confidence"].isin(["high", "medium"]))]["Gov $ (central)"].sum()
-low = s[(s["Status"] == "IMPUTED") & (s["Confidence"] == "low")]["Gov $ (central)"].sum()
+imp_mask = s["Status"].str.startswith("IMPUTED")
+own = s[imp_mask & s["Confidence"].isin(["high", "medium"])]["Gov $ (central)"].sum()
+low = s[imp_mask & (s["Confidence"] == "low")]["Gov $ (central)"].sum()
 prt = s[s["Status"] == "printed in MoU"]["Gov $ (central)"].sum()
 print(f"Printed gov HRH $ across MoUs:      {prt:>15,.0f}")
-print(f"Imputed, own-rate (high/med conf):  {own:>15,.0f}")
-print(f"Imputed, peer-rate (low conf):      {low:>15,.0f}")
+print(f"Imputed, high/med confidence:       {own:>15,.0f}")
+print(f"Imputed, low confidence:            {low:>15,.0f}")
 print(f"TOTAL government HRH commitment:    {prt + own + low:>15,.0f}")
 print(f"Pre-MoU baseline workforce (sep.):  {baseline['Amount'].sum():>15,.0f}")
 print("\nBaseline by country/area (5-yr):")
