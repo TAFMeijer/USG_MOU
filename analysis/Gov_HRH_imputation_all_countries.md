@@ -26,6 +26,22 @@ Before imputing anything, three MoUs turn out to do this arithmetic internally, 
 
 So where a country gives us FTEs without $, applying that country's own USG unit rate (flat, no inflation adjustment) is not an invention — it is the MoUs' own convention.
 
+## Is Uganda really unique? The pricing-convention test
+
+The *bookkeeping* is universal: every MoU's FTE tables roll absorbed cohorts forward with the same New/Existing logic (Existing(t) = baseline + prior new). The question is what the **dollars** on top of it price. That is testable wherever government $ is printed: divide the $ series by cumulative-funded FTEs and by new-cohort FTEs — whichever gives a **flat rate** is the convention the MoU uses.
+
+| Country | $ ÷ cumulative funded | $ ÷ new cohort | Verdict |
+|---|---|---|---|
+| Ethiopia | **$1,748 · 1,748 · 1,748 · 1,748** | 1,748 → 3,497 → 5,247 → 6,992 | cumulative |
+| Mozambique | **$3,981 · 3,997 · 4,000 · 3,865** | 3,981 → 7,968 → 11,842 → 15,268 | cumulative |
+| Liberia | **$5,337 · 4,129 · 4,363 · 4,541** (2027–30) | 5,629 → 8,003 → 17,571 → 23,620 | cumulative |
+| Kenya | **$3,441 · 3,441 · 3,441** (constant 13,293 stock funded annually) | same arithmetic (stock = cohort) | cumulative |
+| Uganda | 3,581 → 1,882 → 1,178 → 876 | **$3,581 · 3,591 · 3,611** (· 6,337) | **new-cohort** |
+
+Four of five price the whole absorbed stock every year; **Uganda alone prices the incoming cohort once** and lets it disappear into the unpriced Existing column — plausibly because its gov $ series comes from the Appendix 1 co-funding column ("new funding") rather than a section funding-plan table.
+
+The two unpriced countries can be cross-checked indirectly, and both point cumulative. **Cameroon**: modelling its printed commodities-&-HRH co-investment aggregate with cumulative HRH explains 48% → 77% → **96%** of the printed values in 2028–30, versus a flat ~50% under new-only pricing — the MoU's own aggregate endorses cumulative. **Rwanda**: its commodity tables price the takeover cumulatively *in dollars* (Total = New + cumulative Existing: $612k → $12.64M → $17.60M), so the same drafting logic applied to its HRH FTEs implies cumulative. Only **Côte d'Ivoire** is genuinely untestable (no $ anywhere), which is one more reason its imputation carries the widest flag.
+
 ## What was imputed, and with what
 
 | Country | Line | Gov FTE-yrs funded | Rate | Gov $ (central) | Range | Confidence |
@@ -55,7 +71,7 @@ Peer rate benchmarks used: government HCW $/FTE — Ethiopia $1,748, Uganda $1,8
 
 † Kenya's series runs six years (2026–2031). Nigeria's $297.6M is printed without any FTE counts, so its implied rate can't be checked.
 
-Imputation closes ~35% of the picture: roughly $1.07bn of government HRH commitments across the nine countries, of which $696M was printed and ~$370M recovered from FTE tables. The two big imputed blocks — Côte d'Ivoire's ~$203M (peer rates only) and Uganda's ~$123M continuation — deserve flags wherever this is presented, for opposite reasons: CIV's rests on no in-country price at all, Uganda's on a well-identified own rate but a pricing convention no other MoU uses.
+Imputation closes ~35% of the picture: roughly $1.07bn of government HRH commitments across the nine countries, of which $696M was printed and ~$370M recovered from FTE tables. The two big imputed blocks — Côte d'Ivoire's ~$203M (peer rates only) and Uganda's ~$123M continuation — deserve flags wherever this is presented, for opposite reasons: CIV's rests on no in-country price at all, Uganda's on a well-identified own rate but a pricing convention the flat-rate test (above) shows no other MoU uses.
 
 ## The pre-MoU baseline workforce: visible and filterable
 
