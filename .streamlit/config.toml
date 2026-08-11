@@ -1,6 +1,18 @@
-[theme]
+# Light & dark themes. Streamlit's default preference ("Use system setting")
+# picks the matching theme from the browser/OS colour scheme; users can still
+# override it in the app menu (Settings → Choose app theme). Chart colours
+# that Streamlit cannot restyle track the active theme via mou_lib.palette().
+
+[theme.light]
 primaryColor = "#2a78d6"
 backgroundColor = "#fcfcfb"
 secondaryBackgroundColor = "#f0efec"
 textColor = "#0b0b0b"
+font = "sans serif"
+
+[theme.dark]
+primaryColor = "#3987e5"
+backgroundColor = "#0d0d0d"
+secondaryBackgroundColor = "#262624"
+textColor = "#fafaf9"
 font = "sans serif"

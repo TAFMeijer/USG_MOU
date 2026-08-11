@@ -27,6 +27,7 @@ def data():
 
 
 df = data()
+PAL = lib.palette()  # follows the active (system-preference) theme
 
 # Year axis style: bigger, bold, -45°
 YEAR_AXIS = alt.Axis(labelAngle=-45, labelFontSize=14, labelFontWeight="bold", title=None)
@@ -59,7 +60,7 @@ k3.metric("Combined", lib.fmt_usd(combined))
 k4.metric("USG share of combined", f"{100 * tot_usg / combined:.0f}%" if combined else "–")
 
 country_scale = alt.Scale(
-    domain=list(lib.COUNTRY_COLORS.keys()), range=list(lib.COUNTRY_COLORS.values())
+    domain=list(PAL["country"].keys()), range=list(PAL["country"].values())
 )
 COUNTRY_LEGEND = alt.Legend(labelLimit=0, title=None)  # labelLimit=0 -> never truncate
 
@@ -93,6 +94,10 @@ if unit == "US$":
         )
     else:
         plot = m[m["Funder"] == funder_pick]
+    plot = lib.attach_budget_notes(plot, area)
+    tt = ["Country", "Year", alt.Tooltip("Amount:Q", format=",.0f")]
+    if (plot["MoU footnote"] != "").any():
+        tt.append(alt.Tooltip("MoU footnote:N"))
     ch = (
         alt.Chart(plot)
         .mark_line(point=True, strokeWidth=2.5)
@@ -102,7 +107,7 @@ if unit == "US$":
             color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
             opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
             strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
-            tooltip=["Country", "Year", alt.Tooltip("Amount:Q", format=",.0f")],
+            tooltip=tt,
         )
         .add_params(hover)
         .properties(height=400)
@@ -118,6 +123,16 @@ else:
         "visible — tooltips show the true value."
     )
     plot = nudge_ties(m[m["Funder"] == "USG"].dropna(subset=["Share"]), "Share")
+    plot = lib.attach_budget_notes(plot, area)
+    share_tt = [
+        "Country",
+        "Year",
+        alt.Tooltip("Share:Q", format=".0%", title="USG share (true)"),
+        alt.Tooltip("Amount:Q", title="USG US$", format=",.0f"),
+        alt.Tooltip("Combined:Q", title="Combined US$", format=",.0f"),
+    ]
+    if (plot["MoU footnote"] != "").any():
+        share_tt.append(alt.Tooltip("MoU footnote:N"))
     base = (
         alt.Chart(plot)
         .mark_line(point=True, strokeWidth=2.5)
@@ -128,28 +143,27 @@ else:
             color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
             opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
             strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
-            tooltip=[
-                "Country",
-                "Year",
-                alt.Tooltip("Share:Q", format=".0%", title="USG share (true)"),
-                alt.Tooltip("Amount:Q", title="USG US$", format=",.0f"),
-                alt.Tooltip("Combined:Q", title="Combined US$", format=",.0f"),
-            ],
+            tooltip=share_tt,
         )
         .add_params(hover)
         .properties(height=400)
     )
     rule = alt.Chart(pd.DataFrame({"y": [0.5]})).mark_rule(
-        strokeDash=[4, 4], color="#898781"
+        strokeDash=[4, 4], color=PAL["muted"]
     ).encode(y="y:Q")
     st.altair_chart(base + rule, use_container_width=True)
+
+# printed MoU footnotes for this selection (each applies across the full line)
+fns = [n for n in lib.budget_footnotes(area=area) if n["Country"] in countries]
+if fns:
+    st.markdown(lib.footnote_block(fns), unsafe_allow_html=True)
 
 # ---------------- chart 2: 5-year totals ----------------
 st.subheader(f"{area} — 5-year totals by country")
 tot = lib.five_year_totals(m, area)
 funder_color = alt.Color(
     "Funder:N",
-    scale=alt.Scale(domain=["USG", lib.GOV_LABEL], range=[lib.USG_COLOR, lib.GOV_COLOR]),
+    scale=alt.Scale(domain=["USG", lib.GOV_LABEL], range=[PAL["usg"], PAL["gov"]]),
     legend=alt.Legend(orient="bottom", title=None, labelLimit=0),
 )
 if unit == "US$":

@@ -28,6 +28,7 @@ def countries_meta():
 
 p = data()
 meta = countries_meta()
+PAL = lib.palette()  # follows the active (system-preference) theme
 
 country = st.sidebar.selectbox("Country", sorted(p["Country"].unique()))
 pareas = st.sidebar.multiselect(
@@ -60,6 +61,32 @@ k1.metric("Indicators in this MoU", m["Indicator"].nunique())
 k2.metric("Outcome metrics", m.loc[m["Metric type"] == "Outcome", "Indicator"].nunique())
 k3.metric("Process metrics", m.loc[m["Metric type"] == "Process", "Indicator"].nunique())
 
+# ---------------- footnotes printed in the MoU's own tables ----------------
+fn_rows = m[m[lib.FOOTNOTE_COL] != ""]
+if not fn_rows.empty:
+    fn_groups = (
+        fn_rows.groupby([lib.FOOTNOTE_COL, lib.FOOTNOTE_LOC_COL], sort=False)["Indicator"]
+        .apply(lambda s: sorted(set(s)))
+        .reset_index()
+    )
+    with st.expander(
+        f"Footnotes printed in this MoU's indicator tables "
+        f"({len(fn_groups)}) — charts carrying one are marked *",
+        expanded=False,
+    ):
+        st.caption(
+            "Transcribed verbatim. Each note travels with every year of the "
+            "indicator(s) it qualifies; the location shows exactly which cells "
+            "carry the printed marker."
+        )
+        for _, r in fn_groups.iterrows():
+            inds = r["Indicator"]
+            cover = ", ".join(inds[:4]) + (f" … +{len(inds) - 4} more" if len(inds) > 4 else "")
+            st.markdown(
+                f"* “{r[lib.FOOTNOTE_COL]}” — *{r[lib.FOOTNOTE_LOC_COL]}* · "
+                f"applies to: {cover}"
+            )
+
 SECTION_ORDER = ["Outcome", "Process", "Outbreak response (7-1-7)", "Co-investment benchmark"]
 SECTION_BLURB = {
     "Outcome": "Health outcomes the agreement commits to improving.",
@@ -74,6 +101,9 @@ SECTION_BLURB = {
 def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_717: bool = False) -> alt.Chart:
     label = sub["Indicator"].iat[0]
     short = label if len(label) <= 55 else label[:52] + "…"
+    has_note = bool((sub[lib.FOOTNOTE_COL] != "").any())
+    if has_note:
+        short += " *"  # a footnote printed in the MoU applies to this indicator
     if is_717:
         # 7-1-7 commitments: fixed 0-10 day axis so the 7 / 1 / 7 pattern reads instantly
         y = alt.Y("Value:Q", title=None,
@@ -97,11 +127,13 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_717: bool = False) -> al
     height = 180 if is_717 else 340
     return (
         alt.Chart(sub)
-        .mark_line(point=True, strokeWidth=2.5, color=lib.USG_COLOR)
+        .mark_line(point=True, strokeWidth=2.5, color=PAL["usg"])
         .encode(
             x=alt.X("Year:O", sort=YEAR_ORDER, axis=YEAR_AXIS),
             y=y,
-            tooltip=["Indicator", "Year", "Value", "Unit", "Unit / source note"],
+            tooltip=["Indicator", "Year", "Value", "Unit", "Unit / source note"]
+            + ([alt.Tooltip(f"{lib.FOOTNOTE_COL}:N", title="MoU footnote")]
+               if has_note else []),
         )
         .properties(height=height, title=alt.TitleParams(short, fontSize=12))
     )
@@ -184,7 +216,9 @@ with st.expander("Data table & download"):
     )
     st.caption(
         f"{len(tbl):,} rows shown. Click any column header to sort; the 🔍 icon in the "
-        "table toolbar does a live full-text search."
+        "table toolbar does a live full-text search. 'MoU footnote (verbatim)' holds the "
+        "notes the MoU itself prints on its indicator tables, carried across every year "
+        "of the affected indicator."
     )
     st.download_button(
         "Download full tidy programmatic table (CSV)",

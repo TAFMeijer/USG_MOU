@@ -61,6 +61,7 @@ with tab_budget:
         mask = (
             b["Category (as printed in MoU)"].str.contains(f_text, case=False, na=False)
             | b["Source note"].astype(str).str.contains(f_text, case=False, na=False)
+            | b[lib.FOOTNOTE_COL].astype(str).str.contains(f_text, case=False, na=False)
         )
         b = b[mask]
 
@@ -89,7 +90,9 @@ with tab_budget:
             f"{len(b):,} rows shown. To sum money safely: filter Unit = USD and "
             "Row type = 'Line item' (plus the existing-government rows) — the MoUs' own "
             "subtotals, appendix breakdowns and expenditure pledges are flagged so they "
-            "don't double-count."
+            "don't double-count. 'MoU footnote (verbatim)' = notes printed in the MoU "
+            "itself, carried across the full 5-year line; 'MoU footnote location' "
+            "pinpoints the marked cells."
         )
 
 # ================= Programmatic =================
@@ -128,7 +131,11 @@ with tab_prog:
     if g_year:
         p = p[p["Year"].isin(g_year)]
     if g_text:
-        p = p[p["Indicator"].str.contains(g_text, case=False, na=False)]
+        mask = (
+            p["Indicator"].str.contains(g_text, case=False, na=False)
+            | p[lib.FOOTNOTE_COL].astype(str).str.contains(g_text, case=False, na=False)
+        )
+        p = p[mask]
 
     st.dataframe(
         p,
@@ -155,5 +162,7 @@ with tab_prog:
             f"{len(p):,} rows shown. Values are as printed in each MoU "
             "(percentages stored as 95 = 95%); check 'Unit / source note' for "
             "inequality-coded targets ('>95%') and baseline years before comparing "
-            "across countries."
+            "across countries. 'MoU footnote (verbatim)' = notes printed in the MoU's "
+            "own indicator tables (source citations, baseline caveats, revision "
+            "clauses), carried across every year of the affected indicator."
         )

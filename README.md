@@ -25,6 +25,14 @@ detailed tables transcribed from the 9 published full MoU texts hosted by
 `explorer.html` is a standalone, dependency-free version of the trajectory explorer —
 open it directly in a browser, no Python needed.
 
+## Theming
+
+The app ships light **and** dark themes (`.streamlit/config.toml`); Streamlit's default
+setting ("Use system setting") follows the browser/OS colour-scheme preference, and users
+can still override it in the app menu. Explicit chart colours track the active theme via
+`mou_lib.palette()` (`st.context.theme`), so donut strokes, centre labels, chip legends and
+the handful of dark-adjusted series colours switch with it.
+
 ## Run locally
 
 ```bash
@@ -51,8 +59,8 @@ streamlit run Home.py
 | File | Contents |
 |---|---|
 | `data/budget_series.csv` | Aggregated, safely summable series (Country × Investment area × Year × Funder) — feeds all budget charts |
-| `data/budget_tidy.csv` | Full line-item detail as printed in each MoU, with `Row type` flags (subtotals, appendix breakdowns, existing funding) and source notes |
-| `data/programmatic_tidy.csv` | Every Section-1 indicator: baseline + yearly targets, units, value types, source notes |
+| `data/budget_tidy.csv` | Full line-item detail as printed in each MoU, with `Row type` flags (subtotals, appendix breakdowns, existing funding), source notes, and the MoUs' own printed footnotes transcribed verbatim (`MoU footnote (verbatim)` / `MoU footnote location`) |
+| `data/programmatic_tidy.csv` | Every Section-1 indicator: baseline + yearly targets, units, value types, source notes, and the MoUs' own printed footnotes (verbatim + location) |
 | `data/countries.csv` | All 34 agreements: amounts, dates, program areas, source-PDF links |
 | `data/sources.csv` | Reference trackers and mirrors |
 

@@ -54,6 +54,18 @@ transcription errors were caught and corrected; genuine errors *in the source do
 (misprinted totals, conflicting appendices) are preserved as printed and flagged in the
 `Source note` column of `data/budget_tidy.csv`.
 
+**Printed MoU footnotes.** The footnotes the MoUs themselves print on their funding and
+indicator tables — asterisked cells, "Note:" lines, superscript source citations — are
+transcribed **verbatim** into the `MoU footnote (verbatim)` column of both tidy tables,
+with the exact section/page and marked cells in `MoU footnote location`. Each note is
+carried across the **full 2026–2030 line** it qualifies, even where the printed marker sits
+on specific cells (e.g. Mozambique's surveillance line: "*Includes funding for surveys
+discussed in Section 4.1." — asterisks on 2027 & 2029), so a single-year filter can't miss
+a caveat. Liberia's MoU prints no table footnotes. Côte d'Ivoire has one orphan asterisk
+(on the "Existing # FTEs Funded" column header) whose note text is missing along with the
+scan's appendix pages. The dashboard shows these notes in chart tooltips and under the
+affected panels.
+
 **What sums, what doesn't.** Only rows with `Row type = "Line item"` (plus
 existing-government rows) are aggregated into `data/budget_series.csv`, which feeds every
 chart. Excluded from sums: the MoUs' own subtotal rows, 2026 appendix breakdowns (nested in

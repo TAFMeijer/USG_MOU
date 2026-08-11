@@ -23,6 +23,7 @@ def countries_meta():
 
 df = data()
 meta = countries_meta()
+PAL = lib.palette()  # follows the active (system-preference) theme
 
 country = st.sidebar.selectbox("Country", sorted(df["Country"].unique()))
 unit = st.sidebar.radio("Unit", ["US$", "% of combined"])
@@ -55,6 +56,11 @@ k2.metric("Govt co-financing (new + existing)", lib.fmt_usd(gov_t))
 k3.metric("Combined (itemised)", lib.fmt_usd(comb_t))
 k4.metric("USG share of combined", f"{100 * usg_t / comb_t:.0f}%" if comb_t else "–")
 
+# printed MoU footnotes that qualify this country's headline totals
+hfns = lib.budget_footnotes(area="All areas combined", country=country)
+if hfns:
+    st.markdown(lib.footnote_block(hfns), unsafe_allow_html=True)
+
 share = row["USG share"]
 st.caption(
     f"For reference, the **KFF headline** for {country} is "
@@ -81,18 +87,18 @@ st.markdown(
 )
 
 funder_scale = alt.Scale(
-    domain=["USG", lib.GOV_LABEL], range=[lib.USG_COLOR, lib.GOV_COLOR]
+    domain=["USG", lib.GOV_LABEL], range=[PAL["usg"], PAL["gov"]]
 )
 
 # ---- 2026 mix of Other commodities (Appendix 2) for the in-grid micro-donut ----
 MIX_COLORS = {
-    "HIV (ARVs, PrEP, tests)": "#2a78d6",
+    "HIV (ARVs, PrEP, tests)": PAL["usg"],
     "HIV & TB": "#86b6ef",
     "Malaria": "#1baf7a",
     "TB": "#eda100",
     "MCH": "#e87ba4",
-    "Distribution & logistics": "#4a3aa7",
-    "Other": "#898781",
+    "Distribution & logistics": "#7c6ee6" if PAL["dark"] else "#4a3aa7",
+    "Other": PAL["muted"],
 }
 
 
@@ -139,27 +145,27 @@ mix = commodity_mix(country)
 
 
 def mix_donut(mx: pd.DataFrame) -> alt.Chart:
-    # Buckets in size order (legend reads large-to-small, matching the clockwise
-    # arcs) and only those present in THIS country's mix — colors stay fixed per
-    # bucket because they're looked up, not positional.
+    # Buckets in size order so the clockwise arcs read large-to-small — colors
+    # stay fixed per bucket because they're looked up, not positional.
+    # No Vega legend: with fixed pixel radii and a container-driven width, a
+    # bottom legend's height varies with wrapping and the ring ends up drawn
+    # over the labels at grid widths. The legend is plain HTML below the chart
+    # (mix_legend_html), which wraps cleanly and can never collide with the ring.
     order = (
         mx.sort_values("Amount", ascending=False)["Bucket"].tolist()
     )
     arcs = (
         alt.Chart(mx)
         # Fixed pixel radii: the ring keeps its size no matter how much space the
-        # title/legend take, and the centre hole (88px across) always fits the label.
-        .mark_arc(innerRadius=44, outerRadius=68, stroke="#fcfcfb", strokeWidth=2)
+        # title takes, and the centre hole (88px across) always fits the label.
+        .mark_arc(innerRadius=44, outerRadius=68, stroke=PAL["surface"], strokeWidth=2)
         .encode(
             theta=alt.Theta("Amount:Q"),
             color=alt.Color(
                 "Bucket:N",
                 scale=alt.Scale(domain=order,
                                 range=[MIX_COLORS[b] for b in order]),
-                legend=alt.Legend(orient="bottom", title=None, labelLimit=0,
-                                  labelFontSize=11, symbolSize=70, columns=2,
-                                  direction="vertical", padding=0, offset=6,
-                                  rowPadding=1, columnPadding=10),
+                legend=None,
             ),
             order=alt.Order("Amount:Q", sort="descending"),
             tooltip=["Bucket", alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026"),
@@ -168,12 +174,34 @@ def mix_donut(mx: pd.DataFrame) -> alt.Chart:
     )
     center = (
         alt.Chart(pd.DataFrame({"label": [lib.fmt_usd(mx["Amount"].sum())]}))
-        .mark_text(fontSize=12, fontWeight="bold", color="#0b0b0b")
+        .mark_text(fontSize=12, fontWeight="bold", color=PAL["ink"])
         .encode(text="label:N")
     )
     return (arcs + center).properties(
-        height=200,
+        height=168,
         title=alt.TitleParams("Other commodities — 2026 mix (USG, App. 2)", fontSize=13),
+    )
+
+
+def mix_legend_html(mx: pd.DataFrame) -> str:
+    """Wrapping chip legend for the mix donut, large-to-small like the arcs.
+
+    Identity is carried by the colored dot; the text stays in ink colors.
+    Rendered outside the chart so it can never overlap the ring."""
+    rows = mx.sort_values("Amount", ascending=False)
+    chips = "".join(
+        "<span style='display:inline-flex;align-items:center;white-space:nowrap;"
+        "margin:0 12px 3px 0'>"
+        f"<span style='width:8px;height:8px;border-radius:50%;flex:none;"
+        f"background:{MIX_COLORS[r.Bucket]};display:inline-block;margin-right:5px'></span>"
+        f"<span style='color:{PAL['ink']}'>{r.Bucket}</span>&nbsp;"
+        f"<span style='color:{PAL['muted']}'>{lib.fmt_usd(r.Amount)} · {r.Share:.0%}</span>"
+        "</span>"
+        for r in rows.itertuples()
+    )
+    return (
+        "<div style='font-size:11px;line-height:1.6;margin:-10px 0 2px'>"
+        + chips + "</div>"
     )
 
 
@@ -191,14 +219,17 @@ for i, (kind, a) in enumerate(panels):
     if kind == "mix":
         with cols[i % 3]:
             st.altair_chart(mix_donut(mix), use_container_width=True)
+            st.markdown(mix_legend_html(mix), unsafe_allow_html=True)
             st.markdown(
-                '<div style="font-size:10px;color:#898781;line-height:1.25;'
-                'margin-top:-6px">⚠️ 2026 snapshot (App. 2) — this split is not '
+                f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
+                "⚠️ 2026 snapshot (App. 2) — this split is not "
                 "published in the yearly data for 2027–30.</div>",
                 unsafe_allow_html=True,
             )
         continue
-    sub = m[m["Investment area"] == a]
+    sub = lib.attach_budget_notes(m[m["Investment area"] == a], a)
+    panel_fns = lib.budget_footnotes(area=a, country=country, funders=funders)
+    note_tt = [alt.Tooltip("MoU footnote:N")] if panel_fns else []
     with cols[i % 3]:
         if unit == "US$":
             ch = (
@@ -208,11 +239,15 @@ for i, (kind, a) in enumerate(panels):
                     x=alt.X("Year:O", axis=YEAR_AXIS),
                     y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
                     color=alt.Color("Funder:N", scale=funder_scale, legend=None),
-                    tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f")],
+                    tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f")]
+                    + note_tt,
                 )
                 .properties(height=190, title=alt.TitleParams(a, fontSize=13))
             )
             st.altair_chart(ch, use_container_width=True)
+            if panel_fns:
+                st.markdown(lib.footnote_block(panel_fns, size_px=10),
+                            unsafe_allow_html=True)
         else:
             sub2 = sub.dropna(subset=["Share"])
             if sub2.empty:
@@ -226,7 +261,7 @@ for i, (kind, a) in enumerate(panels):
                             scale=alt.Scale(domain=[0, 1])),
                     color=alt.Color("Funder:N", scale=funder_scale, legend=None),
                     tooltip=["Funder", "Year", alt.Tooltip("Share:Q", format=".0%"),
-                             alt.Tooltip("Amount:Q", format=",.0f")],
+                             alt.Tooltip("Amount:Q", format=",.0f")] + note_tt,
                 )
                 .properties(height=190, title=alt.TitleParams(a, fontSize=13))
             )
@@ -236,12 +271,28 @@ for i, (kind, a) in enumerate(panels):
                 .encode(y="y:Q")
             )
             st.altair_chart(line + rule, use_container_width=True)
+            if panel_fns:
+                st.markdown(lib.footnote_block(panel_fns, size_px=10),
+                            unsafe_allow_html=True)
 
 st.markdown(
-    f'<span style="color:{lib.USG_COLOR};font-weight:600">— USG</span> &nbsp; '
-    f'<span style="color:{lib.GOV_COLOR};font-weight:600">— Govt (existing + new)</span>',
+    f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
+    f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>',
     unsafe_allow_html=True,
 )
+
+# printed footnotes whose investment area has no dollar panel above (e.g. Côte
+# d'Ivoire's orphan asterisk on its FTE-only frontline-worker table)
+shown_areas = {a for kind, a in panels if kind == "area"}
+leftover = [
+    n for n in lib.budget_footnotes(country=country, funders=funders)
+    if n["Area"] not in shown_areas and n["Area"] != "All areas combined"
+]
+if leftover:
+    st.markdown(
+        lib.footnote_block([{**n, "Country": n["Area"]} for n in leftover]),
+        unsafe_allow_html=True,
+    )
 
 # ---------------- donut: how the areas compare in size ----------------
 st.markdown(f"#### How the investment areas compare, 2026–2030 ({funder_pick})")
@@ -256,13 +307,13 @@ donut_src["Share of total"] = donut_src["Amount"] / donut_total
 # colors stay fixed per area because they're looked up, not positional.
 ordered_areas = donut_src["Investment area"].tolist()
 area_scale = alt.Scale(
-    domain=ordered_areas, range=[lib.AREA_COLORS[a] for a in ordered_areas]
+    domain=ordered_areas, range=[PAL["area"][a] for a in ordered_areas]
 )
 donut_sel = alt.selection_point(fields=["Investment area"], bind="legend")
 
 arcs = (
     alt.Chart(donut_src)
-    .mark_arc(innerRadius=78, stroke="#fcfcfb", strokeWidth=2)
+    .mark_arc(innerRadius=78, stroke=PAL["surface"], strokeWidth=2)
     .encode(
         theta=alt.Theta("Amount:Q"),
         color=alt.Color(
@@ -284,12 +335,12 @@ arcs = (
 center_df = pd.DataFrame({"label": [lib.fmt_usd(donut_total)]})
 center_value = (
     alt.Chart(center_df)
-    .mark_text(fontSize=24, fontWeight="bold", color="#0b0b0b", dy=-6)
+    .mark_text(fontSize=24, fontWeight="bold", color=PAL["ink"], dy=-6)
     .encode(text="label:N")
 )
 center_sub = (
     alt.Chart(pd.DataFrame({"label": ["2026–2030"]}))
-    .mark_text(fontSize=11, color="#898781", dy=14)
+    .mark_text(fontSize=11, color=PAL["muted"], dy=14)
     .encode(text="label:N")
 )
 donut = (arcs + center_value + center_sub).properties(height=340)
@@ -340,6 +391,7 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
         mask = (
             detail["Category (as printed in MoU)"].str.contains(f_text, case=False, na=False)
             | detail["Source note"].astype(str).str.contains(f_text, case=False, na=False)
+            | detail[lib.FOOTNOTE_COL].astype(str).str.contains(f_text, case=False, na=False)
         )
         detail = detail[mask]
 
@@ -357,5 +409,7 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
         f"{len(detail):,} rows shown. Click any column header to sort; the 🔍 icon in the "
         "table toolbar does a live full-text search. Only rows with Row type = 'Line item' "
         "(plus existing-government rows) feed the charts above; other row types are "
-        "excluded to avoid double counting."
+        "excluded to avoid double counting. 'MoU footnote (verbatim)' holds the notes the "
+        "MoU itself prints on its tables, carried across the full 5-year line; "
+        "'MoU footnote location' pinpoints the marked cells."
     )

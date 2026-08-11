@@ -71,12 +71,19 @@ def load_budget_series() -> pd.DataFrame:
 
 
 def load_budget_tidy() -> pd.DataFrame:
-    return pd.read_csv(DATA / "budget_tidy.csv")
+    df = pd.read_csv(DATA / "budget_tidy.csv")
+    for c in (FOOTNOTE_COL, FOOTNOTE_LOC_COL):
+        if c in df.columns:
+            df[c] = df[c].fillna("")
+    return df
 
 
 def load_programmatic() -> pd.DataFrame:
     df = pd.read_csv(DATA / "programmatic_tidy.csv")
     df["Year"] = df["Year"].astype(str)
+    for c in (FOOTNOTE_COL, FOOTNOTE_LOC_COL):
+        if c in df.columns:
+            df[c] = df[c].fillna("")
     return df
 
 
@@ -152,3 +159,193 @@ def fmt_usd(v: float) -> str:
     if abs(v) >= 1e3:
         return f"${v / 1e3:,.0f}k"
     return f"${v:,.0f}"
+
+
+# ---------------------------------------------------------------------------
+# Footnotes printed in the MoU texts themselves — asterisk, dagger and "Note:"
+# lines attached to the source funding tables — transcribed verbatim.
+# Convention: every note applies across the full 2026–2030 line; `marked`
+# lists the specific cells the MoU itself stars (kept as context and shown
+# in captions). Row-level copies live in the "MoU footnote (verbatim)" /
+# "MoU footnote location" columns of budget_tidy.csv and programmatic_tidy.csv.
+FOOTNOTE_COL = "MoU footnote (verbatim)"
+FOOTNOTE_LOC_COL = "MoU footnote location"
+
+BUDGET_FOOTNOTES = [
+    dict(Country="Mozambique", Area="Surveillance & outbreak response", Funder="USG",
+         marked=[2027, 2029],
+         text="*Includes funding for surveys discussed in Section 4.1.",
+         src="§2.1.3 p.6 · asterisks on the 2027 & 2029 cells; §4.1 plans up to $35M of outcome surveys"),
+    dict(Country="Mozambique", Area="Laboratory commodities", Funder="USG", marked=None,
+         text="*Total Costs are representative of one year; these amounts may fluctuate "
+              "yearly based on the actual need as determined in the annual quantification.",
+         src="App.2 p.35 · on the 2026 quantification table that sets the recurring annual amount"),
+    dict(Country="Mozambique", Area="Other commodities", Funder="USG", marked=None,
+         text="*Total Costs are representative of one year; these amounts may fluctuate "
+              "yearly based on the actual need as determined in the annual quantification.",
+         src="App.2 p.35 · on the 2026 Other Commodities quantification table"),
+    dict(Country="Mozambique", Area="Other commodities", Funder="USG", marked=None,
+         text="$5,000,000 (reduced to $2,000,000 in FY27-FY30)",
+         src="App.2 p.35 · printed inside the 'MCH – TBD' cell; explains part of the 2026→'27 step-down"),
+    dict(Country="Mozambique", Area="Frontline healthcare workers", Funder="Government", marked=None,
+         text="*The total additional cost to employ 4,893 front-line Healthcare workers "
+              "over the five-year period is $46,973,106",
+         src="App.1 p.34 · printed under the GoM new-support table"),
+    dict(Country="Mozambique", Area="Frontline lab workers", Funder="Government", marked=None,
+         text="*The total additional cost to employ 4,893 front-line Healthcare workers "
+              "over the five-year period is $46,973,106",
+         src="App.1 p.34 · printed under the GoM new-support table (4,893 = 4,788 HCW + 105 lab FTEs)"),
+    dict(Country="Mozambique", Area="All areas combined", Funder="Government", marked=None,
+         text="*Includes funding for additional front-line Healthcare workers",
+         src="App.1 p.33 · asterisk on the 'Mozambique Government' column header"),
+    dict(Country="Kenya", Area="All areas combined", Funder="USG", marked=None,
+         text="*Includes U.S. Government cost of doing business and funding for audits.",
+         src="App.1 p.32 · under the headline USG total; the charts plot the itemised subtotal, "
+             "which excludes that margin"),
+    dict(Country="Kenya", Area="Frontline healthcare workers", Funder="Government", marked=None,
+         text="*Includes public health emergency responders, logisticians, data scientists, "
+              "laboratorians etc.",
+         src="§2.1.2.5 p.6 · on the 'Other Positions' row of the GoK FELTP salaries table"),
+    dict(Country="Uganda", Area="Frontline healthcare workers", Funder="USG", marked=None,
+         text="*The table includes all clinical and community health extension workers.",
+         src="§2.4.2 p.13 · under the HRH FTE table"),
+    dict(Country="Uganda", Area="Frontline healthcare workers", Funder="Government", marked=None,
+         text="*The table includes all clinical and community health extension workers.",
+         src="§2.4.2 p.13 · under the HRH FTE table"),
+    dict(Country="Nigeria", Area="All areas combined", Funder="USG", marked=None,
+         text="Note: The U.S. Government budget earmarked a 6% Management & Operations "
+              "(M&O) allocation of $124,693,440",
+         src="App.1 p.32 · under the co-funding summary; qualifies the USG column"),
+    dict(Country="Rwanda", Area="Data systems", Funder="USG", marked=[2026],
+         text="Note: The total support for digital systems is $4,027,316 in 2026. This "
+              "currently includes funds from different accounts (HIV, Malaria, GHS, MCH&N).",
+         src="§2.5.3 p.10 · the plotted $1.35M line item sits inside this larger cross-account total"),
+    dict(Country="Rwanda", Area="Strategic assistance / investment", Funder="USG", marked=None,
+         text="Note: The Strategic Investments budget assumes a 6% M&O deduction for "
+              "U.S. Government operating costs.",
+         src="§2.6.3 p.12 · under the funding plan table"),
+    dict(Country="Côte d'Ivoire", Area="Frontline healthcare workers", Funder="Government", marked=None,
+         text="Côte d'Ivoire Existing # FTEs Funded* — the asterisk is printed on this column "
+              "header, but its footnote text appears nowhere in the published PDF (the file "
+              "ends at p.24 of 29; the appendix pages are missing)",
+         src="§2.4.3 p.11 · orphan marker on the frontline-worker FTE table"),
+]
+# Chart frames label government lines with GOV_LABEL — mirror that here once.
+for _n in BUDGET_FOOTNOTES:
+    if _n["Funder"] == "Government":
+        _n["Funder"] = GOV_LABEL
+
+
+def budget_footnotes(area=None, country=None, funders=None) -> list:
+    """Printed MoU footnotes matching a chart selection (all filters optional)."""
+    return [
+        n for n in BUDGET_FOOTNOTES
+        if (area is None or n["Area"] == area)
+        and (country is None or n["Country"] == country)
+        and (funders is None or n["Funder"] in funders)
+    ]
+
+
+def attach_budget_notes(df: pd.DataFrame, area: str) -> pd.DataFrame:
+    """Add a 'MoU footnote' column (blank when none) for chart tooltips.
+
+    Works on plotting frames with a Country column; respects Funder when present
+    (frames aggregated across funders collect both funders' notes).
+    """
+    df = df.copy()
+    if df.empty:
+        df["MoU footnote"] = pd.Series(dtype=str)
+        return df
+
+    def note_for(row):
+        notes = [
+            n["text"] for n in BUDGET_FOOTNOTES
+            if n["Area"] == area and n["Country"] == row["Country"]
+            and ("Funder" not in row.index or n["Funder"] == row["Funder"])
+        ]
+        return " • ".join(dict.fromkeys(notes))
+
+    df["MoU footnote"] = df.apply(note_for, axis=1)
+    return df
+
+
+def footnote_block(notes: list, size_px: int = 12) -> str:
+    """Markdown/HTML block listing printed MoU footnotes (render with
+    st.markdown(..., unsafe_allow_html=True))."""
+    if not notes:
+        return ""
+    lines = []
+    for n in notes:
+        marked = (
+            f" <i>(* printed on {' & '.join(str(y) for y in n['marked'])})</i>"
+            if n.get("marked") else ""
+        )
+        lines.append(
+            f"<div>* <b>{n['Country']}</b> — “{n['text']}”{marked} "
+            f"<span style='opacity:.75'>[{n['src']}]</span></div>"
+        )
+    muted = palette()["muted"]
+    return (
+        f"<div style='font-size:{size_px}px;color:{muted};line-height:1.5;"
+        "margin:2px 0 10px'><b>Footnotes printed in the MoU texts</b>"
+        + "".join(lines) + "</div>"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Theming. The app ships light & dark themes (.streamlit/config.toml); with
+# Streamlit's default "Use system setting" the active one follows the
+# browser/OS colour-scheme preference. Colors Streamlit cannot restyle —
+# explicit hexes in Altair specs and custom HTML — come from palette(), which
+# reads the ACTIVE theme via st.context.theme, so they also honour a manual
+# override in the app menu. Dark values validated with the dataviz palette
+# checker against the dark surface (separation & contrast pass; the Uganda /
+# "Other" grays are intentional neutrals whose identity is carried by
+# legends and labels, not hue).
+_DARK_COUNTRY = {
+    "Cameroon": "#3987e5",
+    "Mozambique": "#3fae3f",
+    "Nigeria": "#7c6ee6",
+    "Uganda": "#96948d",
+}
+_DARK_AREA = {
+    "Laboratory commodities": "#3987e5",
+    "Frontline healthcare workers": "#3fae3f",
+    "Data systems": "#7c6ee6",
+    "Other health sector co-investment": "#96948d",
+}
+
+
+def is_dark() -> bool:
+    """True when the active Streamlit theme is dark (light on any failure,
+    so this module stays importable without Streamlit)."""
+    try:
+        import streamlit as st
+
+        return getattr(getattr(st.context, "theme", None), "type", "light") == "dark"
+    except Exception:
+        return False
+
+
+def palette() -> dict:
+    """Theme-following colors for explicit hexes in charts and custom HTML.
+
+    Call once per script run (pages re-execute every rerun, so the result
+    always matches the theme currently shown). Do NOT bake the result into
+    module-level constants or st.cache_data — those outlive the rerun.
+    """
+    if is_dark():
+        return {
+            "dark": True,
+            "ink": "#fafaf9", "muted": "#9d9b94", "surface": "#0d0d0d",
+            "usg": "#3987e5", "gov": GOV_COLOR,
+            "country": {**COUNTRY_COLORS, **_DARK_COUNTRY},
+            "area": {**AREA_COLORS, **_DARK_AREA},
+        }
+    return {
+        "dark": False,
+        "ink": "#0b0b0b", "muted": "#898781", "surface": "#fcfcfb",
+        "usg": USG_COLOR, "gov": GOV_COLOR,
+        "country": dict(COUNTRY_COLORS),
+        "area": dict(AREA_COLORS),
+    }
