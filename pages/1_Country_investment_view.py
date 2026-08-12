@@ -8,6 +8,24 @@ import mou_lib as lib
 st.set_page_config(page_title="MoU dashboard — Country investment view", page_icon="💵",
                    layout="wide")
 
+# The chart hover-toolbar (fullscreen / download PNG / Vega "..." menu) is
+# absolutely positioned ABOVE each chart; the bordered fixed-height panel
+# boxes clip it. Pull it inside the box: it now overlays the chart's top-right
+# corner, still only on hover, so the box aesthetic is unchanged.
+st.markdown(
+    """<style>
+    div[data-testid="stElementToolbar"] {
+        top: 0.35rem !important;
+        right: 0.35rem !important;
+    }
+    .vega-embed summary {
+        top: 2.4rem !important;
+        right: 0.4rem !important;
+    }
+    </style>""",
+    unsafe_allow_html=True,
+)
+
 YEAR_AXIS = alt.Axis(labelAngle=-45, labelFontSize=13, labelFontWeight="bold", title=None)
 
 
