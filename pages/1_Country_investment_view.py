@@ -81,6 +81,14 @@ PAL = lib.palette()  # follows the active (system-preference) theme
 
 country = st.sidebar.selectbox("Country", sorted(df["Country"].unique()))
 unit = st.sidebar.radio("Unit", ["US$", "% of combined"])
+panel_style = st.sidebar.radio(
+    "Panel style", ["Lines", "Stacked area"],
+    help="Stacked area sums USG (bottom) + government (top) per panel, so the "
+         "top edge is COMBINED funding — read it against the dotted USG-2026 "
+         "reference to see whether government absorption fills the USG "
+         "withdrawal. Lines keep the printed/imputed/baseline dash styles. "
+         "Applies to the US$ view.",
+)
 funder_pick = st.sidebar.radio("Funder", ["USG", "Govt (existing + new)", "Both"], index=2)
 FUNDER_MAP = {"USG": ["USG"], "Govt (existing + new)": [lib.GOV_LABEL],
               "Both": ["USG", lib.GOV_LABEL]}
@@ -479,7 +487,44 @@ def render_area_panel(a: str) -> None:
     sub = lib.attach_budget_notes(m[m["Investment area"] == a], a)
     panel_fns = lib.budget_footnotes(area=a, country=country, funders=funders)
     note_tt = [alt.Tooltip("MoU footnote:N")] if panel_fns else []
-    if unit == "US$":
+    if unit == "US$" and panel_style == "Stacked area":
+        sub_f = sub.groupby(["Funder", "Year"], as_index=False)["Amount"].sum()
+        sub_f["ord"] = (sub_f["Funder"] != "USG").astype(int)  # USG at the bottom
+        ch = (
+            alt.Chart(sub_f)
+            .mark_area(line=True, opacity=0.75)
+            .encode(
+                x=alt.X("Year:O", axis=YEAR_AXIS),
+                y=alt.Y("Amount:Q", stack="zero", title=None,
+                        axis=alt.Axis(format="~s",
+                                      labelExpr='replace(datum.label, "G", "bn")')),
+                color=alt.Color("Funder:N", scale=funder_scale, legend=None),
+                order=alt.Order("ord:Q"),
+                tooltip=["Funder", "Year",
+                         alt.Tooltip("Amount:Q", format=",.0f")],
+            )
+            .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
+        )
+        if show_usg_ref and "USG" in funders:
+            u26 = sub.loc[(sub["Funder"] == "USG") & (sub["Year"] == 2026),
+                          "Amount"].sum()
+            if u26 > 0:
+                ref = pd.DataFrame(
+                    {"Year": sorted(sub["Year"].unique()), "Amount": u26})
+                ch = ch + (
+                    alt.Chart(ref)
+                    .mark_line(strokeDash=[2, 2], strokeWidth=1.4,
+                               color=PAL["usg"], opacity=0.8)
+                    .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="Amount:Q",
+                            tooltip=[alt.Tooltip(
+                                "Amount:Q", format=",.0f",
+                                title="USG 2026 level (reference)")])
+                )
+        st.altair_chart(ch, use_container_width=True)
+        if panel_fns:
+            st.markdown(lib.footnote_block(panel_fns, size_px=10),
+                        unsafe_allow_html=True)
+    elif unit == "US$":
         ch = (
             alt.Chart(sub)
             .mark_line(point=True, strokeWidth=2.5)
@@ -652,15 +697,26 @@ for start in range(0, len(panels), 3):
             else:
                 render_area_panel(a)
 
-st.markdown(
-    f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
-    f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>'
-    + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">- - imputed from '
-       'FTEs</span>' if include_imputed and imp_t > 0 else "")
-    + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">·· / -·- pre-MoU '
-       'baseline & existing funding</span>' if include_baseline and base_t > 0 else ""),
-    unsafe_allow_html=True,
-)
+if panel_style == "Stacked area" and unit == "US$":
+    st.markdown(
+        f'<span style="color:{PAL["usg"]};font-weight:600">▮ USG (bottom)</span> &nbsp; '
+        f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top — '
+        'top edge = combined funding</span> &nbsp; '
+        f'<span style="color:{PAL["usg"]}">·· USG 2026 reference</span> '
+        f'<span style="color:{PAL["muted"]};font-size:12px">(printed/imputed/baseline '
+        'components are summed in this view — switch to Lines for the dash styles)</span>',
+        unsafe_allow_html=True,
+    )
+else:
+    st.markdown(
+        f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
+        f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>'
+        + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">- - imputed from '
+           'FTEs</span>' if include_imputed and imp_t > 0 else "")
+        + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">·· / -·- pre-MoU '
+           'baseline & existing funding</span>' if include_baseline and base_t > 0 else ""),
+        unsafe_allow_html=True,
+    )
 
 # printed footnotes whose investment area has no dollar panel above (e.g. Côte
 # d'Ivoire's orphan asterisk on its FTE-only frontline-worker table)
