@@ -165,7 +165,6 @@ m = df[
     & (df["Funder"].isin(funders))
     & (df["Investment area"] != "All areas combined")
 ]
-areas = [a for a in lib.area_options(m) if a != "All areas combined"]
 
 # ---------------- overview row: donut (left) + area trajectories (right) -----
 st.markdown("#### How the investment areas compare, 2026–2030")
@@ -459,14 +458,17 @@ strat = strategic_areas(country)
 # Build the panel sequence: the mix donut slots in right after Other commodities
 # and the strategic-domain panel right after Strategic assistance, so the grid
 # still ends as a full block.
+# Panels ordered big -> small by 5-year total (ordered_areas = the donut's
+# large-to-small ordering, so grid and legend agree). Companion panels stay
+# glued to their parents: the commodity-mix donut follows Other commodities,
+# the strategic-domain panel follows Strategic assistance.
 panels = []
-for a in areas:
-    if m[m["Investment area"] == a]["Amount"].sum() > 0:
-        panels.append(("area", a))
-        if a == "Other commodities" and not mix.empty:
-            panels.append(("mix", None))
-        if a == "Strategic assistance / investment" and len(strat):
-            panels.append(("strat", None))
+for a in ordered_areas:
+    panels.append(("area", a))
+    if a == "Other commodities" and not mix.empty:
+        panels.append(("mix", None))
+    if a == "Strategic assistance / investment" and len(strat):
+        panels.append(("strat", None))
 if panels:  # the aggregate of all subsequent category panels leads the grid
     panels.insert(0, ("area", "All areas combined"))
 
