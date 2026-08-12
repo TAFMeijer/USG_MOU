@@ -521,12 +521,13 @@ def render_area_panel(a: str) -> None:
             )
             .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
         )
-        # per-year share labels, centred in each band (hidden below 5%)
-        if len(funders) > 1:
+        # per-year labels: each band as a share of the 2026 COMBINED level
+        # (same denominator as the dotted reference) - the two bands sum to
+        # "this year vs 2026", so >100% = growth, <100% = shortfall. <5% hidden.
+        c26 = sub.loc[sub["Year"] == 2026, "Amount"].sum()
+        if len(funders) > 1 and c26 > 0:
             lab = sub_f.sort_values(["Year", "ord"]).copy()
-            lab["total"] = lab.groupby("Year")["Amount"].transform("sum")
-            lab = lab[lab["total"] > 0]
-            lab["share"] = lab["Amount"] / lab["total"]
+            lab["share"] = lab["Amount"] / c26
             lab["cum"] = lab.groupby("Year")["Amount"].cumsum()
             lab["mid"] = lab["cum"] - lab["Amount"] / 2
             lab = lab[lab["share"] >= 0.05]
@@ -538,13 +539,12 @@ def render_area_panel(a: str) -> None:
                             text=alt.Text("share:Q", format=".0%"),
                             tooltip=["Funder", "Year",
                                      alt.Tooltip("share:Q", format=".1%",
-                                                 title="Share of combined"),
+                                                 title="Share of the 2026 combined level"),
                                      alt.Tooltip("Amount:Q", format=",.0f")])
                 )
         # reference: the 2026 COMBINED level (USG + govt where the govt already
         # funds in 2026) held flat -- the top edge is combined, so like for like
         if show_usg_ref:
-            c26 = sub.loc[sub["Year"] == 2026, "Amount"].sum()
             if c26 > 0:
                 ref = pd.DataFrame(
                     {"Year": sorted(sub["Year"].unique()), "Amount": c26})
@@ -741,8 +741,9 @@ if panel_style == "Stacked area" and unit == "US$":
         'top edge = combined funding</span> &nbsp; '
         f'<span style="color:{PAL["muted"]}">·· 2026 combined level (reference)</span> '
         '<span style="color:white;font-weight:700">%</span> '
-        f'<span style="color:{PAL["muted"]};font-size:12px">= share of that year\'s '
-        'combined (labels under 5% hidden)</span> '
+        f'<span style="color:{PAL["muted"]};font-size:12px">= share of the 2026 '
+        "combined level - the two bands sum to that year vs 2026 (>100% = growth, "
+        '<100% = shortfall; labels under 5% hidden)</span> '
         f'<span style="color:{PAL["muted"]};font-size:12px">(printed/imputed/baseline '
         'components are summed in this view — switch to Lines for the dash styles)</span>',
         unsafe_allow_html=True,
