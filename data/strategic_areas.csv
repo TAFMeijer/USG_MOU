@@ -1,0 +1,64 @@
+Country,Order,Item,Price (as printed),FY26,FY27,FY28,FY29,FY30,Note,Source
+Cameroon,1,#1: Fast-Tracking Achieving Priority Health Outcomes,$45.01M over FY26-30,11380000,10320000,9690000,8220000,5400000,Domain rows sum to the printed Strategic Assistance line exactly,Sec 2.6.3 table pp.16-17
+Cameroon,2,#2: Modernizing and Transforming Supply Chain Systems,$14.35M over FY26-30,3630000,3290000,3090000,2620000,1720000,Domain rows sum to the printed Strategic Assistance line exactly,Sec 2.6.3 table pp.16-17
+Cameroon,3,#3: Accrediting Labs and Integrating Sample Transport,$9.06M over FY26-30,2290000,2080000,1950000,1650000,1090000,Domain rows sum to the printed Strategic Assistance line exactly,Sec 2.6.3 table pp.16-17
+Cameroon,4,#4: Using AI and Emerging Data Technology,$4.63M over FY26-30,1170000,1060000,990000,850000,560000,Domain rows sum to the printed Strategic Assistance line exactly,Sec 2.6.3 table pp.16-17
+Côte d'Ivoire,1,I. Effective integration of HIV (and other priority diseases) service delivery into the routine health system by 2027,"$5,000,000 per year for 2 years",,,,,,Itemised 2026 prices sum to $45.6M vs the printed $47.07M lump - $1.47M unexplained,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,2,"II. Optimization of supply chain (traceability, warehousing, last-mile) by 2027","$3,600,000 per year for 2 years",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,3,III. Comprehensive laboratory systems strengthening to international accreditation by 2028,"$18,000,000 per year for 3 years (priced sub-items: QMS $1.2M/yr, sample transport $8.4M/yr, infrastructure $2.8M/yr, biosafety $2.8M/yr, DNO $0.2M/yr, pathogen detection TA $2.6M/yr)",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,4,IV. Elimination of mother-to-child transmission of HIV by 2028,"$4,200,000 per year for 3 years",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,5,V. Closing the HIV case-finding gap (the 1st 95) by 2028,"$4,800,000 per year for 3 years",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,6,VI. Governance and coordination of MOU implementation,"$2,500,000 per year for 5 years",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,7,VII. One Health platform multisectoral coordination,"$1,000,000 in year 1; $150,000/yr in years 2-3",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,8,VIII. Liquid-oxygen production & storage at 7 regional hospitals (12 months),"$2,417,455",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,9,IX. U.S. Government staffing and operations,"$4,000,000 per year",,,,,,,Sec 2.6.2 pp.15-18
+Côte d'Ivoire,10,X. Survey and other data collection funding,"$10,000,000 each in 2027 and 2029",,,,,,,Sec 2.6.2 pp.15-18
+Rwanda,1,Community-Based Health Insurance (CBHI),$5 million annually in 2026 and 2027,,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,2,E-Buzima (nationwide EMR rollout),"$6,806,292 over the first two years",,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,3,HIV services integration (design/pilot/scale),$4.5 million,,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,4,Vector control including IRS,"$21 million for the first 3 years (Rwanda assumes 10% in 2027, +10% 2028, 100% 2029)",,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,5,Bio-surveillance radar system,$10 million,,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,6,"Performance incentives (HIV & malaria metrics; incl. Kigali Health City, AI for healthcare)",,,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,7,Program costs (mechanisms beyond G2G),,,,,,,,Sec 2.6.2 pp.11-12
+Rwanda,8,Cost of doing business for U.S. Government staff,6% of budget,,,,,,,Sec 2.6.2 pp.11-12
+Ethiopia,1,6.1 Strengthening service delivery including primary health care,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,2,6.2 Health workforce - health sector reform,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,3,6.3 Health care financing and reform,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,4,6.4 Data systems and digital health,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,5,6.5 Supply chain management with domestic manufacturing support,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,6,6.6 Laboratory,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,7,6.7 Surveillance,,,,,,,,"Appendix 1 item 6, pp.19-22"
+Ethiopia,8,6.8 U.S. Government management and operations (6% of top-line budget),,,,,,,,"Appendix 1 item 6, pp.19-22"
+Nigeria,1,Objective 1: Strengthen health facility functionality and workforce capacity,,,,,,,,Sec 2.6.2 pp.20-24
+Nigeria,2,"Objective 2: Improve quality & outcomes in MCH (incl. polio), HIV, TB and malaria",,,,,,,,Sec 2.6.2 pp.20-24
+Nigeria,3,"Objective 3: Expand financial protection and service access for women, children and their families",,,,,,,,Sec 2.6.2 pp.20-24
+Nigeria,4,Faith-based service providers allocation,10% of MOU funding (approx. $208M),,,,,,,Sec 2.6.2 pp.20-24
+Kenya,1,"Save lives by decreasing deaths from HIV, TB, malaria, GHS, MCH and polio",,,,,,,,Sec 2.6.2 pp.16-21 (each with named sub-areas)
+Kenya,2,Develop local and resilient health systems to decrease reliance on U.S. Government support,,,,,,,,Sec 2.6.2 pp.16-21 (each with named sub-areas)
+Kenya,3,Promote American and Kenyan interests,,,,,,,,Sec 2.6.2 pp.16-21 (each with named sub-areas)
+Kenya,4,Promote standards and best practices,,,,,,,,Sec 2.6.2 pp.16-21 (each with named sub-areas)
+Kenya,5,Advance leadership in global health security,,,,,,,,Sec 2.6.2 pp.16-21 (each with named sub-areas)
+Mozambique,1,"Improve cost effectiveness (integration, simplification, transition to local partners & GoM)",,,,,,,,Sec 2.6 pp.18-24
+Mozambique,2,Integrated multi-disease PHC model & community-based campaigns,,,,,,,,Sec 2.6 pp.18-24
+Mozambique,3,MNCH & PMTCT acceleration initiative,,,,,,,,Sec 2.6 pp.18-24
+Mozambique,4,HIV / TB / malaria elimination acceleration,,,,,,,,Sec 2.6 pp.18-24
+Mozambique,5,National integrated laboratory network,,,,,,,,Sec 2.6 pp.18-24
+Mozambique,6,"National supply chain planning, procurement & tracking system",,,,,,,,Sec 2.6 pp.18-24
+Mozambique,7,National health survey & sentinel surveillance system,,,,,,,,Sec 2.6 pp.18-24
+Mozambique,8,Integrated community health (APS/CHW platform),,,,,,,,Sec 2.6 pp.18-24
+Mozambique,9,"Integrated planning, M&E, budgeting & financial management (e-SISTAFE G2G)",,,,,,,,Sec 2.6 pp.18-24
+Mozambique,10,Health-sector HR system extension (SNGRH) & Telessaude,,,,,,,,Sec 2.6 pp.18-24
+Mozambique,11,Strengthening HIV systems (CNCS),,,,,,,,Sec 2.6 pp.18-24
+Mozambique,12,Infrastructure construction and renovations,,,,,,,,Sec 2.6 pp.18-24
+Uganda,1,Uganda national EMR - digitalisation of records down to HC III level,,,,,,,Detailed implementation plan to be decided by 1 April 2026,Sec 2.6.2 p.17
+Uganda,2,Rapid expansion of sustainable power solutions for health facilities,,,,,,,,Sec 2.6.2 p.17
+Uganda,3,National supply chain end-to-end traceability including GS1,,,,,,,,Sec 2.6.2 p.17
+Uganda,4,"Acceleration of community health (HIV, malaria, TB & other priority diseases)",,,,,,,,Sec 2.6.2 p.17
+Uganda,5,Reduction of maternal and newborn mortality,,,,,,,,Sec 2.6.2 p.17
+Uganda,6,Global health security & laboratory systems strengthening,,,,,,,,Sec 2.6.2 p.17
+Uganda,7,Integrated service delivery,,,,,,,,Sec 2.6.2 p.17
+Liberia,1,Service delivery not covered in previous sections (paediatric/neonatal equipment; internet & electricity),,,,,,,"2026-only narrative allocations printed (service delivery $2.20M, workforce $2.35M, supply chain $1.24M, laboratory $2.19M, surveys $3.31M, policy $1.63M, equipment $3.81M, internet/electricity $1.10M) sum to ~$17.8M vs the $7.9M 2026 lump - overlapping categories, not a clean split",Sec 2.6.2 pp.11-13
+Liberia,2,Health workforce training enhancement,,,,,,,,Sec 2.6.2 pp.11-13
+Liberia,3,Laboratory (reference-lab accreditation; regional/district equipping),,,,,,,,Sec 2.6.2 pp.11-13
+Liberia,4,"Surveys (DHS update, HIV prevalence/incidence, programme evaluations)",,,,,,,,Sec 2.6.2 pp.11-13
+Liberia,5,"Policy & standards development (CSSD, GS1, HAI surveillance in DHIS-2)",,,,,,,,Sec 2.6.2 pp.11-13

@@ -150,6 +150,23 @@ undercounts remain: Kenya's ~$97.9M cost-of-doing-business margin, Nigeria's & E
 ~6% M&O carve-outs, and Rwanda's Bridge-Plan half of the commodity basket sit outside the
 MoU budget lines.
 
+**Strategic assistance / investment detail (panel in the Country view).** The strategic
+lines are the largest and least specified amounts in most MoUs (up to $278M in a single
+year). A full-document sweep of all nine MoUs' §2.6 sections found: **Cameroon** is the
+only country with a priced domain × year table (4 domains, §2.6.3 pp.16–17, summing to
+its strategic line within print rounding — captured in `budget_tidy.csv` as
+appendix-detail rows and shown as a donut). **Côte d'Ivoire** prices 10 named items in
+narrative form ("$X per year for N years", §2.6.2 pp.15–18; its 2026 items sum to $45.6M
+vs the $47.07M lump — $1.47M unexplained). **Rwanda** prices 5 of 8 named items in
+narrative ($5M/yr CBHI, $6.8M E-Buzima, $4.5M HIV integration, $21M vector control, $10M
+bio-surveillance). **Nigeria** names 3 strategic objectives plus a 10% (~$208M)
+faith-based allocation. **Ethiopia (8 areas), Kenya (5), Mozambique (12), Uganda (7) and
+Liberia (5)** name their areas without pricing them (Uganda defers detail to an
+implementation plan due 1 April 2026; Liberia prints overlapping 2026-only allocations
+that exceed its 2026 lump). All items, prices and page references are in
+`data/strategic_areas.csv`; the Country view shows each country's domains beside its
+strategic-assistance panel.
+
 **Known gaps in the sources.**
 - Kenya USG excludes a "cost of doing business & audits" margin (~$97.9M over the term).
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.

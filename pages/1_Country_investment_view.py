@@ -398,14 +398,28 @@ def mix_legend_html(mx: pd.DataFrame) -> str:
     )
 
 
-# Build the panel sequence: the mix donut slots in right after Other commodities,
-# so the grid still ends as a full block (typically 3 x 3).
+@st.cache_data
+def strategic_areas(cty: str) -> pd.DataFrame:
+    """Strategic-investment detail harvested from every MoU's Sec 2.6:
+    Cameroon has a priced domain x FY table; CIV/Rwanda print per-item prices
+    in the narrative; the rest name their areas without pricing them."""
+    sa = pd.read_csv(lib.DATA / "strategic_areas.csv")
+    return sa[sa["Country"] == cty].sort_values("Order")
+
+
+strat = strategic_areas(country)
+
+# Build the panel sequence: the mix donut slots in right after Other commodities
+# and the strategic-domain panel right after Strategic assistance, so the grid
+# still ends as a full block.
 panels = []
 for a in areas:
     if m[m["Investment area"] == a]["Amount"].sum() > 0:
         panels.append(("area", a))
         if a == "Other commodities" and not mix.empty:
             panels.append(("mix", None))
+        if a == "Strategic assistance / investment" and len(strat):
+            panels.append(("strat", None))
 
 # Each panel lives in its own bordered box of identical height: taller charts
 # (more square at grid widths) with reserved room for notes beneath. Long
@@ -498,12 +512,96 @@ def render_mix_panel() -> None:
     )
 
 
+STRAT_COLORS = ["#3b82c4", "#1baf7a", "#eda100", "#e87ba4", "#7c6ee6",
+                "#c25b4e", "#4fb7c9", "#a3a832", "#b06fc4", "#8a8a8a"]
+
+
+def render_strat_panel() -> None:
+    fy_cols = ["FY26", "FY27", "FY28", "FY29", "FY30"]
+    priced = strat.dropna(subset=fy_cols, how="all")
+    priced = priced[pd.to_numeric(priced["FY26"], errors="coerce").notna()]
+    if len(priced):  # Cameroon-style: full priced domain table -> donut
+        d = priced.copy()
+        d["Total"] = d[fy_cols].apply(pd.to_numeric, errors="coerce").sum(axis=1)
+        d = d.sort_values("Total", ascending=False)
+        d["Share"] = d["Total"] / d["Total"].sum()
+        order = d["Item"].tolist()
+        arcs2 = (
+            alt.Chart(d)
+            .mark_arc(innerRadius=44, outerRadius=68, stroke=PAL["surface"],
+                      strokeWidth=2)
+            .encode(
+                theta=alt.Theta("Total:Q"),
+                color=alt.Color("Item:N",
+                                scale=alt.Scale(domain=order,
+                                                range=STRAT_COLORS[:len(order)]),
+                                legend=None),
+                order=alt.Order("Total:Q", sort="descending"),
+                tooltip=["Item",
+                         alt.Tooltip("Total:Q", format=",.0f", title="US$ 2026-30"),
+                         alt.Tooltip("Share:Q", format=".0%")],
+            )
+        )
+        center2 = (
+            alt.Chart(pd.DataFrame({"label": [lib.fmt_usd(d["Total"].sum())]}))
+            .mark_text(fontSize=12, fontWeight="bold", color=PAL["ink"])
+            .encode(text="label:N")
+        )
+        st.altair_chart(
+            (arcs2 + center2).properties(
+                height=CHART_H - 40,
+                title=alt.TitleParams("Strategic investments — domain split (§2.6)",
+                                      fontSize=13)),
+            use_container_width=True,
+        )
+        chips = "".join(
+            "<div style='margin:0 0 3px'>"
+            f"<span style='width:8px;height:8px;border-radius:50%;background:"
+            f"{STRAT_COLORS[order.index(r.Item)]};display:inline-block;"
+            "margin-right:5px'></span>"
+            f"<span style='color:{PAL['ink']}'>{r.Item}</span> "
+            f"<span style='color:{PAL['muted']}'>{lib.fmt_usd(r.Total)} · "
+            f"{r.Share:.0%}</span></div>"
+            for r in d.itertuples()
+        )
+        st.markdown(f"<div style='font-size:11px;line-height:1.45'>{chips}</div>",
+                    unsafe_allow_html=True)
+        st.markdown(lib.md(
+            f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
+            f"{strat.iloc[0]['Source']} — {strat.iloc[0]['Note']}.</div>"),
+            unsafe_allow_html=True)
+    else:  # named list (with per-item printed prices where the MoU gives them)
+        items = "".join(
+            "<div style='margin:0 0 5px'>"
+            f"<span style='color:{PAL['ink']};font-weight:600'>{r['Item']}</span>"
+            + (f" <span style='color:{PAL['muted']}'>— {r['Price (as printed)']}"
+               "</span>" if str(r["Price (as printed)"]) not in ("", "nan") else "")
+            + "</div>"
+            for _, r in strat.iterrows()
+        )
+        notes = " ".join(n for n in strat["Note"].dropna().astype(str) if n)
+        any_priced = strat["Price (as printed)"].astype(str).str.strip().replace(
+            "nan", "").str.len().gt(0).any()
+        tail = ("Prices as printed in the narrative — no domain × year table"
+                if any_priced else "The MoU does not price these individually")
+        st.markdown(lib.md(
+            "<div style='font-size:13px;font-weight:700;margin-bottom:6px'>"
+            "Strategic investments — named areas (§2.6)</div>"
+            f"<div style='font-size:11.5px;line-height:1.4'>{items}</div>"
+            f'<div style="font-size:10px;color:{PAL["muted"]};margin-top:6px">'
+            f"{strat.iloc[0]['Source']}. {tail}"
+            f"{' — ' + notes if notes else ''}.</div>"),
+            unsafe_allow_html=True)
+
+
 for start in range(0, len(panels), 3):
     row_cols = st.columns(3)
     for j, (kind, a) in enumerate(panels[start:start + 3]):
         with row_cols[j], st.container(border=True, height=PANEL_H):
             if kind == "mix":
                 render_mix_panel()
+            elif kind == "strat":
+                render_strat_panel()
             else:
                 render_area_panel(a)
 
