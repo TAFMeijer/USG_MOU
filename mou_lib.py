@@ -195,11 +195,15 @@ def is_lower_better(indicator: str) -> bool:
 
 
 def md(text: str) -> str:
-    """Escape characters Streamlit's markdown would typeset in prose:
-    $ (paired -> LaTeX math, serif italics) and ~ (paired -> strikethrough,
-    e.g. two '~$370M' approximations struck the text between them). Wrap every
-    st.caption / st.markdown / help string that contains dollar amounts."""
-    return text.replace("$", "\\$").replace("~", "\\~")
+    """Neutralise characters Streamlit's markdown would typeset in prose:
+    $ (paired -> LaTeX math, serif italics) and ~ (paired -> strikethrough).
+
+    Uses HTML entities rather than backslash escapes: backslashes are only
+    consumed in pure-markdown context and show up literally inside HTML blocks
+    (footnotes, legend chips), whereas entities render as the plain character
+    in every context and never trigger the math/strikethrough parser. Wrap
+    every st.caption / st.markdown / help string that contains $ amounts."""
+    return text.replace("$", "&#36;").replace("~", "&#126;")
 
 
 def fmt_usd(v: float) -> str:
