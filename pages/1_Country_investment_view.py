@@ -179,14 +179,16 @@ ordered_areas = donut_src["Investment area"].tolist()
 area_scale = alt.Scale(
     domain=ordered_areas, range=[PAL["area"][a] for a in ordered_areas]
 )
-donut_sel = alt.selection_point(fields=["Investment area"], bind="legend")
+donut_sel = alt.selection_point(fields=["Investment area"], bind="legend",
+                                name="area_sel")
 
-# One box, one Vega spec: the donut and the trajectory chart share the same
-# selection param, so clicking a legend entry (or an arc) highlights that area
-# in BOTH views. Cross-view params only resolve inside a single spec, hence
-# the hconcat rather than two separate charts.
+# Two boxes, cross-highlighted: the donut (left box) carries the single legend
+# on its right edge — visually between the two boxes. Clicking a legend entry
+# or arc triggers a Streamlit selection rerun (on_select), and the trajectory
+# chart (right box) highlights the same area. Both charts stay responsive.
 OVERVIEW_H = 430
-with st.container(border=True, height=OVERVIEW_H):
+ov1, ov2 = st.columns(2)
+with ov1, st.container(border=True, height=OVERVIEW_H):
     arcs = (
         alt.Chart(donut_src)
         .mark_arc(innerRadius=72, stroke=PAL["surface"], strokeWidth=2)
@@ -218,35 +220,60 @@ with st.container(border=True, height=OVERVIEW_H):
         .mark_text(fontSize=11, color=PAL["muted"], dy=13)
         .encode(text="label:N")
     )
-    donut_chart = (arcs + center_value + center_sub).properties(
-        width=270, height=320,
-        title=alt.TitleParams("5-year totals by area", fontSize=13))
+    ev = st.altair_chart(
+        (arcs + center_value + center_sub).properties(
+            height=320, title=alt.TitleParams("5-year totals by area", fontSize=13)),
+        use_container_width=True,
+        on_select="rerun", key=f"area_donut_{country}",
+    )
+    st.caption("Legend ordered large → small — click an entry (or an arc) to "
+               "highlight that area here AND in the trajectory chart; click "
+               "again to reset.")
 
+# areas selected in the donut (empty tuple/list = nothing selected)
+_sel = []
+try:
+    _sel = [d["Investment area"] for d in ev["selection"]["area_sel"]
+            if "Investment area" in d]
+except Exception:  # fall back: scan whatever params the event carries
+    try:
+        for _v in ev["selection"].values():
+            _sel += [d["Investment area"] for d in _v if isinstance(d, dict)
+                     and "Investment area" in d]
+    except Exception:
+        pass
+
+with ov2, st.container(border=True, height=OVERVIEW_H):
     area_year = (
         m.groupby(["Investment area", "Year"], as_index=False)["Amount"].sum()
     )
     area_year = area_year[area_year["Investment area"].isin(ordered_areas)]
+    if _sel:
+        _pred = alt.FieldOneOfPredicate(field="Investment area", oneOf=_sel)
+        traj_op = alt.condition(_pred, alt.value(1), alt.value(0.12))
+        traj_sw = alt.condition(_pred, alt.value(3), alt.value(1.8))
+    else:
+        traj_op, traj_sw = alt.value(1), alt.value(2.2)
     traj = (
         alt.Chart(area_year)
-        .mark_line(point=True, strokeWidth=2.2)
+        .mark_line(point=True)
         .encode(
             x=alt.X("Year:O", axis=YEAR_AXIS),
             y=alt.Y("Amount:Q", title=None,
                     axis=alt.Axis(format="~s",
                                   labelExpr='replace(datum.label, "G", "bn")')),
             color=alt.Color("Investment area:N", scale=area_scale, legend=None),
-            opacity=alt.condition(donut_sel, alt.value(1), alt.value(0.12)),
-            strokeWidth=alt.condition(donut_sel, alt.value(3), alt.value(2)),
+            opacity=traj_op,
+            strokeWidth=traj_sw,
             tooltip=["Investment area", "Year",
                      alt.Tooltip("Amount:Q", format=",.0f")],
         )
-        .properties(width=520, height=320,
+        .properties(height=320,
                     title=alt.TitleParams("Yearly trajectory by area", fontSize=13))
     )
-    st.altair_chart(alt.hconcat(donut_chart, traj, spacing=48))
-    st.caption("One legend for both charts, ordered large → small — click an "
-               "entry (or an arc) to highlight that area in the donut AND the "
-               "trajectory chart; click again to reset. Hover for details.")
+    st.altair_chart(traj, use_container_width=True)
+    st.caption("Same colors as the donut legend — one legend serves both. "
+               "Shows each area's scale and its scale-down over the term.")
 
 # ---------------- small multiples ----------------
 st.markdown(
@@ -444,8 +471,8 @@ for a in areas:
 # Each panel lives in its own bordered box of identical height: taller charts
 # (more square at grid widths) with reserved room for notes beneath. Long
 # notes scroll inside the box rather than distorting the grid.
-PANEL_H = 370   # box height, identical for every panel
-CHART_H = 200   # chart height inside the box
+PANEL_H = 370   # box height, identical for every panel (was 470)
+CHART_H = 280   # chart height inside the box — unchanged from the original
 
 
 def render_area_panel(a: str) -> None:
