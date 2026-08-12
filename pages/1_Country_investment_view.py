@@ -67,13 +67,14 @@ include_baseline = st.sidebar.toggle(
          "not MoU co-financing.",
 )
 show_usg_ref = st.sidebar.toggle(
-    "Show USG 2026-level reference", value=True,
-    help=lib.md("Thin dotted line at the USG's 2026 funding level in each panel — the "
-                "de-facto pre-MoU baseline the USG carries into year one (Rwanda's "
-                "MoU states 2026 = what the USG 'currently funds'). Reference only: "
-                "the USG side is fully priced in the MoU, so this is never added to "
-                "any total — the gap between it and the actual USG line is the "
-                "planned withdrawal the government side is expected to absorb."),
+    "Show 2026-level reference", value=True,
+    help=lib.md("Thin dotted line at the 2026 funding level held flat in each panel. "
+                "In Lines mode it marks the USG's 2026 level (its de-facto pre-MoU "
+                "baseline; Rwanda's MoU states 2026 = what the USG 'currently "
+                "funds'). In Stacked-area mode it marks the COMBINED 2026 level "
+                "(USG + government where the government already funds in 2026), "
+                "matching the stacked top edge. Reference only — never added to "
+                "any total."),
 )
 df = data(include_imputed, include_baseline)
 meta = countries_meta()
@@ -133,17 +134,32 @@ if include_baseline and base_t > 0:
         "funding $** — " + lib.BASELINE_CAPTION
     ))
 if show_usg_ref:
-    _u26 = cc.loc[(cc["Funder"] == "USG") & (cc["Year"] == 2026), "Amount"].sum()
-    if _u26 > 0 and usg_t > 0:
-        _ref5 = 5 * _u26
-        st.caption(lib.md(
-            f"USG reference: holding its 2026 level ({lib.fmt_usd(_u26)}/yr) flat "
-            f"would total **{lib.fmt_usd(_ref5)}** over 2026–30; the MoU plans "
-            f"{lib.fmt_usd(usg_t)} — a planned withdrawal of "
-            f"**{lib.fmt_usd(_ref5 - usg_t)}** ({100 * (_ref5 - usg_t) / _ref5:.0f}%) "
-            "for the government side to absorb. Thin dotted line in the panels; "
-            "reference only, never added to totals (the USG side is fully priced)."
-        ))
+    if panel_style == "Stacked area":
+        _c26 = cc.loc[cc["Year"] == 2026, "Amount"].sum()
+        if _c26 > 0 and comb_t > 0:
+            _ref5 = 5 * _c26
+            _delta = comb_t - _ref5
+            _word = "above" if _delta >= 0 else "below"
+            st.caption(lib.md(
+                f"Reference: the dotted line marks the **2026 combined level** "
+                f"(USG + government, {lib.fmt_usd(_c26)}/yr) held flat — "
+                f"{lib.fmt_usd(_ref5)} over the term vs {lib.fmt_usd(comb_t)} "
+                f"planned combined, i.e. **{lib.fmt_usd(abs(_delta))} {_word}** "
+                "the 2026 level. Where a panel's top edge holds the dotted line, "
+                "government absorption keeps that area at its 2026 level."
+            ))
+    else:
+        _u26 = cc.loc[(cc["Funder"] == "USG") & (cc["Year"] == 2026), "Amount"].sum()
+        if _u26 > 0 and usg_t > 0:
+            _ref5 = 5 * _u26
+            st.caption(lib.md(
+                f"USG reference: holding its 2026 level ({lib.fmt_usd(_u26)}/yr) flat "
+                f"would total **{lib.fmt_usd(_ref5)}** over 2026–30; the MoU plans "
+                f"{lib.fmt_usd(usg_t)} — a planned withdrawal of "
+                f"**{lib.fmt_usd(_ref5 - usg_t)}** ({100 * (_ref5 - usg_t) / _ref5:.0f}%) "
+                "for the government side to absorb. Thin dotted line in the panels; "
+                "reference only, never added to totals (the USG side is fully priced)."
+            ))
 
 # printed MoU footnotes that qualify this country's headline totals
 hfns = lib.budget_footnotes(area="All areas combined", country=country)
@@ -505,20 +521,41 @@ def render_area_panel(a: str) -> None:
             )
             .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
         )
-        if show_usg_ref and "USG" in funders:
-            u26 = sub.loc[(sub["Funder"] == "USG") & (sub["Year"] == 2026),
-                          "Amount"].sum()
-            if u26 > 0:
+        # per-year share labels, centred in each band (hidden below 5%)
+        if len(funders) > 1:
+            lab = sub_f.sort_values(["Year", "ord"]).copy()
+            lab["total"] = lab.groupby("Year")["Amount"].transform("sum")
+            lab = lab[lab["total"] > 0]
+            lab["share"] = lab["Amount"] / lab["total"]
+            lab["cum"] = lab.groupby("Year")["Amount"].cumsum()
+            lab["mid"] = lab["cum"] - lab["Amount"] / 2
+            lab = lab[lab["share"] >= 0.05]
+            if len(lab):
+                ch = ch + (
+                    alt.Chart(lab)
+                    .mark_text(fontSize=10, fontWeight="bold", color="white")
+                    .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="mid:Q",
+                            text=alt.Text("share:Q", format=".0%"),
+                            tooltip=["Funder", "Year",
+                                     alt.Tooltip("share:Q", format=".1%",
+                                                 title="Share of combined"),
+                                     alt.Tooltip("Amount:Q", format=",.0f")])
+                )
+        # reference: the 2026 COMBINED level (USG + govt where the govt already
+        # funds in 2026) held flat -- the top edge is combined, so like for like
+        if show_usg_ref:
+            c26 = sub.loc[sub["Year"] == 2026, "Amount"].sum()
+            if c26 > 0:
                 ref = pd.DataFrame(
-                    {"Year": sorted(sub["Year"].unique()), "Amount": u26})
+                    {"Year": sorted(sub["Year"].unique()), "Amount": c26})
                 ch = ch + (
                     alt.Chart(ref)
                     .mark_line(strokeDash=[2, 2], strokeWidth=1.4,
-                               color=PAL["usg"], opacity=0.8)
+                               color=PAL["muted"], opacity=0.9)
                     .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="Amount:Q",
                             tooltip=[alt.Tooltip(
                                 "Amount:Q", format=",.0f",
-                                title="USG 2026 level (reference)")])
+                                title="2026 combined level (reference)")])
                 )
         st.altair_chart(ch, use_container_width=True)
         if panel_fns:
@@ -702,7 +739,10 @@ if panel_style == "Stacked area" and unit == "US$":
         f'<span style="color:{PAL["usg"]};font-weight:600">▮ USG (bottom)</span> &nbsp; '
         f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top — '
         'top edge = combined funding</span> &nbsp; '
-        f'<span style="color:{PAL["usg"]}">·· USG 2026 reference</span> '
+        f'<span style="color:{PAL["muted"]}">·· 2026 combined level (reference)</span> '
+        '<span style="color:white;font-weight:700">%</span> '
+        f'<span style="color:{PAL["muted"]};font-size:12px">= share of that year\'s '
+        'combined (labels under 5% hidden)</span> '
         f'<span style="color:{PAL["muted"]};font-size:12px">(printed/imputed/baseline '
         'components are summed in this view — switch to Lines for the dash styles)</span>',
         unsafe_allow_html=True,
