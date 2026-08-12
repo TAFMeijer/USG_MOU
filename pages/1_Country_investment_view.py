@@ -467,6 +467,8 @@ for a in areas:
             panels.append(("mix", None))
         if a == "Strategic assistance / investment" and len(strat):
             panels.append(("strat", None))
+if panels:  # the aggregate of all subsequent category panels leads the grid
+    panels.insert(0, ("area", "All areas combined"))
 
 # Each panel lives in its own bordered box of identical height: taller charts
 # (more square at grid widths) with reserved room for notes beneath. Long
@@ -476,9 +478,17 @@ CHART_H = 280   # chart height inside the box — unchanged from the original
 
 
 def render_area_panel(a: str) -> None:
-    sub = lib.attach_budget_notes(m[m["Investment area"] == a], a)
-    panel_fns = lib.budget_footnotes(area=a, country=country, funders=funders)
-    note_tt = [alt.Tooltip("MoU footnote:N")] if panel_fns else []
+    if a == "All areas combined":
+        # aggregate of every category below; footnotes for the headline totals
+        # are already shown above the grid, so none repeated here
+        sub = df[(df["Country"] == country)
+                 & (df["Investment area"] == "All areas combined")
+                 & (df["Funder"].isin(funders))].copy()
+        panel_fns, note_tt = [], []
+    else:
+        sub = lib.attach_budget_notes(m[m["Investment area"] == a], a)
+        panel_fns = lib.budget_footnotes(area=a, country=country, funders=funders)
+        note_tt = [alt.Tooltip("MoU footnote:N")] if panel_fns else []
     if unit == "US$" and panel_style == "Stacked area":
         sub_f = sub.groupby(["Funder", "Year"], as_index=False)["Amount"].sum()
         sub_f["ord"] = (sub_f["Funder"] != "USG").astype(int)  # USG at the bottom
