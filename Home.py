@@ -82,29 +82,14 @@ k2.metric("Government, 5-yr total", lib.fmt_usd(tot_gov))
 combined = tot_usg + tot_gov
 k3.metric("Combined", lib.fmt_usd(combined))
 k4.metric("USG share of combined", f"{100 * tot_usg / combined:.0f}%" if combined else "–")
-caps = []
+caveats = []
 if include_imputed:
-    caps.append(
-        "**imputed $** for frontline labs & HCW where the MoU prints FTEs but no "
-        "dollars — or, for Uganda, prices only each year's new cohort (~$370M in "
-        "total: Côte d'Ivoire ~$203M on peer rates, Uganda ~$123M of absorbed-cohort "
-        "continuation, Cameroon $27.7M, Rwanda $14.1M, Ethiopia/Moz labs $2.4M; "
-        "workers absorbed in year t stay funded in every later year)"
-    )
+    caveats.append("imputed govt $")
 if include_baseline:
-    caps.append(
-        "**pre-MoU / existing funding $** — the existing government workforce the "
-        "MoUs tabulate, valued at reference rates (~$2.65bn: Uganda 49,014 HCW + "
-        "2,199 lab; CIV 39,800 + 1,900; Mozambique 38,462 HCW; Liberia 6,577 + 538), "
-        "plus ~$889M of printed existing commodity funding carried from 2026 "
-        "(Kenya $540M, Uganda $154M, CIV $130M, Liberia $40M, Moz $25M) — baseline "
-        "effort, not MoU co-financing"
-    )
-if caps:
+    caveats.append("pre-MoU/existing funding $")
+if caveats:
     st.caption(lib.md(
-        "Government figures include " + "; and ".join(caps)
-        + ". Toggle off above to see printed dollars only; method and ranges on "
-        "**Sources & methodology**."
+        "Includes " + " and ".join(caveats) + " — see **Sources & methodology**."
     ))
 
 country_scale = alt.Scale(
