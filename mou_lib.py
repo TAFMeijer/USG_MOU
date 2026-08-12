@@ -195,10 +195,11 @@ def is_lower_better(indicator: str) -> bool:
 
 
 def md(text: str) -> str:
-    """Escape $ so Streamlit's markdown doesn't typeset dollar amounts as
-    LaTeX math (paired $...$ turns prose into serif italics). Wrap every
+    """Escape characters Streamlit's markdown would typeset in prose:
+    $ (paired -> LaTeX math, serif italics) and ~ (paired -> strikethrough,
+    e.g. two '~$370M' approximations struck the text between them). Wrap every
     st.caption / st.markdown / help string that contains dollar amounts."""
-    return text.replace("$", "\\$")
+    return text.replace("$", "\\$").replace("~", "\\~")
 
 
 def fmt_usd(v: float) -> str:
