@@ -136,7 +136,7 @@ st.caption(lib.md(
     "differ from the itemised amounts charted on this page — see Sources & methodology."
 ))
 
-# ---------------- small multiples ----------------
+# ---------------- data for this country ----------------
 m = df[
     (df["Country"] == country)
     & (df["Funder"].isin(funders))
@@ -144,6 +144,91 @@ m = df[
 ]
 areas = [a for a in lib.area_options(m) if a != "All areas combined"]
 
+# ---------------- overview row: donut (left) + area trajectories (right) -----
+st.markdown(f"#### How the investment areas compare, 2026–2030 ({funder_pick})")
+
+donut_src = (
+    m.groupby("Investment area")["Amount"].sum().reset_index().query("Amount > 0")
+    .sort_values("Amount", ascending=False)
+)
+donut_total = donut_src["Amount"].sum()
+donut_src["Share of total"] = donut_src["Amount"] / donut_total
+
+# Domain in size order -> legend reads large-to-small, matching the clockwise
+# arcs; colors stay fixed per area (looked up, not positional). The SAME scale
+# colors the trajectory chart on the right, so one legend serves both.
+ordered_areas = donut_src["Investment area"].tolist()
+area_scale = alt.Scale(
+    domain=ordered_areas, range=[PAL["area"][a] for a in ordered_areas]
+)
+donut_sel = alt.selection_point(fields=["Investment area"], bind="legend")
+
+OVERVIEW_H = 420  # equal boxes left & right
+ov1, ov2 = st.columns(2)
+with ov1, st.container(border=True, height=OVERVIEW_H):
+    arcs = (
+        alt.Chart(donut_src)
+        .mark_arc(innerRadius=72, stroke=PAL["surface"], strokeWidth=2)
+        .encode(
+            theta=alt.Theta("Amount:Q"),
+            color=alt.Color(
+                "Investment area:N",
+                scale=area_scale,
+                legend=alt.Legend(labelLimit=0, title=None, orient="right",
+                                  labelFontSize=12, symbolSize=110, symbolLimit=0),
+            ),
+            order=alt.Order("Amount:Q", sort="descending"),
+            opacity=alt.condition(donut_sel, alt.value(1), alt.value(0.25)),
+            tooltip=[
+                "Investment area",
+                alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026–2030"),
+                alt.Tooltip("Share of total:Q", format=".1%"),
+            ],
+        )
+        .add_params(donut_sel)
+    )
+    center_value = (
+        alt.Chart(pd.DataFrame({"label": [lib.fmt_usd(donut_total)]}))
+        .mark_text(fontSize=22, fontWeight="bold", color=PAL["ink"], dy=-6)
+        .encode(text="label:N")
+    )
+    center_sub = (
+        alt.Chart(pd.DataFrame({"label": ["2026–2030"]}))
+        .mark_text(fontSize=11, color=PAL["muted"], dy=13)
+        .encode(text="label:N")
+    )
+    st.altair_chart(
+        (arcs + center_value + center_sub).properties(
+            height=330, title=alt.TitleParams("5-year totals by area", fontSize=13)),
+        use_container_width=True,
+    )
+    st.caption("Legend ordered large → small, matching the clockwise arcs — "
+               "click an entry to highlight its segment; hover for details.")
+with ov2, st.container(border=True, height=OVERVIEW_H):
+    area_year = (
+        m.groupby(["Investment area", "Year"], as_index=False)["Amount"].sum()
+    )
+    area_year = area_year[area_year["Investment area"].isin(ordered_areas)]
+    traj = (
+        alt.Chart(area_year)
+        .mark_line(point=True, strokeWidth=2.2)
+        .encode(
+            x=alt.X("Year:O", axis=YEAR_AXIS),
+            y=alt.Y("Amount:Q", title=None,
+                    axis=alt.Axis(format="~s",
+                                  labelExpr='replace(datum.label, "G", "bn")')),
+            color=alt.Color("Investment area:N", scale=area_scale, legend=None),
+            tooltip=["Investment area", "Year",
+                     alt.Tooltip("Amount:Q", format=",.0f")],
+        )
+        .properties(height=330,
+                    title=alt.TitleParams("Yearly trajectory by area", fontSize=13))
+    )
+    st.altair_chart(traj, use_container_width=True)
+    st.caption("Same colors as the donut legend. Shows each area's scale and "
+               "how it scales down (or up) over the term.")
+
+# ---------------- small multiples ----------------
 st.markdown(
     f"#### Funding by investment area, 2026–2030 "
     f"({'US$ per year' if unit == 'US$' else 'share of combined USG + government funding'})"
@@ -322,88 +407,105 @@ for a in areas:
         if a == "Other commodities" and not mix.empty:
             panels.append(("mix", None))
 
-cols = st.columns(3)
-for i, (kind, a) in enumerate(panels):
-    if kind == "mix":
-        with cols[i % 3]:
-            st.altair_chart(mix_donut(mix), use_container_width=True)
-            st.markdown(lib.md(mix_legend_html(mix)), unsafe_allow_html=True)
-            st.markdown(
-                f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
-                "⚠️ 2026 snapshot (App. 2) — this split is not "
-                "published in the yearly data for 2027–30. "
-                f"{lib.md(mix_recon_caption(country, mix['Amount'].sum(), mix_sep_total))}"
-                "</div>",
-                unsafe_allow_html=True,
-            )
-        continue
+# Each panel lives in its own bordered box of identical height: taller charts
+# (more square at grid widths) with reserved room for notes beneath. Long
+# notes scroll inside the box rather than distorting the grid.
+PANEL_H = 470   # box height, identical for every panel
+CHART_H = 280   # chart height inside the box
+
+
+def render_area_panel(a: str) -> None:
     sub = lib.attach_budget_notes(m[m["Investment area"] == a], a)
     panel_fns = lib.budget_footnotes(area=a, country=country, funders=funders)
     note_tt = [alt.Tooltip("MoU footnote:N")] if panel_fns else []
-    with cols[i % 3]:
-        if unit == "US$":
-            ch = (
-                alt.Chart(sub)
-                .mark_line(point=True, strokeWidth=2.5)
-                .encode(
-                    x=alt.X("Year:O", axis=YEAR_AXIS),
-                    y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
-                    color=alt.Color("Funder:N", scale=funder_scale, legend=None),
-                    strokeDash=basis_dash,
-                    detail="Basis:N",
-                    tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f"),
-                             "Basis"]
-                    + note_tt,
+    if unit == "US$":
+        ch = (
+            alt.Chart(sub)
+            .mark_line(point=True, strokeWidth=2.5)
+            .encode(
+                x=alt.X("Year:O", axis=YEAR_AXIS),
+                y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
+                color=alt.Color("Funder:N", scale=funder_scale, legend=None),
+                strokeDash=basis_dash,
+                detail="Basis:N",
+                tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f"),
+                         "Basis"]
+                + note_tt,
+            )
+            .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
+        )
+        if show_usg_ref and "USG" in funders:
+            u26 = sub.loc[(sub["Funder"] == "USG") & (sub["Year"] == 2026),
+                          "Amount"].sum()
+            if u26 > 0:
+                ref = pd.DataFrame(
+                    {"Year": sorted(sub["Year"].unique()), "Amount": u26})
+                ch = ch + (
+                    alt.Chart(ref)
+                    .mark_line(strokeDash=[2, 2], strokeWidth=1.3,
+                               color=PAL["usg"], opacity=0.5)
+                    .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="Amount:Q",
+                            tooltip=[alt.Tooltip(
+                                "Amount:Q", format=",.0f",
+                                title="USG 2026 level (reference)")])
                 )
-                .properties(height=190, title=alt.TitleParams(a, fontSize=13))
+        st.altair_chart(ch, use_container_width=True)
+        if panel_fns:
+            st.markdown(lib.footnote_block(panel_fns, size_px=10),
+                        unsafe_allow_html=True)
+    else:
+        sub2 = sub.dropna(subset=["Share"])
+        if sub2.empty:
+            st.caption("No share data for this area.")
+            return
+        line = (
+            alt.Chart(sub2)
+            .mark_line(point=True, strokeWidth=2.5)
+            .encode(
+                x=alt.X("Year:O", axis=YEAR_AXIS),
+                y=alt.Y("Share:Q", title=None, axis=alt.Axis(format=".0%"),
+                        scale=alt.Scale(domain=[0, 1])),
+                color=alt.Color("Funder:N", scale=funder_scale, legend=None),
+                strokeDash=basis_dash,
+                detail="Basis:N",
+                tooltip=["Funder", "Year", alt.Tooltip("Share:Q", format=".0%"),
+                         alt.Tooltip("Amount:Q", format=",.0f"), "Basis"] + note_tt,
             )
-            if show_usg_ref and "USG" in funders:
-                u26 = sub.loc[(sub["Funder"] == "USG") & (sub["Year"] == 2026),
-                              "Amount"].sum()
-                if u26 > 0:
-                    ref = pd.DataFrame(
-                        {"Year": sorted(sub["Year"].unique()), "Amount": u26})
-                    ch = ch + (
-                        alt.Chart(ref)
-                        .mark_line(strokeDash=[2, 2], strokeWidth=1.3,
-                                   color=PAL["usg"], opacity=0.5)
-                        .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="Amount:Q",
-                                tooltip=[alt.Tooltip(
-                                    "Amount:Q", format=",.0f",
-                                    title="USG 2026 level (reference)")])
-                    )
-            st.altair_chart(ch, use_container_width=True)
-            if panel_fns:
-                st.markdown(lib.footnote_block(panel_fns, size_px=10),
-                            unsafe_allow_html=True)
-        else:
-            sub2 = sub.dropna(subset=["Share"])
-            if sub2.empty:
-                continue
-            line = (
-                alt.Chart(sub2)
-                .mark_line(point=True, strokeWidth=2.5)
-                .encode(
-                    x=alt.X("Year:O", axis=YEAR_AXIS),
-                    y=alt.Y("Share:Q", title=None, axis=alt.Axis(format=".0%"),
-                            scale=alt.Scale(domain=[0, 1])),
-                    color=alt.Color("Funder:N", scale=funder_scale, legend=None),
-                    strokeDash=basis_dash,
-                    detail="Basis:N",
-                    tooltip=["Funder", "Year", alt.Tooltip("Share:Q", format=".0%"),
-                             alt.Tooltip("Amount:Q", format=",.0f"), "Basis"] + note_tt,
-                )
-                .properties(height=190, title=alt.TitleParams(a, fontSize=13))
-            )
-            rule = (
-                alt.Chart(pd.DataFrame({"y": [0.5]}))
-                .mark_rule(strokeDash=[4, 4], color="#898781")
-                .encode(y="y:Q")
-            )
-            st.altair_chart(line + rule, use_container_width=True)
-            if panel_fns:
-                st.markdown(lib.footnote_block(panel_fns, size_px=10),
-                            unsafe_allow_html=True)
+            .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
+        )
+        rule = (
+            alt.Chart(pd.DataFrame({"y": [0.5]}))
+            .mark_rule(strokeDash=[4, 4], color="#898781")
+            .encode(y="y:Q")
+        )
+        st.altair_chart(line + rule, use_container_width=True)
+        if panel_fns:
+            st.markdown(lib.footnote_block(panel_fns, size_px=10),
+                        unsafe_allow_html=True)
+
+
+def render_mix_panel() -> None:
+    st.altair_chart(
+        mix_donut(mix).properties(height=CHART_H - 40), use_container_width=True)
+    st.markdown(lib.md(mix_legend_html(mix)), unsafe_allow_html=True)
+    st.markdown(
+        f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
+        "⚠️ 2026 snapshot (App. 2) — this split is not "
+        "published in the yearly data for 2027–30. "
+        f"{lib.md(mix_recon_caption(country, mix['Amount'].sum(), mix_sep_total))}"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+
+for start in range(0, len(panels), 3):
+    row_cols = st.columns(3)
+    for j, (kind, a) in enumerate(panels[start:start + 3]):
+        with row_cols[j], st.container(border=True, height=PANEL_H):
+            if kind == "mix":
+                render_mix_panel()
+            else:
+                render_area_panel(a)
 
 st.markdown(
     f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
@@ -426,74 +528,6 @@ if leftover:
     st.markdown(
         lib.footnote_block([{**n, "Country": n["Area"]} for n in leftover]),
         unsafe_allow_html=True,
-    )
-
-# ---------------- donut: how the areas compare in size ----------------
-st.markdown(f"#### How the investment areas compare, 2026–2030 ({funder_pick})")
-donut_src = (
-    m.groupby("Investment area")["Amount"].sum().reset_index().query("Amount > 0")
-    .sort_values("Amount", ascending=False)
-)
-donut_total = donut_src["Amount"].sum()
-donut_src["Share of total"] = donut_src["Amount"] / donut_total
-
-# Domain in size order -> legend reads large-to-small, matching the clockwise arcs;
-# colors stay fixed per area because they're looked up, not positional.
-ordered_areas = donut_src["Investment area"].tolist()
-area_scale = alt.Scale(
-    domain=ordered_areas, range=[PAL["area"][a] for a in ordered_areas]
-)
-donut_sel = alt.selection_point(fields=["Investment area"], bind="legend")
-
-arcs = (
-    alt.Chart(donut_src)
-    .mark_arc(innerRadius=78, stroke=PAL["surface"], strokeWidth=2)
-    .encode(
-        theta=alt.Theta("Amount:Q"),
-        color=alt.Color(
-            "Investment area:N",
-            scale=area_scale,
-            legend=alt.Legend(labelLimit=0, title=None, orient="right",
-                              labelFontSize=12, symbolSize=110, symbolLimit=0),
-        ),
-        order=alt.Order("Amount:Q", sort="descending"),
-        opacity=alt.condition(donut_sel, alt.value(1), alt.value(0.25)),
-        tooltip=[
-            "Investment area",
-            alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026–2030"),
-            alt.Tooltip("Share of total:Q", format=".1%"),
-        ],
-    )
-    .add_params(donut_sel)
-)
-center_df = pd.DataFrame({"label": [lib.fmt_usd(donut_total)]})
-center_value = (
-    alt.Chart(center_df)
-    .mark_text(fontSize=24, fontWeight="bold", color=PAL["ink"], dy=-6)
-    .encode(text="label:N")
-)
-center_sub = (
-    alt.Chart(pd.DataFrame({"label": ["2026–2030"]}))
-    .mark_text(fontSize=11, color=PAL["muted"], dy=14)
-    .encode(text="label:N")
-)
-donut = (arcs + center_value + center_sub).properties(height=340)
-
-dc1, dc2 = st.columns([3, 2])
-with dc1:
-    st.altair_chart(donut, use_container_width=True)
-with dc2:
-    top = donut_src.head(5)
-    st.markdown("**Largest areas**")
-    for _, r in top.iterrows():
-        st.markdown(
-            f"- {r['Investment area']}: **{lib.fmt_usd(r['Amount'])}** "
-            f"({r['Share of total']:.0%})"
-        )
-    st.caption(
-        "Respects the funder toggle in the sidebar. Legend is ordered large → small, "
-        "matching the clockwise arcs — click a legend entry to highlight its segment "
-        "(click it again to reset). Hover a segment for details."
     )
 
 # ---------------- detail table ----------------
