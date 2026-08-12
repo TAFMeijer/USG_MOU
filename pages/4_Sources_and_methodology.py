@@ -13,6 +13,17 @@ st.markdown(
     "signed agreements come from the KFF tracker; detailed budget and indicator tables "
     "were transcribed from the 9 published full MoU texts and verified against the PDFs."
 )
+st.warning(
+    "**Provenance caveat** — the MoUs are government-to-government cooperation documents "
+    "that were not originally drafted for publication; the copies used here were placed "
+    "in the public domain by third parties (Public Citizen, Health Policy Watch, Think "
+    "Global Health). By their own terms the MoUs are not international agreements and "
+    "all amounts are plans *subject to the availability of funds* — nothing on this "
+    "dashboard represents appropriations, disbursements or current implementation "
+    "status, and the published scans may have been amended or superseded since. This is "
+    "an independent research reconstruction, not an official product of any government "
+    "or organisation."
+)
 
 # ---------------- reference trackers ----------------
 st.subheader("Reference trackers & mirrors")

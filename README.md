@@ -63,6 +63,8 @@ streamlit run Home.py
 | `data/programmatic_tidy.csv` | Every Section-1 indicator: baseline + yearly targets, units, value types, source notes, and the MoUs' own printed footnotes (verbatim + location) |
 | `data/countries.csv` | All 34 agreements: amounts, dates, program areas, source-PDF links |
 | `data/sources.csv` | Reference trackers and mirrors |
+| `data/strategic_areas.csv` | Strategic-investment domains/areas named in every MoU's §2.6, with printed prices and page references |
+| `analysis/` | Derived analyses: $/FTE imputation scripts and outputs, cadre-table harvests (Mozambique, Uganda), baseline valuations, analysis notes |
 
 **Summing rules** (see Sources & methodology page in the app): only `Row type = "Line item"`
 rows plus existing-government rows are summed; the MoUs' own subtotals, nested appendix
@@ -70,9 +72,37 @@ breakdowns, FTE headcounts and domestic-expenditure pledges are excluded to avoi
 counting. "Government" = new co-financing **plus** existing funding where tabulated
 (Nigeria, Ethiopia, Rwanda publish no existing split — their shares are understated).
 
-## Provenance & quality
+## Provenance & caveats
 
-Tables were machine-transcribed from the source PDFs and independently verified against
-them; source-document errors (misprinted totals, conflicting appendices) are preserved as
-printed and flagged in `Source note`. Compiled August 2026. Not an official product of any
-government or organisation.
+**Read this before using the data.** All figures were transcribed from copies of the nine
+signed MoU texts that were placed in the public domain by third parties (Public Citizen,
+Health Policy Watch, Think Global Health) and from the KFF tracker. The MoUs are
+government-to-government cooperation documents that were **not originally drafted for
+publication**; no official consolidated dataset of them exists, and this repository is an
+independent research reconstruction. In particular:
+
+1. **Amounts are plans, not obligations.** By the MoUs' own terms they are not
+   international agreements and all activities are *subject to the availability of funds*.
+   Nothing here represents appropriations, disbursements, or current implementation status,
+   and the published scans may have been amended or superseded since.
+2. **Figures are transcribed as printed**, including source-document errors (misprinted
+   totals, conflicting appendices, internally inconsistent tables). These are preserved
+   uncorrected and flagged in the `Source note` column.
+3. **Derived values are clearly separated from printed ones.** Rows flagged
+   `Imputed (derived - not printed in MoU)` / `Imputed baseline (pre-MoU - derived)` and
+   series with `Basis` other than "Printed in MoU" are estimates produced by this
+   project's documented methodology (FTE commitments priced at unit rates derived from
+   the same documents) — they are never printed values, they carry stated confidence
+   ranges, and every chart lets you toggle them off. See the app's *Sources &
+   methodology* page and `analysis/` for full derivations.
+4. Tables were machine-transcribed from the source PDFs and independently verified
+   against them. Compiled August 2026. **Not an official product of any government or
+   organisation**, and no affiliation with any party to the MoUs is implied. Content is
+   provided as-is for research and transparency purposes; corrections are welcome via
+   issues or pull requests.
+
+## License
+
+Code and derived data are released under the [MIT License](LICENSE). The underlying MoU
+texts remain the work of their authors; transcription here is for research and
+transparency purposes.
