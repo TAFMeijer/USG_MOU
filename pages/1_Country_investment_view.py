@@ -163,9 +163,12 @@ area_scale = alt.Scale(
 )
 donut_sel = alt.selection_point(fields=["Investment area"], bind="legend")
 
-OVERVIEW_H = 420  # equal boxes left & right
-ov1, ov2 = st.columns(2)
-with ov1, st.container(border=True, height=OVERVIEW_H):
+# One box, one Vega spec: the donut and the trajectory chart share the same
+# selection param, so clicking a legend entry (or an arc) highlights that area
+# in BOTH views. Cross-view params only resolve inside a single spec, hence
+# the hconcat rather than two separate charts.
+OVERVIEW_H = 430
+with st.container(border=True, height=OVERVIEW_H):
     arcs = (
         alt.Chart(donut_src)
         .mark_arc(innerRadius=72, stroke=PAL["surface"], strokeWidth=2)
@@ -197,14 +200,10 @@ with ov1, st.container(border=True, height=OVERVIEW_H):
         .mark_text(fontSize=11, color=PAL["muted"], dy=13)
         .encode(text="label:N")
     )
-    st.altair_chart(
-        (arcs + center_value + center_sub).properties(
-            height=330, title=alt.TitleParams("5-year totals by area", fontSize=13)),
-        use_container_width=True,
-    )
-    st.caption("Legend ordered large → small, matching the clockwise arcs — "
-               "click an entry to highlight its segment; hover for details.")
-with ov2, st.container(border=True, height=OVERVIEW_H):
+    donut_chart = (arcs + center_value + center_sub).properties(
+        width=270, height=320,
+        title=alt.TitleParams("5-year totals by area", fontSize=13))
+
     area_year = (
         m.groupby(["Investment area", "Year"], as_index=False)["Amount"].sum()
     )
@@ -218,15 +217,18 @@ with ov2, st.container(border=True, height=OVERVIEW_H):
                     axis=alt.Axis(format="~s",
                                   labelExpr='replace(datum.label, "G", "bn")')),
             color=alt.Color("Investment area:N", scale=area_scale, legend=None),
+            opacity=alt.condition(donut_sel, alt.value(1), alt.value(0.12)),
+            strokeWidth=alt.condition(donut_sel, alt.value(3), alt.value(2)),
             tooltip=["Investment area", "Year",
                      alt.Tooltip("Amount:Q", format=",.0f")],
         )
-        .properties(height=330,
+        .properties(width=520, height=320,
                     title=alt.TitleParams("Yearly trajectory by area", fontSize=13))
     )
-    st.altair_chart(traj, use_container_width=True)
-    st.caption("Same colors as the donut legend. Shows each area's scale and "
-               "how it scales down (or up) over the term.")
+    st.altair_chart(alt.hconcat(donut_chart, traj, spacing=48))
+    st.caption("One legend for both charts, ordered large → small — click an "
+               "entry (or an arc) to highlight that area in the donut AND the "
+               "trajectory chart; click again to reset. Hover for details.")
 
 # ---------------- small multiples ----------------
 st.markdown(
@@ -424,8 +426,8 @@ for a in areas:
 # Each panel lives in its own bordered box of identical height: taller charts
 # (more square at grid widths) with reserved room for notes beneath. Long
 # notes scroll inside the box rather than distorting the grid.
-PANEL_H = 470   # box height, identical for every panel
-CHART_H = 280   # chart height inside the box
+PANEL_H = 370   # box height, identical for every panel
+CHART_H = 200   # chart height inside the box
 
 
 def render_area_panel(a: str) -> None:
@@ -500,7 +502,7 @@ def render_area_panel(a: str) -> None:
 
 def render_mix_panel() -> None:
     st.altair_chart(
-        mix_donut(mix).properties(height=CHART_H - 40), use_container_width=True)
+        mix_donut(mix).properties(height=CHART_H - 20), use_container_width=True)
     st.markdown(lib.md(mix_legend_html(mix)), unsafe_allow_html=True)
     st.markdown(
         f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
@@ -549,7 +551,7 @@ def render_strat_panel() -> None:
         )
         st.altair_chart(
             (arcs2 + center2).properties(
-                height=CHART_H - 40,
+                height=CHART_H - 20,
                 title=alt.TitleParams("Strategic investments — domain split (§2.6)",
                                       fontSize=13)),
             use_container_width=True,
