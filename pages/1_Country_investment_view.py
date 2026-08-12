@@ -81,16 +81,12 @@ meta = countries_meta()
 PAL = lib.palette()  # follows the active (system-preference) theme
 
 country = st.sidebar.selectbox("Country", sorted(df["Country"].unique()))
-unit = st.sidebar.radio("Unit", ["US$", "% of combined"])
-# Stacked areas are the US$ panel style: USG (bottom) + government (top), so
-# the top edge is COMBINED funding, read against the dotted 2026 reference.
-# (The former Lines style was dropped; provenance dash styles live on in the
-# "% of combined" view and the component captions above.)
+# The stacked panels carry everything the old Unit / Funder selectors switched
+# between: both funders are always shown (USG bottom, government on top) and
+# yearly shares appear as in-band labels — so the selectors are gone.
+unit = "US$"
 panel_style = "Stacked area"
-funder_pick = st.sidebar.radio("Funder", ["USG", "Govt (existing + new)", "Both"], index=2)
-FUNDER_MAP = {"USG": ["USG"], "Govt (existing + new)": [lib.GOV_LABEL],
-              "Both": ["USG", lib.GOV_LABEL]}
-funders = FUNDER_MAP[funder_pick]
+funders = ["USG", lib.GOV_LABEL]
 
 # ---------------- header with source link ----------------
 row = meta.loc[country]
@@ -145,18 +141,6 @@ if show_usg_ref:
                 "the 2026 level. Where a panel's top edge holds the dotted line, "
                 "government absorption keeps that area at its 2026 level."
             ))
-    else:
-        _u26 = cc.loc[(cc["Funder"] == "USG") & (cc["Year"] == 2026), "Amount"].sum()
-        if _u26 > 0 and usg_t > 0:
-            _ref5 = 5 * _u26
-            st.caption(lib.md(
-                f"USG reference: holding its 2026 level ({lib.fmt_usd(_u26)}/yr) flat "
-                f"would total **{lib.fmt_usd(_ref5)}** over 2026–30; the MoU plans "
-                f"{lib.fmt_usd(usg_t)} — a planned withdrawal of "
-                f"**{lib.fmt_usd(_ref5 - usg_t)}** ({100 * (_ref5 - usg_t) / _ref5:.0f}%) "
-                "for the government side to absorb. Thin dotted line in the panels; "
-                "reference only, never added to totals (the USG side is fully priced)."
-            ))
 
 # printed MoU footnotes that qualify this country's headline totals
 hfns = lib.budget_footnotes(area="All areas combined", country=country)
@@ -184,7 +168,7 @@ m = df[
 areas = [a for a in lib.area_options(m) if a != "All areas combined"]
 
 # ---------------- overview row: donut (left) + area trajectories (right) -----
-st.markdown(f"#### How the investment areas compare, 2026–2030 ({funder_pick})")
+st.markdown("#### How the investment areas compare, 2026–2030")
 
 donut_src = (
     m.groupby("Investment area")["Amount"].sum().reset_index().query("Amount > 0")
@@ -304,22 +288,10 @@ with ov2, st.container(border=True, height=OVERVIEW_H):
                "Shows each area's scale and its scale-down over the term.")
 
 # ---------------- small multiples ----------------
-st.markdown(
-    f"#### Funding by investment area, 2026–2030 "
-    f"({'US$ per year' if unit == 'US$' else 'share of combined USG + government funding'})"
-)
+st.markdown("#### Funding by investment area, 2026–2030 (US$ per year)")
 
 funder_scale = alt.Scale(
     domain=["USG", lib.GOV_LABEL], range=[PAL["usg"], PAL["gov"]]
-)
-# Solid = printed in the MoU; dashed = imputed from FTE commitments;
-# dotted = pre-MoU baseline workforce
-basis_dash = alt.StrokeDash(
-    "Basis:N",
-    scale=alt.Scale(domain=[lib.BASIS_PRINTED, lib.BASIS_IMPUTED, lib.BASIS_BASELINE,
-                            lib.BASIS_PRINTED_EXISTING],
-                    range=[[1, 0], [6, 4], [2, 3], [8, 3, 2, 3]]),
-    legend=None,
 )
 
 # ---- 2026 mix of Other commodities (Appendix 2) for the in-grid micro-donut ----
@@ -565,70 +537,6 @@ def render_area_panel(a: str) -> None:
         if panel_fns:
             st.markdown(lib.footnote_block(panel_fns, size_px=10),
                         unsafe_allow_html=True)
-    elif unit == "US$":
-        ch = (
-            alt.Chart(sub)
-            .mark_line(point=True, strokeWidth=2.5)
-            .encode(
-                x=alt.X("Year:O", axis=YEAR_AXIS),
-                y=alt.Y("Amount:Q", title=None, axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
-                color=alt.Color("Funder:N", scale=funder_scale, legend=None),
-                strokeDash=basis_dash,
-                detail="Basis:N",
-                tooltip=["Funder", "Year", alt.Tooltip("Amount:Q", format=",.0f"),
-                         "Basis"]
-                + note_tt,
-            )
-            .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
-        )
-        if show_usg_ref and "USG" in funders:
-            u26 = sub.loc[(sub["Funder"] == "USG") & (sub["Year"] == 2026),
-                          "Amount"].sum()
-            if u26 > 0:
-                ref = pd.DataFrame(
-                    {"Year": sorted(sub["Year"].unique()), "Amount": u26})
-                ch = ch + (
-                    alt.Chart(ref)
-                    .mark_line(strokeDash=[2, 2], strokeWidth=1.3,
-                               color=PAL["usg"], opacity=0.5)
-                    .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y="Amount:Q",
-                            tooltip=[alt.Tooltip(
-                                "Amount:Q", format=",.0f",
-                                title="USG 2026 level (reference)")])
-                )
-        st.altair_chart(ch, use_container_width=True)
-        if panel_fns:
-            st.markdown(lib.footnote_block(panel_fns, size_px=10),
-                        unsafe_allow_html=True)
-    else:
-        sub2 = sub.dropna(subset=["Share"])
-        if sub2.empty:
-            st.caption("No share data for this area.")
-            return
-        line = (
-            alt.Chart(sub2)
-            .mark_line(point=True, strokeWidth=2.5)
-            .encode(
-                x=alt.X("Year:O", axis=YEAR_AXIS),
-                y=alt.Y("Share:Q", title=None, axis=alt.Axis(format=".0%"),
-                        scale=alt.Scale(domain=[0, 1])),
-                color=alt.Color("Funder:N", scale=funder_scale, legend=None),
-                strokeDash=basis_dash,
-                detail="Basis:N",
-                tooltip=["Funder", "Year", alt.Tooltip("Share:Q", format=".0%"),
-                         alt.Tooltip("Amount:Q", format=",.0f"), "Basis"] + note_tt,
-            )
-            .properties(height=CHART_H, title=alt.TitleParams(a, fontSize=13))
-        )
-        rule = (
-            alt.Chart(pd.DataFrame({"y": [0.5]}))
-            .mark_rule(strokeDash=[4, 4], color="#898781")
-            .encode(y="y:Q")
-        )
-        st.altair_chart(line + rule, use_container_width=True)
-        if panel_fns:
-            st.markdown(lib.footnote_block(panel_fns, size_px=10),
-                        unsafe_allow_html=True)
 
 
 def render_mix_panel() -> None:
@@ -738,30 +646,19 @@ for start in range(0, len(panels), 3):
             else:
                 render_area_panel(a)
 
-if panel_style == "Stacked area" and unit == "US$":
-    st.markdown(
-        f'<span style="color:{PAL["usg"]};font-weight:600">▮ USG (bottom)</span> &nbsp; '
-        f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top — '
-        'top edge = combined funding</span> &nbsp; '
-        f'<span style="color:{PAL["muted"]}">·· 2026 combined level (reference)</span> '
-        '<span style="color:white;font-weight:700">%</span> '
-        f'<span style="color:{PAL["muted"]};font-size:12px">= share of the 2026 '
-        "combined level - the two bands sum to that year vs 2026 (>100% = growth, "
-        '<100% = shortfall; labels under 5% hidden)</span> '
-        f'<span style="color:{PAL["muted"]};font-size:12px">(printed/imputed/baseline '
-        'components are summed in this view — switch to Lines for the dash styles)</span>',
-        unsafe_allow_html=True,
-    )
-else:
-    st.markdown(
-        f'<span style="color:{PAL["usg"]};font-weight:600">— USG</span> &nbsp; '
-        f'<span style="color:{PAL["gov"]};font-weight:600">— Govt (existing + new)</span>'
-        + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">- - imputed from '
-           'FTEs</span>' if include_imputed and imp_t > 0 else "")
-        + (f' &nbsp; <span style="color:{PAL["gov"]};font-weight:600">·· / -·- pre-MoU '
-           'baseline & existing funding</span>' if include_baseline and base_t > 0 else ""),
-        unsafe_allow_html=True,
-    )
+st.markdown(
+    f'<span style="color:{PAL["usg"]};font-weight:600">▮ USG (bottom)</span> &nbsp; '
+    f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top — '
+    'top edge = combined funding</span> &nbsp; '
+    f'<span style="color:{PAL["muted"]}">·· 2026 combined level (reference)</span> '
+    '<span style="color:white;font-weight:700">%</span> '
+    f'<span style="color:{PAL["muted"]};font-size:12px">= share of the 2026 '
+    "combined level - the two bands sum to that year vs 2026 (>100% = growth, "
+    '<100% = shortfall; labels under 5% hidden)</span> '
+    f'<span style="color:{PAL["muted"]};font-size:12px">(printed/imputed/baseline '
+    'components are summed in this view — see the captions above for the split)</span>',
+    unsafe_allow_html=True,
+)
 
 # printed footnotes whose investment area has no dollar panel above (e.g. Côte
 # d'Ivoire's orphan asterisk on its FTE-only frontline-worker table)
