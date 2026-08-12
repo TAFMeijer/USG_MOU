@@ -68,13 +68,13 @@ include_baseline = st.sidebar.toggle(
 )
 show_usg_ref = st.sidebar.toggle(
     "Show 2026-level reference", value=True,
-    help=lib.md("Thin dotted line at the 2026 funding level held flat in each panel. "
-                "In Lines mode it marks the USG's 2026 level (its de-facto pre-MoU "
-                "baseline; Rwanda's MoU states 2026 = what the USG 'currently "
-                "funds'). In Stacked-area mode it marks the COMBINED 2026 level "
-                "(USG + government where the government already funds in 2026), "
-                "matching the stacked top edge. Reference only — never added to "
-                "any total."),
+    help=lib.md("Thin dotted line at the COMBINED 2026 level (USG + government "
+                "where the government already funds in 2026) held flat in each "
+                "panel — the de-facto pre-MoU baseline carried into year one "
+                "(Rwanda's MoU states 2026 = what the USG 'currently funds'). "
+                "Read the stacked top edge against it: holding the line means "
+                "government absorption keeps the area at its 2026 level. "
+                "Reference only — never added to any total."),
 )
 df = data(include_imputed, include_baseline)
 meta = countries_meta()
@@ -82,14 +82,11 @@ PAL = lib.palette()  # follows the active (system-preference) theme
 
 country = st.sidebar.selectbox("Country", sorted(df["Country"].unique()))
 unit = st.sidebar.radio("Unit", ["US$", "% of combined"])
-panel_style = st.sidebar.radio(
-    "Panel style", ["Lines", "Stacked area"],
-    help="Stacked area sums USG (bottom) + government (top) per panel, so the "
-         "top edge is COMBINED funding — read it against the dotted USG-2026 "
-         "reference to see whether government absorption fills the USG "
-         "withdrawal. Lines keep the printed/imputed/baseline dash styles. "
-         "Applies to the US$ view.",
-)
+# Stacked areas are the US$ panel style: USG (bottom) + government (top), so
+# the top edge is COMBINED funding, read against the dotted 2026 reference.
+# (The former Lines style was dropped; provenance dash styles live on in the
+# "% of combined" view and the component captions above.)
+panel_style = "Stacked area"
 funder_pick = st.sidebar.radio("Funder", ["USG", "Govt (existing + new)", "Both"], index=2)
 FUNDER_MAP = {"USG": ["USG"], "Govt (existing + new)": [lib.GOV_LABEL],
               "Both": ["USG", lib.GOV_LABEL]}
