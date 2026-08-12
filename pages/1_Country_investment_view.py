@@ -273,14 +273,21 @@ with ov2, st.container(border=True, height=OVERVIEW_H):
         _pred = alt.FieldOneOfPredicate(field="Investment area", oneOf=_sel)
         traj_op = alt.condition(_pred, alt.value(1), alt.value(0.12))
         traj_sw = alt.condition(_pred, alt.value(3), alt.value(1.8))
+        # y-axis rescales to the selected area(s) +20% headroom; the dimmed
+        # context lines clip at the frame (mark clip=True below)
+        _ymax = area_year.loc[
+            area_year["Investment area"].isin(_sel), "Amount"].max()
+        traj_scale = (alt.Scale(domain=[0, float(_ymax) * 1.2])
+                      if pd.notna(_ymax) and _ymax > 0 else alt.Undefined)
     else:
         traj_op, traj_sw = alt.value(1), alt.value(2.2)
+        traj_scale = alt.Undefined
     traj = (
         alt.Chart(area_year)
-        .mark_line(point=True)
+        .mark_line(point=True, clip=True)
         .encode(
             x=alt.X("Year:O", axis=YEAR_AXIS),
-            y=alt.Y("Amount:Q", title=None,
+            y=alt.Y("Amount:Q", title=None, scale=traj_scale,
                     axis=alt.Axis(format="~s",
                                   labelExpr='replace(datum.label, "G", "bn")')),
             color=alt.Color("Investment area:N", scale=area_scale, legend=None),
