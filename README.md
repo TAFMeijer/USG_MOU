@@ -1,5 +1,10 @@
 # USG MoU dashboard
 
+**Live app:** https://usg-mou.streamlit.app/ · **Standalone explorer:** https://tafmeijer.github.io/USG_MOU/
+
+![USG MoU dashboard — funding trajectories and 5-year totals by country](assets/screenshot.png)
+
+
 Interactive dashboard tracking the **America First Global Health Strategy bilateral health
 MoUs** (34 countries, five-year cooperation plans 2026–2030): who funds what, how U.S.
 funding tapers while government co-financing ramps up, and the programmatic targets each
