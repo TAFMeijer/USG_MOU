@@ -11,7 +11,7 @@ st.title("Sources & methodology")
 st.markdown(
     "All information in this dashboard is **publicly available**. Amounts for all 34 "
     "signed agreements come from the KFF tracker; detailed budget and indicator tables "
-    "were transcribed from the 9 published full MoU texts and verified against the PDFs."
+    "were transcribed from the 16 published full MoU texts and verified against the PDFs."
 )
 st.warning(
     "**Provenance caveat** — the MoUs are government-to-government cooperation documents "
@@ -26,6 +26,10 @@ st.warning(
 )
 
 # ---------------- reference trackers ----------------
+st.markdown(lib.md("""
+**How each text became public.** Sixteen of the 34 signed agreements now have a public full text, and the route matters. Public Citizen marks each one: an **asterisk (\*)** means the U.S. government published the text itself, via its Case Act reporting page; a **caret (^)** means the U.S. government released it only in response to Public Citizen's Freedom of Information Act requests. Five texts carry both markers (Kenya, Mozambique, Nigeria, Ethiopia, Malawi), Uganda alone is Case Act only, and **ten are public solely because of the FOIA litigation** — Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire and Burundi. Public Citizen sued the State Department over its failure to produce these records; the August 2026 production (FL-2026-00021) is what that suit yielded. Every country row carries its marker in `Disclosure marker` and the route in plain words in `How the text became public`.
+"""))
+
 st.subheader("Reference trackers & mirrors")
 src = lib.load_sources()
 st.dataframe(
@@ -38,7 +42,7 @@ st.dataframe(
 # ---------------- all 34 countries ----------------
 st.subheader("All 34 signed MoUs")
 st.caption(
-    "Click a PDF link to open the source document. 9 countries have a public full text; "
+    "Click a PDF link to open the source document. 16 countries have a public full text; "
     "a pre-signature draft also exists for South Sudan (see reference table above)."
 )
 c = lib.load_countries()
@@ -163,7 +167,7 @@ MoU budget lines.
 
 **Strategic assistance / investment detail (panel in the Country view).** The strategic
 lines are the largest and least specified amounts in most MoUs (up to $278M in a single
-year). A full-document sweep of all nine MoUs' §2.6 sections found: **Cameroon** is the
+year). A full-document sweep of all sixteen MoUs' §2.6 sections found: **Cameroon** is the
 only country with a priced domain × year table (4 domains, §2.6.3 pp.16–17, summing to
 its strategic line within print rounding — captured in `budget_tidy.csv` as
 appendix-detail rows and shown as a donut). **Côte d'Ivoire** prices 10 named items in
@@ -178,6 +182,46 @@ that exceed its 2026 lump). All items, prices and page references are in
 `data/strategic_areas.csv`; the Country view shows each country's domains beside its
 strategic-assistance panel.
 
+**The August 2026 release — seven new texts, and what they change.** Public Citizen published
+the State Department's FOIA production on 30 August 2026, taking public full texts from 9 to 16.
+Seven countries are new to this dashboard — **Lesotho, Eswatini, Sierra Leone, Botswana,
+Madagascar, Malawi and Burundi** — and four earlier texts (Rwanda, Liberia, Cameroon,
+Côte d'Ivoire) were re-released from the official production. Every source link now points at the
+official release rather than a third-party mirror. Four things in the new batch break patterns the
+first nine established:
+
+- **Botswana is a three-year MoU (2026–2028).** Every other published text runs five years. Its
+  headline amounts are *not* comparable to the others without adjusting for term length, and its
+  government share — 79% of the combined total — is the highest of any MoU.
+- **Botswana's U.S. line items do not sum to its own printed totals** in any of its three years
+  (−$3.6M over the term). It is the only published MoU where the U.S. side fails to reconcile.
+- **Burundi and Côte d'Ivoire itemise the 6% management-and-operations carve-out** as an
+  Appendix 1 line. Everywhere else it is an unexplained gap between line items and the printed
+  total (Lesotho, Madagascar and Botswana all sit exactly 6% below their headline; Lesotho
+  footnotes it explicitly).
+- **The government "new funding" tables are mislabelled.** Appendix 1 heads them "total *new*
+  planned financial support", but comparing them with the §2.x.3 funding plans shows they carry
+  the **Total Government Funding** column — new *plus* existing. This holds across every text
+  checked, the original nine included, so the government figures in this dashboard already contain
+  both components and existing funding is not added on top.
+
+**Where the published texts disagree with the KFF tracker.** Three of the new texts print
+different headline amounts from the tracker this dashboard uses for the other 18 countries:
+**Malawi** (MoU: $744.8M U.S. / $55.0M government; KFF: $792M / $143.8M), **Eswatini** (MoU
+$192.7M U.S.; KFF $205M) and **Botswana** (MoU $99.6M U.S.; KFF $106M, a difference of exactly
+6%). Malawi's government gap of $88.8M is not explained by anything in its text. The MoU figures
+are used for the detailed tables; the KFF figures remain in `countries.csv` for cross-country
+comparability, and both are visible side by side.
+
+**Signature verification.** All 16 texts were confirmed to be signed finals. The FOIA copies
+redact the signatures themselves under exemption (b)(6) — white boxes over the ink — but the
+signature blocks, dated place-of-signing lines, names and titles are intact, and in several
+(Cameroon, Malawi, Rwanda, Côte d'Ivoire) the strokes overrun the redaction box. **South Sudan
+is excluded**: the only available text is a pre-signature April 2026 draft, and the agreement was
+signed on 25 June 2026. Four signature dates in the signed texts differ from the tracker dates —
+Malawi (13 vs 14 Jan 2026), Botswana (22 vs 23 Dec 2025), Nigeria (19 vs 20 Dec 2025) and
+Madagascar (22 Dec, where Public Citizen records "22 or 23") — and are noted per country.
+
 **Known gaps in the sources.**
 - Kenya USG excludes a "cost of doing business & audits" margin (~$97.9M over the term).
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
@@ -186,6 +230,16 @@ strategic-assistance panel.
 - Côte d'Ivoire's frontline workers are FTE-only, and the available scan is missing its
   appendix pages (25–29); its imputed $ rest entirely on peer-country rates.
 - Liberia's own summary and detail tables disagree by $1.19M for 2027 (source error).
+- Botswana's U.S. line items miss their printed column totals in all three years; its §2.6.3
+  strategic-assistance series also differs from its Appendix 1 row by $3.1M.
+- Lesotho's Appendix 1 omits government commodity funding entirely ($16.6M–$24.3M a year,
+  recovered here from §2.3.3); its §2.6.3 strategic series is $2.7M below its Appendix 1 row.
+- Eswatini's government detail Total row disagrees with its summary table by $99 (2028) and
+  $10,000 (2030); Sierra Leone's 2027 government column is $10,000 short of its own line items;
+  Malawi's 2028 U.S. column is $809 short; Burundi's 2029 U.S. column is $400 over.
+- Madagascar's maternal mortality target *worsens* in the final year (286 in 2029 → 295 in 2030),
+  and its net-distribution series swings between 1.7M and 16.7M with no explanatory note.
+- Malawi's adult new-HIV-infection target falls to 2027 then rises every year to 2030.
 
 **Reproducibility.** The tidy tables in `data/` are the single source of truth; the charts
 never hardcode a number.

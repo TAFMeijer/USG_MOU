@@ -14,7 +14,7 @@ st.set_page_config(
 st.title("USG bilateral health MoUs — funding across all countries")
 st.caption(
     "Five-year cooperation plans (2026–2030) signed under the America First Global Health "
-    "Strategy. This page compares the 9 countries whose full MoU text is public. "
+    "Strategy. This page compares the 16 countries whose full MoU text is public. "
     "Amounts come from each MoU's co-funding appendix; 'Government' = new co-financing "
     "*plus* existing government funding where the MoU tabulates it. "
     "See **Sources & methodology** for links and caveats."

@@ -12,10 +12,29 @@ agreement commits to.
 
 All information here is **publicly available** — amounts from the
 [KFF tracker](https://www.kff.org/global-health-policy/kff-tracker-america-first-mou-bilateral-global-health-agreements/),
-detailed tables transcribed from the 9 published full MoU texts hosted by
+detailed tables transcribed from the **16 published full MoU texts** hosted by
 [Public Citizen](https://www.citizen.org/article/u-s-bilateral-health-agreements-case-act-reporting/),
-[Health Policy Watch](https://healthpolicy-watch.news/) and
-[Think Global Health](https://www.thinkglobalhealth.org/article/tracking-the-america-first-bilateral-health-agreements).
+with [Health Policy Watch](https://healthpolicy-watch.news/) and
+[Think Global Health](https://www.thinkglobalhealth.org/article/tracking-the-america-first-bilateral-health-agreements)
+as secondary mirrors.
+
+## How each text became public
+
+Public Citizen's table marks every agreement with the route by which its text reached the
+public, and the distinction is part of the story:
+
+| Marker | Meaning | Countries |
+|---|---|---|
+| `*` | The U.S. government made the text public itself, via its **Case Act reporting page** | Uganda only |
+| `*^` | Published on the Case Act page **and** released under FOIA | Kenya, Mozambique, Nigeria, Ethiopia, Malawi |
+| `^` | Public **only** because of Public Citizen's **Freedom of Information Act** requests | Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire, Burundi |
+
+Ten of the sixteen public texts — and seven of the nine countries added in September 2026 —
+exist in the public record only because Public Citizen sued the State Department for them. The
+August 2026 production (FL-2026-00021) is what that litigation yielded. Both the marker and a
+plain-language description are carried per country in `data/countries.csv`
+(`Disclosure marker`, `How the text became public`), and 18 of the 34 signed agreements still
+have no public text at all.
 
 ## Pages
 
@@ -28,7 +47,9 @@ detailed tables transcribed from the 9 published full MoU texts hosted by
 | **Sources & methodology** | Every link (trackers, mirrors, all 34 agreements), extraction method, and caveats |
 
 `explorer.html` is a standalone, dependency-free version of the trajectory explorer —
-open it directly in a browser, no Python needed.
+open it directly in a browser, no Python needed. `docs/index.html` is the copy GitHub Pages
+serves; both are regenerated from `data/budget_series.csv` by
+`analysis/rebuild_explorer_data.py`.
 
 ## Theming
 
@@ -79,9 +100,10 @@ counting. "Government" = new co-financing **plus** existing funding where tabula
 
 ## Provenance & caveats
 
-**Read this before using the data.** All figures were transcribed from copies of the nine
-signed MoU texts that were placed in the public domain by third parties (Public Citizen,
-Health Policy Watch, Think Global Health) and from the KFF tracker. The MoUs are
+**Read this before using the data.** All figures were transcribed from the sixteen signed
+MoU texts in the public domain — released by the U.S. government via its Case Act reporting
+page, or under Public Citizen's FOIA requests, and mirrored by Public Citizen, Health Policy
+Watch and Think Global Health — and from the KFF tracker. The MoUs are
 government-to-government cooperation documents that were **not originally drafted for
 publication**; no official consolidated dataset of them exists, and this repository is an
 independent research reconstruction. In particular:
@@ -111,3 +133,43 @@ independent research reconstruction. In particular:
 Code and derived data are released under the [MIT License](LICENSE). The underlying MoU
 texts remain the work of their authors; transcription here is for research and
 transparency purposes.
+
+## Changelog
+
+### September 2026 — the FOIA release
+
+Public Citizen published the State Department's FOIA production (FL-2026-00021) on
+30 August 2026. Public full texts went from 9 to **16 of 34**.
+
+**Added:** Lesotho, Eswatini, Sierra Leone, Botswana, Madagascar, Malawi, Burundi — full
+budget appendices, Section-1 indicator tables and §2.6 strategic areas.
+
+**Re-sourced:** Rwanda, Liberia, Cameroon and Côte d'Ivoire now point at the official
+release rather than a third-party mirror. Rwanda, Liberia and Cameroon are numerically
+identical to the earlier copies (Rwanda was diffed word by word — no change).
+**Côte d'Ivoire gained three Appendix 1 rows** that were illegible in the earlier scan:
+Frontline Lab Workers $ ($2.1M), Frontline Healthcare Workers $ ($31.7M) and Management &
+Operations $ ($29.2M), lifting its itemised U.S. total from $423.6M to $486.7M against a
+printed $487.2M.
+
+**South Sudan is still excluded** — the only available text is a pre-signature April 2026
+draft; the agreement was signed on 25 June 2026 and its final text is not public.
+
+**Pattern breaks worth knowing about:**
+
+- **Botswana runs 2026–2028**, not 2026–2030. Its headline is not comparable to the others
+  without adjusting for term length.
+- **Botswana's U.S. line items do not reconcile** to its own printed totals in any year
+  (−$3.6M over the term) — the only published MoU where the U.S. side fails to add up.
+- **Burundi and Côte d'Ivoire print the 6% management-and-operations carve-out** as its own
+  Appendix 1 line; elsewhere it is a silent gap (Lesotho, Madagascar and Botswana all sit
+  exactly 6% below their headline).
+- **The Appendix 1 government tables are mislabelled.** They are headed "total *new*
+  planned financial support" but carry the §2.x.3 **Total Government Funding** column —
+  new plus existing. True of the original nine as well.
+- **Three new texts disagree with the KFF tracker**: Malawi ($744.8M/$55.0M vs
+  $792M/$143.8M), Eswatini ($192.7M vs $205M) and Botswana ($99.6M vs $106M, exactly 6%).
+
+**Build scripts:** `analysis/extract_aug2026_release.py` (indicator rows and the
+provenance refresh) and `analysis/rebuild_budget_series.py` (regenerates
+`data/budget_series.csv` from `data/budget_tidy.csv`).

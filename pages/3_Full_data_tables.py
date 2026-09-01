@@ -1,7 +1,7 @@
 """MoU dashboard — Full data tables.
 
 Everything, in one place: the complete tidy budget and programmatic tables across
-all 9 countries — sortable (click any column header), searchable (filters here
+all 16 countries — sortable (click any column header), searchable (filters here
 plus the 🔍 icon in each table's toolbar), and downloadable as CSV.
 """
 import pandas as pd

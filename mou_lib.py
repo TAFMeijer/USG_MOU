@@ -1,7 +1,7 @@
 """Shared data loading & transforms for the MoU dashboard.
 
 Pure pandas — no Streamlit imports — so everything here is unit-testable.
-All figures originate from the co-funding appendices of the 9 published
+All figures originate from the co-funding appendices of the 16 published
 America First bilateral health MoU texts (see data/sources.csv).
 """
 from pathlib import Path
