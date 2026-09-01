@@ -71,14 +71,24 @@ with c3:
         "Countries", sorted(df["Country"].unique()), default=sorted(df["Country"].unique())
     )
 
+NO_HIGHLIGHT = "— all countries —"
+highlight = st.selectbox(
+    "Highlight one country", [NO_HIGHLIGHT] + sorted(countries),
+    help="Pick a country to draw it in colour against the rest in grey — the clearest "
+         "way to read one trajectory against the field. Leave on 'all countries' to "
+         "compare everything at once.",
+)
+if highlight not in countries:
+    highlight = NO_HIGHLIGHT
+
 m = df[(df["Investment area"] == area) & (df["Country"].isin(countries))]
 
 # ---------------- KPIs ----------------
 tot_usg = m.loc[m["Funder"] == "USG", "Amount"].sum()
 tot_gov = m.loc[m["Funder"] == lib.GOV_LABEL, "Amount"].sum()
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("USG, 5-yr total", lib.fmt_usd(tot_usg))
-k2.metric("Government, 5-yr total", lib.fmt_usd(tot_gov))
+k1.metric("USG, full term", lib.fmt_usd(tot_usg))
+k2.metric("Government, full term", lib.fmt_usd(tot_gov))
 combined = tot_usg + tot_gov
 k3.metric("Combined", lib.fmt_usd(combined))
 k4.metric("USG share of combined", f"{100 * tot_usg / combined:.0f}%" if combined else "–")
@@ -92,10 +102,77 @@ if caveats:
         "Includes " + " and ".join(caveats) + " — see **Sources & methodology**."
     ))
 
+# 16 countries > the ~8 hues anyone can tell apart, so identity is a composite
+# encoding: 8 validated hues x 2 stroke styles. Colour and dash share one field and
+# one legend spec, so Vega-Lite merges them into a single legend whose swatches show
+# both channels. Which countries are solid and which dashed is arbitrary (nine texts
+# predate Sept 2026 but only eight hues exist, so Uganda sits in the dashed block);
+# what matters is that the pairing is FIXED per country and never reassigned by rank.
+COUNTRY_DOMAIN = [c for c in PAL["country_order"] if c in set(df["Country"])]
 country_scale = alt.Scale(
-    domain=list(PAL["country"].keys()), range=list(PAL["country"].values())
+    domain=COUNTRY_DOMAIN, range=[PAL["country"][c] for c in COUNTRY_DOMAIN]
 )
-COUNTRY_LEGEND = alt.Legend(labelLimit=0, title=None)  # labelLimit=0 -> never truncate
+dash_scale = alt.Scale(
+    domain=COUNTRY_DOMAIN, range=[PAL["country_dash"][c] for c in COUNTRY_DOMAIN]
+)
+# symbolType="stroke" draws the swatch as a line segment, so the legend shows the
+# stroke style as well as the hue - identity is never carried by colour alone.
+COUNTRY_LEGEND = alt.Legend(labelLimit=0, title=None, symbolType="stroke",
+                            symbolStrokeWidth=2.5, symbolSize=220,
+                            columns=2)  # labelLimit=0 -> never truncate
+
+
+CONTEXT_GREY = "#57565a" if PAL["dark"] else "#c9c7c0"
+
+
+def country_enc():
+    """Colour + stroke-dash on the same field -> one merged legend, 16 identities."""
+    return dict(
+        color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND,
+                        sort=COUNTRY_DOMAIN),
+        strokeDash=alt.StrokeDash("Country:N", scale=dash_scale, legend=COUNTRY_LEGEND,
+                                  sort=COUNTRY_DOMAIN),
+    )
+
+
+def trend_chart(plot: pd.DataFrame, y_enc, tooltip, height: int = 400):
+    """One country picked out against the rest.
+
+    With no country highlighted every line carries its own hue + stroke style. Once
+    one is chosen the other fifteen drop to a single recessive grey and the chosen
+    country is drawn on top in its own colour - the shape of one trajectory against
+    the field, which sixteen coloured lines cannot show. The grey lines keep their
+    tooltips, so nothing is lost by de-emphasising them.
+    """
+    base = alt.Chart(plot).mark_line(point=True)
+    if highlight == NO_HIGHLIGHT:
+        return (
+            base.mark_line(point=True, strokeWidth=2.5)
+            .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y=y_enc, **country_enc(),
+                    opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
+                    strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
+                    tooltip=tooltip)
+            .add_params(hover)
+            .properties(height=height)
+        )
+    rest = plot[plot["Country"] != highlight]
+    pick = plot[plot["Country"] == highlight]
+    context = (
+        alt.Chart(rest).mark_line(point=False, strokeWidth=1.4, opacity=0.55,
+                                  color=CONTEXT_GREY)
+        .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y=y_enc,
+                detail="Country:N", tooltip=tooltip)
+    )
+    # The highlighted line is drawn SOLID: the stroke styles exist only to double the
+    # palette when all sixteen are coloured at once, and one line against grey needs no
+    # second channel. The selector and the section heading both name it, so no legend.
+    lead = (
+        alt.Chart(pick).mark_line(point=True, strokeWidth=3.6)
+        .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y=y_enc,
+                color=alt.Color("Country:N", scale=country_scale, legend=None),
+                tooltip=tooltip)
+    )
+    return (context + lead).properties(height=height)
 
 
 def nudge_ties(plot: pd.DataFrame, col: str, step: float = 0.008) -> pd.DataFrame:
@@ -116,7 +193,9 @@ def nudge_ties(plot: pd.DataFrame, col: str, step: float = 0.008) -> pd.DataFram
 
 
 # ---------------- chart 1: trajectories by year ----------------
-st.subheader(f"{area} — by year")
+st.subheader(f"{area} — by year"
+             + (f"  ·  {highlight} against the other {len(countries) - 1}"
+                if highlight != NO_HIGHLIGHT else ""))
 if unit == "US$":
     funder_pick = st.radio(
         "Funder", ["USG", lib.GOV_LABEL, "Combined"], horizontal=True, key="ov_funder"
@@ -131,22 +210,17 @@ if unit == "US$":
     tt = ["Country", "Year", alt.Tooltip("Amount:Q", format=",.0f")]
     if (plot["MoU footnote"] != "").any():
         tt.append(alt.Tooltip("MoU footnote:N"))
-    ch = (
-        alt.Chart(plot)
-        .mark_line(point=True, strokeWidth=2.5)
-        .encode(
-            x=alt.X("Year:O", axis=YEAR_AXIS),
-            y=alt.Y("Amount:Q", title="US$ per year", axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
-            color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
-            opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
-            strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
-            tooltip=tt,
-        )
-        .add_params(hover)
-        .properties(height=400)
-    )
-    st.altair_chart(ch, use_container_width=True)
-    st.caption("Hover a country in the legend (or a line) to highlight it.")
+    y_usd = alt.Y("Amount:Q", title="US$ per year",
+                  axis=alt.Axis(format="~s",
+                                labelExpr='replace(datum.label, "G", "bn")'))
+    st.altair_chart(trend_chart(plot, y_usd, tt), use_container_width=True)
+    st.caption(lib.md(
+        "**Highlight one country** above to draw it against the rest in grey — the "
+        "clearest read of a single trajectory. With no country highlighted, each one "
+        "carries a fixed **hue + stroke style** (eight hues, each used once solid and "
+        "once dashed, because sixteen is more than colour alone can separate); hover a "
+        "country in the legend or on a line to pick it out."
+    ))
 else:
     st.caption(
         "Lines show the **USG share** of each year's combined USG + government funding "
@@ -166,21 +240,9 @@ else:
     ]
     if (plot["MoU footnote"] != "").any():
         share_tt.append(alt.Tooltip("MoU footnote:N"))
-    base = (
-        alt.Chart(plot)
-        .mark_line(point=True, strokeWidth=2.5)
-        .encode(
-            x=alt.X("Year:O", axis=YEAR_AXIS),
-            y=alt.Y("ShareDisp:Q", title="USG share of combined",
-                    axis=alt.Axis(format=".0%"), scale=alt.Scale(domain=[0, 1])),
-            color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND),
-            opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
-            strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
-            tooltip=share_tt,
-        )
-        .add_params(hover)
-        .properties(height=400)
-    )
+    y_share = alt.Y("ShareDisp:Q", title="USG share of combined",
+                    axis=alt.Axis(format=".0%"), scale=alt.Scale(domain=[0, 1]))
+    base = trend_chart(plot, y_share, share_tt)
     rule = alt.Chart(pd.DataFrame({"y": [0.5]})).mark_rule(
         strokeDash=[4, 4], color=PAL["muted"]
     ).encode(y="y:Q")
@@ -192,7 +254,9 @@ if fns:
     st.markdown(lib.footnote_block(fns), unsafe_allow_html=True)
 
 # ---------------- chart 2: 5-year totals ----------------
-st.subheader(f"{area} — 5-year totals by country")
+st.subheader(f"{area} — totals over each MoU's full term, by country")
+st.caption("Every MoU runs 2026–2030 except Botswana, whose term is 2026–2028 — "
+           "its bar covers three years, not five.")
 tot = lib.five_year_totals(m, area)
 funder_color = alt.Color(
     "Funder:N",
@@ -205,26 +269,27 @@ if unit == "US$":
         .mark_bar()
         .encode(
             y=alt.Y("Country:N", sort="-x", title=None,
-                    axis=alt.Axis(labelFontSize=13)),
+                    axis=alt.Axis(labelFontSize=13, labelOverlap=False)),
             x=alt.X("Amount:Q", title="US$, 2026–2030", axis=alt.Axis(format="~s", labelExpr='replace(datum.label, "G", "bn")')),
             color=funder_color,
             tooltip=["Country", "Funder", alt.Tooltip("Amount:Q", format=",.0f")],
         )
-        .properties(height=340)
+        .properties(height=max(340, 34 * len(countries)))
     )
 else:
     ch2 = (
         alt.Chart(tot.dropna(subset=["Share"]))
         .mark_bar()
         .encode(
-            y=alt.Y("Country:N", title=None, axis=alt.Axis(labelFontSize=13)),
+            y=alt.Y("Country:N", title=None,
+                    axis=alt.Axis(labelFontSize=13, labelOverlap=False)),
             x=alt.X("Share:Q", title="Share of combined, 2026–2030",
                     axis=alt.Axis(format=".0%"), stack="normalize"),
             color=funder_color,
             tooltip=["Country", "Funder", alt.Tooltip("Share:Q", format=".0%"),
                      alt.Tooltip("Amount:Q", format=",.0f")],
         )
-        .properties(height=340)
+        .properties(height=max(340, 34 * len(countries)))
     )
 st.altair_chart(ch2, use_container_width=True)
 

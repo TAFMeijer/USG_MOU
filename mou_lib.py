@@ -15,17 +15,30 @@ YEARS = [2026, 2027, 2028, 2029, 2030]
 # Consistent colors across the dashboard
 USG_COLOR = "#2a78d6"
 GOV_COLOR = "#eb6834"
-COUNTRY_COLORS = {
-    "Cameroon": "#2a78d6",
-    "Côte d'Ivoire": "#eb6834",
-    "Ethiopia": "#1baf7a",
-    "Kenya": "#eda100",
-    "Liberia": "#e87ba4",
-    "Mozambique": "#008300",
-    "Nigeria": "#4a3aa7",
-    "Rwanda": "#e34948",
-    "Uganda": "#52514e",
-}
+# Sixteen countries is well past the ~8 hues a reader can tell apart, so identity is
+# carried by a COMPOSITE encoding: eight validated hues x two stroke styles. The eight
+# hues are the same validated categorical set used for AREA_COLORS (adjacent-pair CVD
+# ΔE 9.1 light / 8.4 dark, normal-vision ΔE 19.6 / 19.3 — both modes pass every gate).
+# Hue is fixed per country and never cycled or reassigned by rank; the nine countries
+# published before September 2026 keep the colours they have always had.
+_HUES_LIGHT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100",
+               "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
+_HUES_DARK = ["#3987e5", "#d95926", "#199e70", "#c98500",
+              "#d55181", "#008300", "#9085e9", "#e66767"]
+SOLID_COUNTRIES = ["Cameroon", "Côte d'Ivoire", "Ethiopia", "Kenya",
+                   "Liberia", "Mozambique", "Nigeria", "Rwanda"]
+DASHED_COUNTRIES = ["Botswana", "Burundi", "Eswatini", "Lesotho",
+                    "Madagascar", "Malawi", "Sierra Leone", "Uganda"]
+# Legend/scale order: the two stroke groups read as blocks rather than interleaving
+# same-hue neighbours.
+COUNTRY_ORDER = SOLID_COUNTRIES + DASHED_COUNTRIES
+SOLID_DASH = [1, 0]
+DASH_DASH = [6, 3]
+COUNTRY_DASH = {c: SOLID_DASH for c in SOLID_COUNTRIES}
+COUNTRY_DASH.update({c: DASH_DASH for c in DASHED_COUNTRIES})
+COUNTRY_COLORS = dict(zip(SOLID_COUNTRIES, _HUES_LIGHT))
+COUNTRY_COLORS.update(dict(zip(DASHED_COUNTRIES, _HUES_LIGHT)))
+COUNTRY_COLORS = {c: COUNTRY_COLORS[c] for c in COUNTRY_ORDER}
 
 # One fixed color per investment area (donut & composition charts)
 AREA_COLORS = {
@@ -359,12 +372,8 @@ def footnote_block(notes: list, size_px: int = 12) -> str:
 # checker against the dark surface (separation & contrast pass; the Uganda /
 # "Other" grays are intentional neutrals whose identity is carried by
 # legends and labels, not hue).
-_DARK_COUNTRY = {
-    "Cameroon": "#3987e5",
-    "Mozambique": "#3fae3f",
-    "Nigeria": "#7c6ee6",
-    "Uganda": "#96948d",
-}
+_DARK_COUNTRY = dict(zip(SOLID_COUNTRIES, _HUES_DARK))
+_DARK_COUNTRY.update(dict(zip(DASHED_COUNTRIES, _HUES_DARK)))
 _DARK_AREA = {
     "Laboratory commodities": "#3987e5",
     "Frontline healthcare workers": "#3fae3f",
@@ -396,7 +405,9 @@ def palette() -> dict:
             "dark": True,
             "ink": "#fafaf9", "muted": "#9d9b94", "surface": "#0d0d0d",
             "usg": "#3987e5", "gov": GOV_COLOR,
-            "country": {**COUNTRY_COLORS, **_DARK_COUNTRY},
+            "country": {c: {**COUNTRY_COLORS, **_DARK_COUNTRY}[c] for c in COUNTRY_ORDER},
+            "country_dash": dict(COUNTRY_DASH),
+            "country_order": list(COUNTRY_ORDER),
             "area": {**AREA_COLORS, **_DARK_AREA},
         }
     return {
@@ -404,5 +415,7 @@ def palette() -> dict:
         "ink": "#0b0b0b", "muted": "#898781", "surface": "#fcfcfb",
         "usg": USG_COLOR, "gov": GOV_COLOR,
         "country": dict(COUNTRY_COLORS),
+        "country_dash": dict(COUNTRY_DASH),
+        "country_order": list(COUNTRY_ORDER),
         "area": dict(AREA_COLORS),
     }

@@ -103,11 +103,15 @@ st.caption(
 # KPIs computed from the same summable line items the charts use, so the headline
 # numbers and the charts below always agree.
 cc = df[(df["Country"] == country) & (df["Investment area"] == "All areas combined")]
+# Term length is read from the data, not assumed: Botswana's MOU runs 2026-2028 while
+# every other published text runs 2026-2030, so the labels must follow the country.
+_yrs = sorted(df.loc[df["Country"] == country, "Year"].unique())
+TERM = f"{_yrs[0]}\u2013{_yrs[-1]}" if _yrs else "2026\u20132030"
 usg_t = cc.loc[cc["Funder"] == "USG", "Amount"].sum()
 gov_t = cc.loc[cc["Funder"] == lib.GOV_LABEL, "Amount"].sum()
 comb_t = usg_t + gov_t
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("USG, 2026–2030", lib.fmt_usd(usg_t))
+k1.metric(f"USG, {TERM}", lib.fmt_usd(usg_t))
 k2.metric("Govt co-financing (new + existing)", lib.fmt_usd(gov_t))
 k3.metric("Combined (itemised)", lib.fmt_usd(comb_t))
 k4.metric("USG share of combined", f"{100 * usg_t / comb_t:.0f}%" if comb_t else "–")
@@ -167,7 +171,7 @@ m = df[
 ]
 
 # ---------------- overview row: donut (left) + area trajectories (right) -----
-st.markdown("#### How the investment areas compare, 2026–2030")
+st.markdown(f"#### How the investment areas compare, {TERM}")
 
 donut_src = (
     m.groupby("Investment area")["Amount"].sum().reset_index().query("Amount > 0")
@@ -208,7 +212,7 @@ with ov1, st.container(border=True, height=OVERVIEW_H):
             opacity=alt.condition(donut_sel, alt.value(1), alt.value(0.25)),
             tooltip=[
                 "Investment area",
-                alt.Tooltip("Amount:Q", format=",.0f", title="US$ 2026–2030"),
+                alt.Tooltip("Amount:Q", format=",.0f", title=f"US$ {TERM}"),
                 alt.Tooltip("Share of total:Q", format=".1%"),
             ],
         )
@@ -220,13 +224,13 @@ with ov1, st.container(border=True, height=OVERVIEW_H):
         .encode(text="label:N")
     )
     center_sub = (
-        alt.Chart(pd.DataFrame({"label": ["2026–2030"]}))
+        alt.Chart(pd.DataFrame({"label": [TERM]}))
         .mark_text(fontSize=11, color=PAL["muted"], dy=13)
         .encode(text="label:N")
     )
     ev = st.altair_chart(
         (arcs + center_value + center_sub).properties(
-            height=320, title=alt.TitleParams("5-year totals by area", fontSize=13)),
+            height=320, title=alt.TitleParams(f"Totals by area, {TERM}", fontSize=13)),
         use_container_width=True,
         on_select="rerun", key=f"area_donut_{country}",
     )
@@ -287,7 +291,7 @@ with ov2, st.container(border=True, height=OVERVIEW_H):
                "Shows each area's scale and its scale-down over the term.")
 
 # ---------------- small multiples ----------------
-st.markdown("#### Funding by investment area, 2026–2030 (US$ per year)")
+st.markdown(f"#### Funding by investment area, {TERM} (US$ per year)")
 
 funder_scale = alt.Scale(
     domain=["USG", lib.GOV_LABEL], range=[PAL["usg"], PAL["gov"]]
@@ -735,6 +739,6 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
         "toggle is on, rows with Row type = 'Imputed (derived - not printed in MoU)', "
         "whose Source note records the FTEs, rate and confidence used. Other row types "
         "are excluded to avoid double counting. 'MoU footnote (verbatim)' holds the notes "
-        "the MoU itself prints on its tables, carried across the full 5-year line; "
+        "the MoU itself prints on its tables, carried across the full funding line; "
         "'MoU footnote location' pinpoints the marked cells."
     )
