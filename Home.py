@@ -74,16 +74,6 @@ with c3:
         "Countries", sorted(df["Country"].unique()), default=sorted(df["Country"].unique())
     )
 
-NO_HIGHLIGHT = "— all countries —"
-highlight = st.selectbox(
-    "Highlight one country", [NO_HIGHLIGHT] + sorted(countries),
-    help="Pick a country to draw it in colour against the rest in grey — the clearest "
-         "way to read one trajectory against the field. Leave on 'all countries' to "
-         "compare everything at once.",
-)
-if highlight not in countries:
-    highlight = NO_HIGHLIGHT
-
 m = df[(df["Investment area"] == area) & (df["Country"].isin(countries))]
 
 # ---------------- KPIs ----------------
@@ -106,61 +96,79 @@ if caveats:
     ))
 
 # Sixteen countries is more than colour can separate, so the chart is a GREY
-# FIELD: every line recessive grey, identity carried by the tooltip, by hovering
-# a line (it lifts to ink), and by the "Highlight one country" picker, which
-# draws the chosen country in its own hue on top of the field. No legend — a
-# legend of sixteen identical grey strokes would name nothing.
+# FIELD: every line recessive grey. Identity lives in the country list on the
+# right — a legend ordered large -> small by the 2026 value of whatever is
+# currently plotted — and in the tooltips. Clicking a legend entry (or a line)
+# draws that country in its own hue on top of the field; clicking again clears
+# it. Hovering any line lifts it to ink. All in-chart Vega interactions: no
+# Streamlit rerun.
 _pal_country = PAL["country"]
 CONTEXT_GREY = "#57565a" if PAL["dark"] else "#c9c7c0"
 
 
-def trend_chart(plot: pd.DataFrame, y_enc, tooltip, height: int = 400):
-    """A grey field of trajectories, with one country picked out.
+def trend_chart(plot: pd.DataFrame, y_enc, order_col: str, tooltip,
+                height: int = 400):
+    """A grey field of trajectories with a clickable country list on the right.
 
-    No highlight: all lines grey; hovering one lifts it to ink with a thicker
-    stroke (empty=False keeps the field grey until the pointer lands). With a
-    highlight: the other fifteen stay grey and the chosen country is drawn on
-    top in its own colour. Grey lines keep their tooltips throughout.
+    The legend is the selector: countries ordered by their 2026 value of
+    `order_col` (descending, so the list mirrors where lines start), grey
+    swatches to match the field. Clicking an entry — or a line itself — draws
+    that country in its own hue; empty=False keeps everything grey until then.
+    A ~13px invisible band rides on every line so thin strokes are easy to
+    hover (ink lift + tooltip) and click.
     """
+    v26 = (plot[plot["Year"] == 2026].groupby("Country")[order_col].sum()
+           .sort_values(ascending=False))
+    order = list(v26.index) + sorted(set(plot["Country"]) - set(v26.index))
+    grey_scale = alt.Scale(domain=order, range=[CONTEXT_GREY] * len(order))
+    hue_scale = alt.Scale(
+        domain=order, range=[_pal_country.get(c, PAL["usg"]) for c in order])
+    legend = alt.Legend(
+        title=["2026, large → small", "— click to highlight —"],
+        titleFontSize=11, titleColor=PAL["muted"], labelLimit=0,
+        labelFontSize=12, symbolType="stroke", symbolStrokeWidth=2.5,
+        symbolOpacity=1, rowPadding=3,
+    )
+    select = alt.selection_point(fields=["Country"], bind="legend",
+                                 empty=False, name="pick")
     x_enc = alt.X("Year:O", axis=YEAR_AXIS)
-    if highlight == NO_HIGHLIGHT:
-        field = (
-            alt.Chart(plot)
-            .mark_line(point=alt.OverlayMarkDef(color=CONTEXT_GREY, size=22),
-                       strokeWidth=1.6, opacity=0.65, color=CONTEXT_GREY)
-            .encode(x=x_enc, y=y_enc, detail="Country:N")
-        )
-        # A thin grey line is a hard pointer target, so a ~12px invisible band
-        # rides on every line to catch the hover and carry the tooltip …
-        hit = (
-            alt.Chart(plot)
-            .mark_line(strokeWidth=13, opacity=0.01)
-            .encode(x=x_enc, y=y_enc, detail="Country:N", tooltip=tooltip)
-            .add_params(hover)
-        )
-        # … and the hovered country is re-drawn in ink on top.
-        lifted = (
-            alt.Chart(plot)
-            .mark_line(point=alt.OverlayMarkDef(color=PAL["ink"]),
-                       strokeWidth=3.2, color=PAL["ink"])
-            .encode(x=x_enc, y=y_enc, detail="Country:N", tooltip=tooltip)
-            .transform_filter(hover)
-        )
-        return (field + lifted + hit).properties(height=height)
-    rest = plot[plot["Country"] != highlight]
-    pick = plot[plot["Country"] == highlight]
-    context = (
-        alt.Chart(rest).mark_line(point=False, strokeWidth=1.4, opacity=0.55,
-                                  color=CONTEXT_GREY)
+    field = (
+        alt.Chart(plot)
+        .mark_line(point=alt.OverlayMarkDef(color=CONTEXT_GREY, size=22),
+                   strokeWidth=1.6, opacity=0.65, color=CONTEXT_GREY)
+        .encode(x=x_enc, y=y_enc, detail="Country:N")
+    )
+    # hovered country re-drawn in ink …
+    lifted = (
+        alt.Chart(plot)
+        .mark_line(point=alt.OverlayMarkDef(color=PAL["ink"]),
+                   strokeWidth=3.2, color=PAL["ink"])
         .encode(x=x_enc, y=y_enc, detail="Country:N", tooltip=tooltip)
+        .transform_filter(hover)
     )
-    _hl = _pal_country.get(highlight, PAL["usg"])
-    lead = (
-        alt.Chart(pick).mark_line(
-            point=alt.OverlayMarkDef(color=_hl), strokeWidth=3.6, color=_hl)
-        .encode(x=x_enc, y=y_enc, tooltip=tooltip)
+    # … the clicked country in its own hue on top of that …
+    chosen = (
+        alt.Chart(plot)
+        .mark_line(point=True, strokeWidth=3.6)
+        .encode(x=x_enc, y=y_enc, tooltip=tooltip,
+                color=alt.Color("Country:N", scale=hue_scale, legend=None))
+        .transform_filter(select)
     )
-    return (context + lead).properties(height=height)
+    # … and the invisible hit band carries the legend, both selections and the
+    # tooltips (legend symbol opacity is overridden, or it would inherit 0.01).
+    hit = (
+        alt.Chart(plot)
+        .mark_line(strokeWidth=13, opacity=0.01)
+        .encode(x=x_enc, y=y_enc, tooltip=tooltip,
+                color=alt.Color("Country:N", scale=grey_scale, legend=legend))
+        .add_params(select, hover)
+    )
+    # The chosen and hit layers put different scales on the colour channel;
+    # without independent resolution Vega-Lite merges them and silently drops
+    # the legend.
+    return ((field + lifted + chosen + hit)
+            .resolve_scale(color="independent")
+            .properties(height=height))
 
 
 def nudge_ties(plot: pd.DataFrame, col: str, step: float = 0.008) -> pd.DataFrame:
@@ -181,9 +189,7 @@ def nudge_ties(plot: pd.DataFrame, col: str, step: float = 0.008) -> pd.DataFram
 
 
 # ---------------- chart 1: trajectories by year ----------------
-st.subheader(f"{area} — by year"
-             + (f"  ·  {highlight} against the other {len(countries) - 1}"
-                if highlight != NO_HIGHLIGHT else ""))
+st.subheader(f"{area} — by year")
 if unit == "US$":
     funder_pick = st.radio(
         "Funder", ["USG", lib.GOV_LABEL, "Combined"], horizontal=True, key="ov_funder"
@@ -201,20 +207,22 @@ if unit == "US$":
     y_usd = alt.Y("Amount:Q", title="US$ per year",
                   axis=alt.Axis(format="~s",
                                 labelExpr='replace(datum.label, "G", "bn")'))
-    st.altair_chart(trend_chart(plot, y_usd, tt), use_container_width=True)
+    st.altair_chart(trend_chart(plot, y_usd, "Amount", tt), use_container_width=True)
     st.caption(lib.md(
-        "Sixteen trajectories, one grey field — **hover any line** to lift it out and "
-        "read its country in the tooltip, or **highlight one country** above to draw "
-        "it in colour against the rest. Sixteen is more than distinct colours can "
-        "separate, so identity lives in the hover and the picker, not a legend."
+        "One grey field of trajectories, with the countries listed on the right from "
+        "largest to smallest 2026 value under the current filters. **Click a country "
+        "in the list** (or a line) to draw it in colour against the rest; click again "
+        "to clear. **Hover any line** to lift it out and read its country in the "
+        "tooltip."
     ))
 else:
     st.caption(
         "Lines show the **USG share** of each year's combined USG + government funding "
         "(government share = 100% − USG). Dashed rule = 50%: below it, the government is "
-        "the majority funder. Hover a line to lift it out of the grey field, or use "
-        "the highlight picker above. Countries with *identical* shares are nudged "
-        "apart by <1pp so every line stays visible — tooltips show the true value."
+        "the majority funder. Click a country in the list on the right (or a line) to "
+        "draw it in colour; hover a line to lift it out of the grey field. Countries "
+        "with *identical* shares are nudged apart by <1pp so every line stays "
+        "visible — tooltips show the true value."
     )
     plot = nudge_ties(m[m["Funder"] == "USG"].dropna(subset=["Share"]), "Share")
     plot = lib.attach_budget_notes(plot, area)
@@ -229,7 +237,7 @@ else:
         share_tt.append(alt.Tooltip("MoU footnote:N"))
     y_share = alt.Y("ShareDisp:Q", title="USG share of combined",
                     axis=alt.Axis(format=".0%"), scale=alt.Scale(domain=[0, 1]))
-    base = trend_chart(plot, y_share, share_tt)
+    base = trend_chart(plot, y_share, "Share", share_tt)
     rule = alt.Chart(pd.DataFrame({"y": [0.5]})).mark_rule(
         strokeDash=[4, 4], color=PAL["muted"]
     ).encode(y="y:Q")
