@@ -40,9 +40,11 @@ PAL = lib.palette()  # follows the active (system-preference) theme
 # Year axis style: bigger, bold, -45°
 YEAR_AXIS = alt.Axis(labelAngle=-45, labelFontSize=14, labelFontWeight="bold", title=None)
 
-# Legend/series hover: highlight the hovered country, fade the rest
-hover = alt.selection_point(fields=["Country"], bind="legend", on="pointerover",
-                            clear="pointerout")
+# Line hover: lift the hovered country out of the grey field. empty=False so an
+# untouched chart stays uniformly grey rather than treating "nothing selected"
+# as "everything selected".
+hover = alt.selection_point(fields=["Country"], on="pointerover",
+                            clear="pointerout", empty=False)
 
 # ---------------- controls ----------------
 c1, c2, c3 = st.columns([2, 1, 2])
@@ -103,88 +105,60 @@ if caveats:
         "Includes " + " and ".join(caveats) + " — see **Sources & methodology**."
     ))
 
-# 16 countries > the ~8 hues anyone can tell apart, so identity is a composite
-# encoding: 8 validated hues x 2 stroke styles. Colour and dash share one field and
-# one legend spec, so Vega-Lite merges them into a single legend whose swatches show
-# both channels. Which countries are solid and which dashed is arbitrary (nine texts
-# predate Sept 2026 but only eight hues exist, so Uganda sits in the dashed block);
-# what matters is that the pairing is FIXED per country and never reassigned by rank.
-# Read defensively. Streamlit can re-execute this script against an mou_lib module
-# it has not reloaded, so a key added to palette() in the same commit may briefly be
-# absent; every country present in the data must still get a colour. Falling back to
-# the palette's own key order (and to no dash) degrades the encoding rather than
-# raising, and any country the palette does not know keeps a neutral grey instead of
-# being dropped from the scale domain the way the pre-September nine-hue scale did.
+# Sixteen countries is more than colour can separate, so the chart is a GREY
+# FIELD: every line recessive grey, identity carried by the tooltip, by hovering
+# a line (it lifts to ink), and by the "Highlight one country" picker, which
+# draws the chosen country in its own hue on top of the field. No legend — a
+# legend of sixteen identical grey strokes would name nothing.
 _pal_country = PAL["country"]
-_order = PAL.get("country_order") or list(_pal_country)
-_dash = PAL.get("country_dash") or {}
-_present = set(df["Country"])
-COUNTRY_DOMAIN = ([c for c in _order if c in _present]
-                  + sorted(_present - set(_order)))
-UNKNOWN_COUNTRY_COLOR = "#57565a" if PAL["dark"] else "#898781"
-country_scale = alt.Scale(
-    domain=COUNTRY_DOMAIN,
-    range=[_pal_country.get(c, UNKNOWN_COUNTRY_COLOR) for c in COUNTRY_DOMAIN],
-)
-dash_scale = alt.Scale(
-    domain=COUNTRY_DOMAIN, range=[_dash.get(c, [1, 0]) for c in COUNTRY_DOMAIN]
-)
-# symbolType="stroke" draws the swatch as a line segment, so the legend shows the
-# stroke style as well as the hue - identity is never carried by colour alone.
-COUNTRY_LEGEND = alt.Legend(labelLimit=0, title=None, symbolType="stroke",
-                            symbolStrokeWidth=2.5, symbolSize=220,
-                            columns=2)  # labelLimit=0 -> never truncate
-
-
 CONTEXT_GREY = "#57565a" if PAL["dark"] else "#c9c7c0"
 
 
-def country_enc():
-    """Colour + stroke-dash on the same field -> one merged legend, 16 identities."""
-    return dict(
-        color=alt.Color("Country:N", scale=country_scale, legend=COUNTRY_LEGEND,
-                        sort=COUNTRY_DOMAIN),
-        strokeDash=alt.StrokeDash("Country:N", scale=dash_scale, legend=COUNTRY_LEGEND,
-                                  sort=COUNTRY_DOMAIN),
-    )
-
-
 def trend_chart(plot: pd.DataFrame, y_enc, tooltip, height: int = 400):
-    """One country picked out against the rest.
+    """A grey field of trajectories, with one country picked out.
 
-    With no country highlighted every line carries its own hue + stroke style. Once
-    one is chosen the other fifteen drop to a single recessive grey and the chosen
-    country is drawn on top in its own colour - the shape of one trajectory against
-    the field, which sixteen coloured lines cannot show. The grey lines keep their
-    tooltips, so nothing is lost by de-emphasising them.
+    No highlight: all lines grey; hovering one lifts it to ink with a thicker
+    stroke (empty=False keeps the field grey until the pointer lands). With a
+    highlight: the other fifteen stay grey and the chosen country is drawn on
+    top in its own colour. Grey lines keep their tooltips throughout.
     """
-    base = alt.Chart(plot).mark_line(point=True)
+    x_enc = alt.X("Year:O", axis=YEAR_AXIS)
     if highlight == NO_HIGHLIGHT:
-        return (
-            base.mark_line(point=True, strokeWidth=2.5)
-            .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y=y_enc, **country_enc(),
-                    opacity=alt.condition(hover, alt.value(1), alt.value(0.15)),
-                    strokeWidth=alt.condition(hover, alt.value(3.5), alt.value(2)),
-                    tooltip=tooltip)
-            .add_params(hover)
-            .properties(height=height)
+        field = (
+            alt.Chart(plot)
+            .mark_line(point=alt.OverlayMarkDef(color=CONTEXT_GREY, size=22),
+                       strokeWidth=1.6, opacity=0.65, color=CONTEXT_GREY)
+            .encode(x=x_enc, y=y_enc, detail="Country:N")
         )
+        # A thin grey line is a hard pointer target, so a ~12px invisible band
+        # rides on every line to catch the hover and carry the tooltip …
+        hit = (
+            alt.Chart(plot)
+            .mark_line(strokeWidth=13, opacity=0.01)
+            .encode(x=x_enc, y=y_enc, detail="Country:N", tooltip=tooltip)
+            .add_params(hover)
+        )
+        # … and the hovered country is re-drawn in ink on top.
+        lifted = (
+            alt.Chart(plot)
+            .mark_line(point=alt.OverlayMarkDef(color=PAL["ink"]),
+                       strokeWidth=3.2, color=PAL["ink"])
+            .encode(x=x_enc, y=y_enc, detail="Country:N", tooltip=tooltip)
+            .transform_filter(hover)
+        )
+        return (field + lifted + hit).properties(height=height)
     rest = plot[plot["Country"] != highlight]
     pick = plot[plot["Country"] == highlight]
     context = (
         alt.Chart(rest).mark_line(point=False, strokeWidth=1.4, opacity=0.55,
                                   color=CONTEXT_GREY)
-        .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y=y_enc,
-                detail="Country:N", tooltip=tooltip)
+        .encode(x=x_enc, y=y_enc, detail="Country:N", tooltip=tooltip)
     )
-    # The highlighted line is drawn SOLID: the stroke styles exist only to double the
-    # palette when all sixteen are coloured at once, and one line against grey needs no
-    # second channel. The selector and the section heading both name it, so no legend.
+    _hl = _pal_country.get(highlight, PAL["usg"])
     lead = (
-        alt.Chart(pick).mark_line(point=True, strokeWidth=3.6)
-        .encode(x=alt.X("Year:O", axis=YEAR_AXIS), y=y_enc,
-                color=alt.Color("Country:N", scale=country_scale, legend=None),
-                tooltip=tooltip)
+        alt.Chart(pick).mark_line(
+            point=alt.OverlayMarkDef(color=_hl), strokeWidth=3.6, color=_hl)
+        .encode(x=x_enc, y=y_enc, tooltip=tooltip)
     )
     return (context + lead).properties(height=height)
 
@@ -229,19 +203,18 @@ if unit == "US$":
                                 labelExpr='replace(datum.label, "G", "bn")'))
     st.altair_chart(trend_chart(plot, y_usd, tt), use_container_width=True)
     st.caption(lib.md(
-        "**Highlight one country** above to draw it against the rest in grey — the "
-        "clearest read of a single trajectory. With no country highlighted, each one "
-        "carries a fixed **hue + stroke style** (eight hues, each used once solid and "
-        "once dashed, because sixteen is more than colour alone can separate); hover a "
-        "country in the legend or on a line to pick it out."
+        "Sixteen trajectories, one grey field — **hover any line** to lift it out and "
+        "read its country in the tooltip, or **highlight one country** above to draw "
+        "it in colour against the rest. Sixteen is more than distinct colours can "
+        "separate, so identity lives in the hover and the picker, not a legend."
     ))
 else:
     st.caption(
         "Lines show the **USG share** of each year's combined USG + government funding "
         "(government share = 100% − USG). Dashed rule = 50%: below it, the government is "
-        "the majority funder. Hover a country in the legend to highlight its line. "
-        "Countries with *identical* shares are nudged apart by <1pp so every line stays "
-        "visible — tooltips show the true value."
+        "the majority funder. Hover a line to lift it out of the grey field, or use "
+        "the highlight picker above. Countries with *identical* shares are nudged "
+        "apart by <1pp so every line stays visible — tooltips show the true value."
     )
     plot = nudge_ties(m[m["Funder"] == "USG"].dropna(subset=["Share"]), "Share")
     plot = lib.attach_budget_notes(plot, area)
