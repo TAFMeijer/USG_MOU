@@ -513,3 +513,107 @@ if not ((t["Country"] == "Mozambique")
     print("Mozambique: lab share carved out of the HCW worker total")
 else:
     print("skip (already apportioned): Mozambique lab share")
+
+# --------------------------------------------------------------------------
+# Part 6 — Eswatini: apportion its aggregated worker $ lines (maintainer
+# decision, Sep 2026, following the Mozambique precedent). Eswatini's MoU
+# prints ONE dollar line per funder for "Frontline Healthcare Workers -
+# including laboratory and epidemiologists" while tabulating the FTEs per
+# cadre, so the lab panel showed neither the USG's 86 lab workers nor GOKE's
+# 79-worker absorption. Each year's $ is split pro-rata by the printed FTE
+# mix; the lab share moves to the lab line, epidemiologists stay with HCW
+# (as they do for Kenya). Totals unchanged. Idempotent.
+t = pd.read_csv(DATA / "budget_tidy.csv")
+ESW = {
+    # funder: ($ per year, HCW FTEs, lab FTEs, epi FTEs) — printed columns
+    "USG": ([6754724, 6644724, 3715098, 1857549, 0],
+            [694, 644, 544, 394, 0], [86, 86, 66, 46, 0], [20, 20, 20, 0, 0]),
+    "Government": ([0, 100000, 1614621, 2421932, 3229242],
+                   [0, 50, 150, 300, 513], [0, 0, 20, 40, 79],
+                   [0, 0, 0, 20, 20]),
+}
+ESW_LAB_CAT = "Frontline Lab Workers ($, share of the aggregated worker line)"
+if not ((t["Country"] == "Eswatini")
+        & (t["Category (as printed in MoU)"] == ESW_LAB_CAT)).any():
+    new_rows = []
+    for funder, (dollars, hcw, lab, epi) in ESW.items():
+        shares = [round(d * l / (h + l + e)) if (h + l + e) else 0
+                  for d, h, l, e in zip(dollars, hcw, lab, epi)]
+        m = ((t["Country"] == "Eswatini") & (t["Funder"] == funder)
+             & (t["Unit"] == "USD") & (t["Row type"] == "Line item")
+             & (t["Investment area"] == "Frontline healthcare workers")
+             & t["Category (as printed in MoU)"].str.contains(
+                 "including laboratory and epid", na=False))
+        assert m.sum() == 5, (funder, int(m.sum()))
+        idx = t.loc[m].sort_values("Year").index
+        t.loc[idx, "Amount"] = [d - sh for d, sh in zip(dollars, shares)]
+        t.loc[idx, "Source note"] = (
+            "Printed aggregated worker line NET of the lab-cadre share (split "
+            "pro-rata by the printed FTE mix - see the Frontline Lab Workers "
+            "rows); epidemiologists stay on this line, as for Kenya")
+        tmpl = t.loc[idx[0]].to_dict()
+        for y, sh in zip(YEARS, shares):
+            r = dict(tmpl)
+            r.update({"Investment area": "Frontline lab workers", "Year": y,
+                      "Amount": float(sh),
+                      "Category (as printed in MoU)": ESW_LAB_CAT,
+                      "Source note": "Lab share of the printed aggregated "
+                                     "worker line, pro-rata by the printed FTE "
+                                     "mix (lab / (HCW+lab+epi)); carved OUT of "
+                                     "the healthcare-worker line - totals "
+                                     "unchanged. No per-cadre rate is printed"})
+            new_rows.append(r)
+    t = pd.concat([t, pd.DataFrame(new_rows)], ignore_index=True)
+    t.to_csv(DATA / "budget_tidy.csv", index=False)
+    print("Eswatini: lab share carved out of both aggregated worker lines")
+else:
+    print("skip (already apportioned): Eswatini lab share")
+
+# --------------------------------------------------------------------------
+# Part 7 — Uganda: carve the lab cadres' share out of the printed new-cohort
+# HRH $ (maintainer decision, Sep 2026; Mozambique/Eswatini precedent).
+# Uganda's App.1 "NEW GoU: Human Resources for Health ($)" prices each year's
+# NEW cohort of ALL SEVEN App.3 cadres — laboratory included (the cadre New
+# columns sum to the national table exactly) — but sat wholly on the HCW line,
+# so the lab panel missed each year's newly absorbed lab cohort (chiefly the
+# 612 of 2030). Split pro-rata by the printed cadre mix: lab new 115/196/349/
+# 612 of national 5,355/5,897/5,449/2,678. Totals unchanged. Idempotent.
+t = pd.read_csv(DATA / "budget_tidy.csv")
+UG_LAB_CAT = "NEW GoU: laboratory cadres ($, share of the HRH line)"
+if not ((t["Country"] == "Uganda")
+        & (t["Category (as printed in MoU)"] == UG_LAB_CAT)).any():
+    HRH = {2026: 0, 2027: 19177200, 2028: 21177200, 2029: 19677200,
+           2030: 16970200}
+    LABN = {2026: 0, 2027: 115, 2028: 196, 2029: 349, 2030: 612}
+    TOTN = {2026: 0, 2027: 5355, 2028: 5897, 2029: 5449, 2030: 2678}
+    share = {y: (round(HRH[y] * LABN[y] / TOTN[y]) if TOTN[y] else 0)
+             for y in YEARS}
+    m = ((t["Country"] == "Uganda") & (t["Funder"] == "Government")
+         & (t["Category (as printed in MoU)"]
+            == "NEW GoU: Human Resources for Health ($)"))
+    assert m.sum() == 5
+    for i in t.loc[m].index:
+        t.loc[i, "Amount"] -= share[int(t.loc[i, "Year"])]
+    t.loc[m, "Source note"] = (
+        "Printed App.1 new-cohort HRH $ NET of the laboratory cadres' share "
+        "(split pro-rata by the printed App.3 cadre mix - see the Frontline "
+        "Lab Workers rows); prices each year's NEW cohort at the near-flat "
+        "$3,581-$3,611/FTE (2030 $6,337 as the mix shifts)")
+    tmpl = t.loc[m].iloc[0].to_dict()
+    rows = []
+    for y in YEARS:
+        r = dict(tmpl)
+        r.update({"Investment area": "Frontline lab workers", "Year": y,
+                  "Amount": float(share[y]),
+                  "Category (as printed in MoU)": UG_LAB_CAT,
+                  "Source note": "Laboratory cadres' share of the printed "
+                                 "App.1 new-cohort HRH $, pro-rata by the "
+                                 "printed App.3 cadre mix (lab new 115/196/"
+                                 "349/612 of 5,355/5,897/5,449/2,678); carved "
+                                 "OUT of the HCW line - totals unchanged"})
+        rows.append(r)
+    t = pd.concat([t, pd.DataFrame(rows)], ignore_index=True)
+    t.to_csv(DATA / "budget_tidy.csv", index=False)
+    print("Uganda: lab cadre share carved out of the printed HRH line")
+else:
+    print("skip (already apportioned): Uganda lab share")

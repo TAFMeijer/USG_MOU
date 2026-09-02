@@ -354,21 +354,36 @@ Eswatini,Data systems,2027,USG,9464970.0,Printed in MoU
 Eswatini,Data systems,2028,USG,11360778.0,Printed in MoU
 Eswatini,Data systems,2029,USG,9436149.0,Printed in MoU
 Eswatini,Data systems,2030,USG,6525195.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2026,Government,4817720.0,Imputed baseline (pre-MoU)
-Eswatini,Frontline healthcare workers,2027,Government,4817720.0,Imputed baseline (pre-MoU)
-Eswatini,Frontline healthcare workers,2028,Government,4817720.0,Imputed baseline (pre-MoU)
-Eswatini,Frontline healthcare workers,2029,Government,4817720.0,Imputed baseline (pre-MoU)
-Eswatini,Frontline healthcare workers,2030,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2026,Government,4498117.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2027,Government,4498117.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2028,Government,4498117.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2029,Government,4498117.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2030,Government,4498117.0,Imputed baseline (pre-MoU)
 Eswatini,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
 Eswatini,Frontline healthcare workers,2027,Government,100000.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2028,Government,1614621.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2029,Government,2421932.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2030,Government,3229242.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2026,USG,6754724.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2027,USG,6644724.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2028,USG,3715098.0,Printed in MoU
-Eswatini,Frontline healthcare workers,2029,USG,1857549.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2028,Government,1424666.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2029,Government,2152828.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2030,Government,2812395.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2026,USG,6028591.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2027,USG,5882796.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2028,USG,3325897.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2029,USG,1663351.0,Printed in MoU
 Eswatini,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Eswatini,Frontline lab workers,2026,Government,319603.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline lab workers,2027,Government,319603.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline lab workers,2028,Government,319603.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline lab workers,2029,Government,319603.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline lab workers,2030,Government,319603.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline lab workers,2026,Government,0.0,Printed in MoU
+Eswatini,Frontline lab workers,2027,Government,0.0,Printed in MoU
+Eswatini,Frontline lab workers,2028,Government,189955.0,Printed in MoU
+Eswatini,Frontline lab workers,2029,Government,269104.0,Printed in MoU
+Eswatini,Frontline lab workers,2030,Government,416847.0,Printed in MoU
+Eswatini,Frontline lab workers,2026,USG,726133.0,Printed in MoU
+Eswatini,Frontline lab workers,2027,USG,761928.0,Printed in MoU
+Eswatini,Frontline lab workers,2028,USG,389201.0,Printed in MoU
+Eswatini,Frontline lab workers,2029,USG,194198.0,Printed in MoU
+Eswatini,Frontline lab workers,2030,USG,0.0,Printed in MoU
 Eswatini,Laboratory commodities,2026,Government,0.0,Printed in MoU
 Eswatini,Laboratory commodities,2027,Government,1169473.0,Printed in MoU
 Eswatini,Laboratory commodities,2028,Government,2338946.0,Printed in MoU
@@ -1333,10 +1348,10 @@ Uganda,Frontline healthcare workers,2028,Government,18870131.0,Imputed from FTEs
 Uganda,Frontline healthcare workers,2029,Government,39400401.0,Imputed from FTEs
 Uganda,Frontline healthcare workers,2030,Government,57766368.0,Imputed from FTEs
 Uganda,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
-Uganda,Frontline healthcare workers,2027,Government,19177200.0,Printed in MoU
-Uganda,Frontline healthcare workers,2028,Government,21177200.0,Printed in MoU
-Uganda,Frontline healthcare workers,2029,Government,19677200.0,Printed in MoU
-Uganda,Frontline healthcare workers,2030,Government,16970200.0,Printed in MoU
+Uganda,Frontline healthcare workers,2027,Government,18765365.0,Printed in MoU
+Uganda,Frontline healthcare workers,2028,Government,20473328.0,Printed in MoU
+Uganda,Frontline healthcare workers,2029,Government,18416906.0,Printed in MoU
+Uganda,Frontline healthcare workers,2030,Government,13092021.0,Printed in MoU
 Uganda,Frontline healthcare workers,2026,USG,28519570.0,Printed in MoU
 Uganda,Frontline healthcare workers,2027,USG,23635877.0,Printed in MoU
 Uganda,Frontline healthcare workers,2028,USG,16896027.0,Printed in MoU
@@ -1350,6 +1365,11 @@ Uganda,Frontline lab workers,2030,Government,13602788.0,Imputed baseline (pre-Mo
 Uganda,Frontline lab workers,2028,Government,711378.0,Imputed from FTEs
 Uganda,Frontline lab workers,2029,Government,1923814.0,Imputed from FTEs
 Uganda,Frontline lab workers,2030,Government,4082692.0,Imputed from FTEs
+Uganda,Frontline lab workers,2026,Government,0.0,Printed in MoU
+Uganda,Frontline lab workers,2027,Government,411835.0,Printed in MoU
+Uganda,Frontline lab workers,2028,Government,703872.0,Printed in MoU
+Uganda,Frontline lab workers,2029,Government,1260294.0,Printed in MoU
+Uganda,Frontline lab workers,2030,Government,3878179.0,Printed in MoU
 Uganda,Laboratory commodities,2026,Government,0.0,Printed in MoU
 Uganda,Laboratory commodities,2027,Government,10201539.0,Printed in MoU
 Uganda,Laboratory commodities,2028,Government,20403079.0,Printed in MoU

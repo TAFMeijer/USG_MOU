@@ -146,6 +146,59 @@ quoted.append(("Lesotho imputed within the App.1 residual (cap-check)",
 for label, actual, want, tol in quoted:
     check(f"methodology figure: {label}", approx(actual, want, tol), f"data says {actual:,.0f}")
 
+# ---------------------------------------------- worker $ vs printed FTE coherence
+# The bug class caught three times by hand (Lesotho's unpriced FTEs, Mozambique's
+# unvalued lab stock, Mozambique/Eswatini's cadre shares parked on the HCW line):
+# money must exist wherever the FTE tables say workers exist, and a flat workforce
+# must not chart as a collapsing dollar line.
+WORKER_AREAS = ["Frontline healthcare workers", "Frontline lab workers"]
+fte = tidy[(tidy["Unit"] == "FTEs") & tidy["Investment area"].isin(WORKER_AREAS)
+           & (tidy["Year"] <= 2030)
+           & ~tidy["Row type"].str.startswith(("Appendix detail", "Total"))]
+gov_new = (fte[(fte["Funder"] == "Government") & (fte["Row type"] == "Line item")]
+           .groupby(["Country", "Investment area"])["Amount"].max())
+gov_base = (fte[fte["Row type"].str.startswith("Line item - existing")]
+            .groupby(["Country", "Investment area"])["Amount"].max())
+gov_usd = (per_area[per_area["Investment area"].isin(WORKER_AREAS)
+                    & (per_area["Funder"] == "Government")
+                    & per_area["Basis"].isin([lib.BASIS_PRINTED, lib.BASIS_IMPUTED])]
+           .groupby(["Country", "Investment area"])["Amount"].sum())
+pre_usd = (per_area[per_area["Investment area"].isin(WORKER_AREAS)
+                    & (per_area["Funder"] == "Government")
+                    & per_area["Basis"].isin(lib.BASELINE_BASES)]
+           .groupby(["Country", "Investment area"])["Amount"].sum())
+# A: committed government FTEs must be funded on their own line
+unfunded = [k for k, v in gov_new.items() if v > 0 and gov_usd.get(k, 0) <= 0]
+check("every government worker-FTE commitment carries $ on its own line",
+      not unfunded, str(unfunded))
+# B: a printed pre-MoU workforce stock must be valued (baseline or printed-existing)
+unvalued = [k for k, v in gov_base.items() if v > 0 and pre_usd.get(k, 0) <= 0]
+check("every printed pre-MoU workforce stock is valued", not unvalued, str(unvalued))
+# C: tripwire — a flat/growing workforce must not chart as a collapsing $ line.
+# Rate differentials make modest declines legitimate (Sierra Leone labs: USG
+# $9,223/FTE handed over at the GoSL's $2,400 = -17%), so the trip threshold is
+# a 25pp shortfall of the $ trajectory vs the FTE trajectory.
+fte_tot = fte.groupby(["Country", "Investment area", "Year"])["Amount"].sum()
+usd_tot = (per_area[per_area["Investment area"].isin(WORKER_AREAS)]
+           .groupby(["Country", "Investment area", "Year"])["Amount"].sum())
+# Documented exceptions, each with the audited reason:
+SHAPE_OK = {
+    ("Malawi", "Frontline lab workers"):
+        "workforce grows via GoM absorption at ~$3.5k/FTE while the USG exits at "
+        "~$8.9k/FTE; App.1's USG FTE column also conflicts with Sec 2.2.3 (audit F7)",
+}
+shape_bad = []
+for (c, a) in fte_tot.groupby(level=[0, 1]).groups:
+    if (c, a) in SHAPE_OK:
+        continue
+    y1 = 2028 if c == "Botswana" else 2030
+    f0, f1 = fte_tot.get((c, a, 2026), 0), fte_tot.get((c, a, y1), 0)
+    d0, d1 = usd_tot.get((c, a, 2026), 0), usd_tot.get((c, a, y1), 0)
+    if f0 and d0 and ((d1 - d0) / d0 - (f1 - f0) / f0) < -0.25:
+        shape_bad.append((c, a, f"FTE {f0:,.0f}->{f1:,.0f}", f"$ {d0:,.0f}->{d1:,.0f}"))
+check("worker $ trajectories track the printed FTE trajectories (25pp tripwire)",
+      not shape_bad, str(shape_bad))
+
 # ----------------------------------------------------------------- value domains
 pct = prog.loc[prog["Value type"] == "Percentage", "Value"].dropna()
 check("percentage values <= 100", bool((pct <= 100).all()), f"max {pct.max() if len(pct) else 0}")

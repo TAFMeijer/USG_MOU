@@ -144,10 +144,14 @@ BASELINES.append(("Mozambique", LAB, 3317, 6600.0,
 # Eswatini — one blended stock: its gov $ line aggregates HCW + lab + epi
 r, prov = med_rate([100000, 1614621, 2421932, 3229242], [50, 170, 360, 632],
                    "own gov blended median")
-BASELINES.append(("Eswatini", FHW, 814, r,
-                  "814 blended existing FTEs (754 HCW Sec 2.4.3 + 54 lab Sec 2.2.3 + "
-                  "6 epi App.3); the GOKE $ line aggregates these cadres so one "
-                  "blended rate is applied", prov,
+BASELINES.append(("Eswatini", FHW, 760, r,
+                  "760 existing FTEs (754 HCW Sec 2.4.3 + 6 epi App.3; epidemiologists "
+                  "sit on the HCW line, as for Kenya); the GOKE $ line aggregates "
+                  "cadres so one blended rate is applied", prov,
+                  "LOW - yearly implied rates span $2,000-$9,498"))
+BASELINES.append(("Eswatini", LAB, 54, r,
+                  "54 existing lab FTEs (Sec 2.2.3 Existing GOKE column); valued at "
+                  "the same blended rate - no per-cadre rate is printed", prov,
                   "LOW - yearly implied rates span $2,000-$9,498"))
 
 baseline = []

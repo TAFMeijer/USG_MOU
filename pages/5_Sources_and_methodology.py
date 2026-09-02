@@ -163,7 +163,9 @@ only each year's **new** cohort (the App. 3 national New column — $/new-FTE is
 $3,581/$3,591/$3,611, rising to $6,337 in 2030 as the cohort mix shifts from CHEWs to
 clinical cadres); absorbed cohorts move into the Existing column with their continued
 salaries unpriced. The dashboard imputes that continuation (32,222 HCW + 1,086 lab
-FTE-years × the own rate) as separate rows inside the government band. Uganda's cadre-level tables
+FTE-years × the own rate) as separate rows inside the government band; the printed
+new-cohort $ covers all seven App. 3 cadres and is apportioned pro-rata by the cadre
+mix, so the laboratory share sits on the lab line. Uganda's cadre-level tables
 (7 cadres, App. 3 pp. 30–32) are in `analysis/uganda_cadre_fte.csv`; their New columns
 sum to the national table exactly.
 
@@ -194,7 +196,7 @@ Funded" columns: **Uganda 49,014 HCW + 2,199 lab (national 51,213 net of lab) ·
 Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) + 3,317 lab (§2.2.3) · Liberia
 6,577 HCW + 538 lab · Malawi 19,127 HCW + 639 lab · Sierra Leone 12,554 HCW + 76 lab ·
 Burundi 11,260 HCW + 1,344 lab · Madagascar 5,769 HCW + 310 lab · Eswatini 814 blended
-(754 HCW + 54 lab + 6 epi)**. The four originals are valued at the same rates as their
+(754 HCW + 54 lab + 6 epi, one blended rate split across the HCW and lab lines)**. The four originals are valued at the same rates as their
 imputations; the 2026-wave stocks at **each government's own printed absorption cost**
 (printed gov worker $ ÷ cumulative new FTEs, median across years — exact constants for
 Burundi/Sierra Leone/Madagascar labs; Eswatini's blended rate is LOW confidence). Total
