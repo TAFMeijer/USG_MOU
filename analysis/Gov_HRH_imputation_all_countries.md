@@ -1,4 +1,4 @@
-# Government HRH contributions across all nine MoUs — printed, imputed, and harvested
+# Government HRH contributions across the MoUs — printed, imputed, and harvested
 
 *Derived analysis, 11 Aug 2026; rev. 4, 2 Sep 2026 (Côte d'Ivoire re-based on its own printed rates; Liberia 2027 lab cell corrected). Extends the Cameroon pilot (`Cameroon_FTE_rate_analysis.md`) to every country. Reproducible via `analysis/fte_rate_imputation_all.py`; imputed rows in `imputed_gov_hrh_all_countries.csv`; per-country summary in `gov_hrh_summary_by_country.csv`; cadre tables in `moz_cadre_fte.csv` and `uganda_cadre_fte.csv`.*
 
@@ -88,7 +88,7 @@ Confidence notes. Ethiopia and Mozambique labs are handover mirrors (gov FTEs ra
 
 Peer rate benchmarks used: government HCW $/FTE — Ethiopia $1,748, Uganda $1,849, Kenya $3,368, Mozambique $3,989, Liberia $4,541 (median $3,368). Lab $/FTE — Liberia $2,500, Ethiopia $5,488, Cameroon $6,186, Mozambique $6,600, Kenya $12,548 (median $6,186).
 
-## The full picture: government HRH effort across the nine MoUs
+## The full picture: government HRH effort across the sixteen MoUs
 
 | Component | 5-yr value |
 |---|---|

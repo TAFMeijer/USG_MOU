@@ -105,6 +105,19 @@ misleads: "# patients with TB notified (i.e., bacteriologically confirmed + clin
 diagnosed)" and "% confirmed malaria cases receiving first-line treatment" are
 case-finding and coverage measures where higher is the goal, though both mention cases.
 
+**Announced headline vs the MoU's own summary.** `data/countries.csv` keeps the KFF
+tracker's figures in its headline columns, so all 34 agreements stay comparable — including
+the 18 with no public text. For the 16 texts we hold, three extra columns record what the
+document itself prints in its co-funding summary: `MoU USG (USD)`, `MoU co-financing (USD)`
+and a `MoU basis note` naming the table and its quirks. Eleven of the sixteen differ, and
+some materially: **Malawi** prints $744.8M against an announced $792M (and its $143.8M
+"co-financing" is a 2030-only expenditure-increase pledge, not the $55M it itemises),
+**Eswatini** $192.7M against $205M, **Botswana** $99.6M against $106M, and **Nigeria's**
+$1,953.5M excludes the 6% M&O allocation that takes it to the announced $2,078.2M. **Kenya**
+prints no USD government figure at all — its column is in Kenyan Shillings. The Country view
+shows the MoU's own pair beneath the headline whenever the two disagree. The charts are
+built from the line items, not from either headline.
+
 **What sums, what doesn't.** Three row types are aggregated into
 `data/budget_series.csv`, which feeds every chart: `Row type = "Line item"`, the
 existing-government rows (`"Line item - existing (excl. from headline total)"`) and

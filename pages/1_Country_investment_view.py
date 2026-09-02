@@ -164,6 +164,17 @@ st.caption(lib.md(
     "differ from the itemised amounts charted on this page — see Sources & methodology."
 ))
 
+# What the MoU's own co-funding summary prints, shown whenever it differs from the
+# announced headline (Malawi's $47M gap, Nigeria's M&O carve-out, Kenya's
+# shilling-denominated government column, Botswana's and Eswatini's overstatements).
+mou_usg, mou_gov = row.get("MoU USG (USD)"), row.get("MoU co-financing (USD)")
+if pd.notna(mou_usg) and (mou_usg != row["USG (USD)"] or mou_gov != row["Co-financing (USD)"]):
+    st.caption(lib.md(
+        f"Its **own co-funding summary** prints {lib.fmt_usd(mou_usg)} USG / "
+        + (lib.fmt_usd(mou_gov) if pd.notna(mou_gov) else "no USD government figure")
+        + f" — {row['MoU basis note']}."
+    ))
+
 # ---------------- data for this country ----------------
 m = df[
     (df["Country"] == country)

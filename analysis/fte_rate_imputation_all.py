@@ -1,6 +1,11 @@
 """
-Government $ imputation for frontline lab workers & healthcare workers —
-ALL nine MoU countries (generalisation of the Cameroon pilot).
+Government $ imputation for frontline lab workers & healthcare workers
+(generalisation of the Cameroon pilot).
+
+Imputation is only needed where a MoU commits government FTEs without pricing
+them: Cameroon, Ethiopia labs, Mozambique labs, Rwanda, Uganda (continuation)
+and Cote d'Ivoire. The printed-$ summary this script also emits spans every
+country in budget_tidy.csv.
 
 v2 — NEW vs EXISTING correction
 -------------------------------

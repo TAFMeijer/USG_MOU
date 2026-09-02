@@ -29,7 +29,7 @@ public, and the distinction is part of the story:
 | `*^` | Published on the Case Act page **and** released under FOIA | Kenya, Mozambique, Nigeria, Ethiopia, Malawi |
 | `^` | Public **only** because of Public Citizen's **Freedom of Information Act** requests | Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire, Burundi |
 
-Ten of the sixteen public texts — and seven of the nine countries added in September 2026 —
+Ten of the sixteen public texts — and six of the seven countries added in September 2026 —
 exist in the public record only because Public Citizen sued the State Department for them. The
 August 2026 production (FL-2026-00021) is what that litigation yielded. Both the marker and a
 plain-language description are carried per country in `data/countries.csv`
@@ -88,7 +88,7 @@ streamlit run Home.py
 | `data/budget_series.csv` | Aggregated, safely summable series (Country × Investment area × Year × Funder) — feeds all budget charts |
 | `data/budget_tidy.csv` | Full line-item detail as printed in each MoU, with `Row type` flags (subtotals, appendix breakdowns, existing funding), source notes, and the MoUs' own printed footnotes transcribed verbatim (`MoU footnote (verbatim)` / `MoU footnote location`) |
 | `data/programmatic_tidy.csv` | Every Section-1 indicator: baseline + yearly targets, units, value types, source notes, and the MoUs' own printed footnotes (verbatim + location) |
-| `data/countries.csv` | All 34 agreements: amounts, dates, program areas, source-PDF links |
+| `data/countries.csv` | All 34 agreements: announced amounts (KFF tracker), dates, program areas, source-PDF links, plus `MoU USG (USD)` / `MoU co-financing (USD)` / `MoU basis note` — what each of the 16 public texts prints in its own co-funding summary, which differs from the headline for 11 of them |
 | `data/sources.csv` | Reference trackers and mirrors |
 | `data/strategic_areas.csv` | Strategic-investment domains/areas named in every MoU's §2.6, with printed prices and page references |
 | `analysis/` | Derived analyses: $/FTE imputation scripts and outputs, cadre-table harvests (Mozambique, Uganda), baseline valuations, analysis notes |

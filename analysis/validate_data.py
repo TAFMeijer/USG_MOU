@@ -84,6 +84,13 @@ check("countries.csv: share == USG / total", share_bad.empty, ", ".join(share_ba
 public = set(countries.loc[countries["Full MoU text public"] == "Yes", "Country"])
 check("every country with budget data is marked text-public",
       set(tidy["Country"]) <= public, str(set(tidy["Country"]) - public))
+with_mou = set(countries.loc[countries["MoU USG (USD)"].notna(), "Country"])
+check("every public text has its MoU-printed USG figure", public <= with_mou,
+      str(public - with_mou))
+check("no country without a public text carries MoU figures", with_mou <= public,
+      str(with_mou - public))
+noted = set(countries.loc[countries["MoU basis note"].astype(str).str.len() > 0, "Country"])
+check("every MoU figure has a basis note", with_mou <= noted, str(with_mou - noted))
 
 # ------------------------------------------------------------- explorer snapshot
 before = [(ROOT / f).read_text(encoding="utf-8") for f in ("explorer.html", "docs/index.html")]
