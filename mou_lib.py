@@ -88,21 +88,23 @@ IMPUTED_ROW_TYPE = "Imputed (derived - not printed in MoU)"
 BASELINE_ROW_TYPE = "Imputed baseline (pre-MoU - derived)"
 
 IMPUTED_CAPTION = (
-    "Imputed government $ (dashed lines) are **derived, not printed in the MoU**: "
-    "government FTE commitments × a $/FTE rate taken from the same MoU's USG side "
-    "(or peer-country rates where none exists). Ethiopia's and Kenya's MoUs apply "
-    "exactly this arithmetic internally. Method, rates and confidence ranges: "
-    "**Sources & methodology**."
+    "Imputed government $ are **derived, not printed in the MoU**: government FTE "
+    "commitments × a $/FTE rate taken from the same MoU's USG side (or peer-country "
+    "rates where none exists). Ethiopia's and Kenya's MoUs apply exactly this "
+    "arithmetic internally. They are summed into the government band of every "
+    "panel; the sidebar toggle takes them back out. Method, rates and confidence "
+    "ranges: **Sources & methodology**."
 )
 
 BASELINE_CAPTION = (
     "Pre-MoU baseline $ covers two components: the **existing government workforce** "
     "the MoU tabulates (2026 'Existing # FTEs Funded' stock, valued at the same "
-    "rates — dotted lines; CIV, Uganda, Mozambique, Liberia) and the **printed "
-    "existing commodity funding** the MoUs carry from 2026 (dash-dot; Kenya, Uganda, "
-    "CIV, Liberia, Mozambique). Baseline effort that predates the MoU, **not** MoU "
-    "co-financing. Growth above the 2026 level and series starting at zero are "
-    "MoU-era commitments and stay in the main series."
+    "rates — CIV, Uganda, Mozambique, Liberia) and the **printed existing government "
+    "funding** the MoUs mark as existing rather than new (Kenya, Uganda, CIV, "
+    "Liberia, Mozambique, Cameroon). Baseline effort that predates the MoU, **not** "
+    "MoU co-financing. Both sit inside the government band of every panel; the "
+    "sidebar toggle removes them together, lowering the band to the co-financing "
+    "the MoUs themselves count as new."
 )
 
 

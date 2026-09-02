@@ -81,18 +81,23 @@ a caveat. Liberia's MoU prints no table footnotes. Côte d'Ivoire has one orphan
 scan's appendix pages. The dashboard shows these notes in chart tooltips and under the
 affected panels.
 
-**What sums, what doesn't.** Only rows with `Row type = "Line item"` (plus
-existing-government rows) are aggregated into `data/budget_series.csv`, which feeds every
-chart. Excluded from sums: the MoUs' own subtotal rows, 2026 appendix breakdowns (nested in
-line items), domestic-expenditure-increase pledges (a different measure of the same money),
-and FTE headcount rows (not dollars).
+**What sums, what doesn't.** Three row types are aggregated into
+`data/budget_series.csv`, which feeds every chart: `Row type = "Line item"`, the
+existing-government rows (`"Line item - existing (excl. from headline total)"`) and
+`"Line item - outside headline total"` — priced commitments a MoU makes in its text but
+leaves out of its own co-funding appendix. Only Uganda has the last kind (the $1M/yr GoU
+MCH equipment maintenance of §2.3.2.VIII), so Uganda's charted government total runs $1M/yr
+above the MoU's own headline by design. Kenya's 2031 column is dropped so the five-year
+comparisons stay like for like. Excluded from sums: the MoUs' own subtotal rows, appendix
+breakdowns (nested in line items), domestic-expenditure-increase pledges (a different
+measure of the same money), and FTE headcount rows (not dollars).
 
 **Government = new + existing.** Kenya, Uganda, Mozambique, Liberia, Côte d'Ivoire and
 Cameroon tabulate *existing* government funding alongside new co-financing; Nigeria,
 Ethiopia and Rwanda do not, so their government lines are new co-financing only and their
 true shares are **understated**.
 
-**Imputed government $ (dashed lines / sidebar toggle).** Six MoUs commit government
+**Imputed government $ (sidebar toggle).** Six MoUs commit government
 frontline **lab-worker and healthcare-worker FTEs without pricing them**. Where the charts
 show government $ for those lines, they are **imputed**: government FTEs × a $/FTE rate
 derived from the *same MoU's USG side* (2026 unit rate, flat nominal), or from
@@ -115,7 +120,7 @@ only each year's **new** cohort (the App. 3 national New column — $/new-FTE is
 $3,581/$3,591/$3,611, rising to $6,337 in 2030 as the cohort mix shifts from CHEWs to
 clinical cadres); absorbed cohorts move into the Existing column with their continued
 salaries unpriced. The dashboard imputes that continuation (32,222 HCW + 1,086 lab
-FTE-years × the own rate) as a separate dashed series. Uganda's cadre-level tables
+FTE-years × the own rate) as separate rows inside the government band. Uganda's cadre-level tables
 (7 cadres, App. 3 pp. 30–32) are in `analysis/uganda_cadre_fte.csv`; their New columns
 sum to the national table exactly.
 
@@ -129,17 +134,17 @@ Every imputed row is flagged `Row type = "Imputed (derived - not printed in MoU)
 overview toggle removes them entirely. Full derivation: `analysis/fte_rate_imputation_all.py`
 and `analysis/Gov_HRH_imputation_all_countries.md`.
 
-**Pre-MoU baseline workforce (dotted lines / second toggle).** Four MoUs also tabulate the
+**Pre-MoU baseline workforce (second toggle).** Four MoUs also tabulate the
 government's *existing* workforce — the pre-MoU baseline stock in the "Existing # FTEs
 Funded" columns: **Uganda 49,014 HCW + 2,199 lab (national 51,213 net of lab) ·
 Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) · Liberia
 6,577 HCW + 538 lab**. Valued at the same rates this is **~$2.65bn over the term**
 (Uganda $951M · CIV $775M · Moz $767M · Liberia $156M) — two and a half times the
 ~$1.07bn of MoU HRH commitments, and the concrete form of the "existing government
-funding" the co-funding summaries fold into their headlines. It is shown as its own
-dotted series (`Basis = "Imputed baseline (pre-MoU)"`, `Row type = "Imputed baseline
-(pre-MoU - derived)"`) precisely so it can be seen *and* filtered out — it is baseline
-effort, not MoU co-financing. Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no
+funding" the co-funding summaries fold into their headlines. It is carried as its own
+basis (`Basis = "Imputed baseline (pre-MoU)"`, `Row type = "Imputed baseline
+(pre-MoU - derived)"`) precisely so it can be summed into the band *and* filtered back
+out — it is baseline effort, not MoU co-financing. Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no
 workforce baseline.
 
 The same toggle also removes the **printed existing government funding** the MoUs
@@ -150,15 +155,18 @@ further ~$106M in the tidy data)**. With the toggle off, government $ reduces to
 co-financing the MoUs themselves count as new — in 2026 that is chiefly Nigeria, whose MoU
 prints a $344.8M government commitment in year one.
 
-**USG 2026-level reference (thin dotted line / third toggle).** There is no separate USG
+**2026-level reference (thin dotted line / third toggle).** There is no separate USG
 baseline layer to add: unlike the government side, the USG's funding is fully priced in
 every MoU, and its 2026 amount *is* its pre-MoU baseline carried into year one (several
 MoUs plan "100% support" in 2026; Rwanda's §2.3.2 states 2026 equals what the USG
 "currently funds"). Summing a USG baseline on top of the printed lines would double-count.
-Instead the Country view can overlay each panel with the USG's 2026 level held flat — a
-counterfactual reference whose gap to the actual USG line is the **planned withdrawal**
-the government side is expected to absorb (e.g. Cameroon: $504.6M at 2026-level vs
-$399.3M planned = $105.4M / 21% withdrawal). Never added to any total. Known USG
+Instead the Country view overlays each panel with the **combined** 2026 level (USG +
+government where the government already funds in 2026) held flat, and each stacked panel is
+read against it: where the top edge holds the line, government absorption has kept that area
+at its 2026 level, and the shortfall below it is the **planned withdrawal** not absorbed.
+For countries whose government contributes nothing in 2026 the reference is USG-only
+(e.g. Cameroon: $504.6M at 2026-level vs $399.3M planned = $105.4M / 21% withdrawal).
+Never added to any total. Known USG
 undercounts remain: Kenya's ~$97.9M cost-of-doing-business margin, Nigeria's & Ethiopia's
 ~6% M&O carve-outs, and Rwanda's Bridge-Plan half of the commodity basket sit outside the
 MoU budget lines.

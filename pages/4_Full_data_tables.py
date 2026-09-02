@@ -88,7 +88,9 @@ with tab_budget:
     with c2:
         st.caption(
             f"{len(b):,} rows shown. To sum money safely: filter Unit = USD and "
-            "Row type = 'Line item' (plus the existing-government rows) — the MoUs' own "
+            "Row type = 'Line item' (plus the existing-government rows and, for Uganda, "
+            "'Line item - outside headline total' — a priced commitment the MoU leaves out "
+            "of its own appendix) — the MoUs' own "
             "subtotals, appendix breakdowns and expenditure pledges are flagged so they "
             "don't double-count. 'MoU footnote (verbatim)' = notes printed in the MoU "
             "itself, carried across the full 5-year line; 'MoU footnote location' "

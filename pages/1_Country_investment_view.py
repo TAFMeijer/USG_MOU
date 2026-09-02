@@ -56,15 +56,16 @@ include_imputed = st.sidebar.toggle(
          "MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, "
          "Rwanda, Côte d'Ivoire) — or, for Uganda, prices only each year's new cohort "
          "(the continuation of absorbed cohorts is imputed). Workers absorbed in year "
-         "t stay funded in every later year. Dashed lines. See Sources & methodology.",
+         "t stay funded in every later year. Summed into the government band of each "
+         "panel; switch off to see printed $ only. See Sources & methodology.",
 )
 include_baseline = st.sidebar.toggle(
     "Include pre-MoU / existing funding $", value=True,
     help="Two pre-MoU components: the existing government workforce the MoU "
-         "tabulates, valued at reference rates (dotted; CIV, Uganda, Mozambique, "
-         "Liberia), and the printed existing commodity funding carried from 2026 "
-         "(dash-dot; Kenya, Uganda, CIV, Liberia, Mozambique). Baseline effort, "
-         "not MoU co-financing.",
+         "tabulates, valued at reference rates (CIV, Uganda, Mozambique, Liberia), "
+         "and the government funding the MoUs mark as existing rather than new "
+         "(Kenya, Uganda, CIV, Liberia, Mozambique, Cameroon). Baseline effort, not "
+         "MoU co-financing; switching off lowers the government band accordingly.",
 )
 show_usg_ref = st.sidebar.toggle(
     "Show 2026-level reference", value=True,
@@ -735,7 +736,8 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
     st.caption(
         f"{len(detail):,} rows shown. Click any column header to sort; the 🔍 icon in the "
         "table toolbar does a live full-text search. Only rows with Row type = 'Line item' "
-        "(plus existing-government rows) feed the charts above — and, when the sidebar "
+        "(plus existing-government rows and 'Line item - outside headline total', which "
+        "Uganda alone carries) feed the charts above — and, when the sidebar "
         "toggle is on, rows with Row type = 'Imputed (derived - not printed in MoU)', "
         "whose Source note records the FTEs, rate and confidence used. Other row types "
         "are excluded to avoid double counting. 'MoU footnote (verbatim)' holds the notes "
