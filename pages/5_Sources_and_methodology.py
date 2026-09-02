@@ -27,7 +27,7 @@ st.warning(
 
 # ---------------- reference trackers ----------------
 st.markdown(lib.md("""
-**How each text became public.** Sixteen of the 34 signed agreements now have a public full text, and the route matters. Public Citizen marks each one: an **asterisk (\*)** means the U.S. government published the text itself, via its Case Act reporting page; a **caret (^)** means the U.S. government released it only in response to Public Citizen's Freedom of Information Act requests. Five texts carry both markers (Kenya, Mozambique, Nigeria, Ethiopia, Malawi), Uganda alone is Case Act only, and **ten are public solely because of the FOIA litigation** — Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire and Burundi. Public Citizen sued the State Department over its failure to produce these records; the August 2026 production (FL-2026-00021) is what that suit yielded. Every country row carries its marker in `Disclosure marker` and the route in plain words in `How the text became public`.
+**How each text became public.** Sixteen of the 34 signed agreements now have a public full text, and the route matters. Public Citizen marks each one: an **asterisk (\\*)** means the U.S. government published the text itself, via its Case Act reporting page; a **caret (^)** means the U.S. government released it only in response to Public Citizen's Freedom of Information Act requests. Five texts carry both markers (Kenya, Mozambique, Nigeria, Ethiopia, Malawi), Uganda alone is Case Act only, and **ten are public solely because of the FOIA litigation** — Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire and Burundi. Public Citizen sued the State Department over its failure to produce these records; the August 2026 production (FL-2026-00021) is what that suit yielded. Every country row carries its marker in `Disclosure marker` and the route in plain words in `How the text became public`.
 """))
 
 st.subheader("Reference trackers & mirrors")
@@ -129,12 +129,14 @@ comparisons stay like for like. Excluded from sums: the MoUs' own subtotal rows,
 breakdowns (nested in line items), domestic-expenditure-increase pledges (a different
 measure of the same money), and FTE headcount rows (not dollars).
 
-**Government = new + existing.** Kenya, Uganda, Mozambique, Liberia, Côte d'Ivoire and
-Cameroon tabulate *existing* government funding alongside new co-financing; Nigeria,
-Ethiopia and Rwanda do not, so their government lines are new co-financing only and their
-true shares are **understated**.
+**Government = new + existing.** Thirteen of the sixteen MoUs tabulate *existing*
+government funding alongside new co-financing (the original six — Kenya, Uganda,
+Mozambique, Liberia, Côte d'Ivoire, Cameroon — plus Botswana, Eswatini, Lesotho,
+Madagascar, Malawi, Sierra Leone and, formally, Burundi, whose existing columns carry
+no pre-MoU money). Nigeria, Ethiopia and Rwanda do not, so their government lines are
+new co-financing only and their true shares are **understated**.
 
-**Imputed government $ (sidebar toggle).** Five MoUs commit government
+**Imputed government $ (sidebar toggle).** Six MoUs commit government
 frontline **lab-worker and healthcare-worker FTEs without pricing them**. Where the charts
 show government $ for those lines, they are **imputed**: government FTEs × a $/FTE rate
 derived from the *same MoU's USG side* (2026 unit rate, flat nominal), or from
@@ -169,32 +171,55 @@ printed USG rates — $2,412/FTE for healthcare workers, $15,385/FTE for lab wor
 range $141–227M)**. Côte d'Ivoire rests on its own rates only because the FOIA release
 supplied the appendix that prices the USG's frontline workers; on peer rates alone it came
 to $202.7M. Its **government** side still prices no health worker at all, so the
-imputation itself stands.
+imputation itself stands. · **Lesotho $22.2M** (own USG 2026 rates: HCW $8,333/FTE =
+11,125,000 ÷ 1,335 net of lab, lab $19,045/FTE; the government Total-FTE columns net of
+lab). Lesotho is the only 2026-wave MoU that prints government worker FTEs but no
+government worker $ anywhere — the salaries sit in the unexplained remainder of its
+App. 1 government column, and the imputation is **cap-checked against that remainder**:
+$22.2M imputed vs the $22.8M the MoU itself leaves unitemised (97%), the only imputed
+country whose own headline corroborates the estimate (enforced by
+`analysis/validate_data.py`).
 Every imputed row is flagged `Row type = "Imputed (derived - not printed in MoU)"` in
 `data/budget_tidy.csv` with FTEs, rate and confidence in its Source note; the sidebar /
 overview toggle removes them entirely. Full derivation: `analysis/fte_rate_imputation_all.py`
 and `analysis/Gov_HRH_imputation_all_countries.md`.
 
-**Pre-MoU baseline workforce (second toggle).** Four MoUs also tabulate the
+**Pre-MoU baseline workforce (second toggle).** Nine MoUs also tabulate the
 government's *existing* workforce — the pre-MoU baseline stock in the "Existing # FTEs
 Funded" columns: **Uganda 49,014 HCW + 2,199 lab (national 51,213 net of lab) ·
 Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) · Liberia
-6,577 HCW + 538 lab**. Valued at the same rates this is **~$2.50bn over the term**
-(Uganda $951M · Moz $767M · CIV $626M · Liberia $156M) — nearly twice the
-~$1.33bn of MoU HRH commitments, and the concrete form of the "existing government
-funding" the co-funding summaries fold into their headlines. It is carried as its own
-basis (`Basis = "Imputed baseline (pre-MoU)"`, `Row type = "Imputed baseline
-(pre-MoU - derived)"`) precisely so it can be summed into the band *and* filtered back
-out — it is baseline effort, not MoU co-financing. Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no
-workforce baseline.
+6,577 HCW + 538 lab · Malawi 19,127 HCW + 639 lab · Sierra Leone 12,554 HCW + 76 lab ·
+Burundi 11,260 HCW + 1,344 lab · Madagascar 5,769 HCW + 310 lab · Eswatini 814 blended
+(754 HCW + 54 lab + 6 epi)**. The four originals are valued at the same rates as their
+imputations; the 2026-wave stocks at **each government's own printed absorption cost**
+(printed gov worker $ ÷ cumulative new FTEs, median across years — exact constants for
+Burundi/Sierra Leone/Madagascar labs; Eswatini's blended rate is LOW confidence). Total
+**~$3.09bn over the term** (Uganda $951M · Moz $767M · CIV $626M · Malawi $287M ·
+Burundi $223M · Liberia $156M · Sierra Leone $45M · Eswatini $24M · Madagascar $15M) —
+the concrete form of the "existing government funding" the co-funding summaries fold
+into their headlines. It is carried as its own basis (`Basis = "Imputed baseline
+(pre-MoU)"`, `Row type = "Imputed baseline (pre-MoU - derived)"`) precisely so it can
+be summed into the band *and* filtered back out — it is baseline effort, not MoU
+co-financing. Kenya, Cameroon, Ethiopia, Rwanda, Nigeria and Lesotho print no workforce
+baseline (Lesotho's Existing columns start at 0), and **Botswana's is excluded
+deliberately** — its existing workforce is already priced in dollars and sits in the
+printed-existing basis below; valuing its FTEs too would double count. Derivation:
+`analysis/impute_new_countries.py`.
 
 The same toggle also removes the **printed existing government funding** the MoUs
 tabulate (`Basis = "Printed in MoU (existing/pre-MoU)"`): every row the MoUs mark as
-existing rather than new, in full — **Kenya $540M · Uganda $274M · Côte d'Ivoire $219M ·
-Liberia $40M · Mozambique $25M · Cameroon $6M over 2026–30 (~$1.10bn; Kenya's 2031 adds a
-further ~$106M in the tidy data)**. With the toggle off, government $ reduces to the new
-co-financing the MoUs themselves count as new — in 2026 that is chiefly Nigeria, whose MoU
-prints a $344.8M government commitment in year one.
+existing rather than new, in full — **Kenya $540M · Botswana $362M (nearly all of its
+announced $381M co-financing) · Uganda $274M · Côte d'Ivoire $219M · Lesotho $101M ·
+Eswatini $96M · Madagascar $68M · Liberia $40M · Malawi $33M · Mozambique $25M ·
+Sierra Leone $17M · Burundi $8M · Cameroon $6M over 2026–30 (~$1.79bn; Kenya's 2031
+adds a further ~$106M in the tidy data)**. Countries whose Existing columns roll
+prior-year commitments forward (Lesotho, Sierra Leone, Madagascar, Burundi) have those
+absorbed MoU-era amounts inside this basis too, per the uniform whole-existing-row
+convention — for Burundi the entire $8M is such roll-forward, as its pre-MoU base is
+$0. With the toggle off, government $ reduces to the new co-financing the MoUs
+themselves count as new — in 2026 that is chiefly Nigeria, whose MoU prints a $344.8M
+government commitment in year one. Split derivation:
+`analysis/split_new_country_existing.py`.
 
 **2026-level reference (thin dotted line / third toggle).** There is no separate USG
 baseline layer to add: unlike the government side, the USG's funding is fully priced in
@@ -285,6 +310,14 @@ Madagascar (22 Dec, where Public Citizen records "22 or 23") — and are noted p
   strategic-assistance series also differs from its Appendix 1 row by $3.1M.
 - Lesotho's Appendix 1 omits government commodity funding entirely ($16.6M–$24.3M a year,
   recovered here from §2.3.3); its §2.6.3 strategic series is $2.7M below its Appendix 1 row.
+- Madagascar's epidemiologists are not valued: App. 3 prints 349 existing government
+  epidemiologists plus 30 new per year, but no dollar figure or derivable rate exists
+  anywhere in its MoU, and the CHW-heavy blended healthcare rate would be
+  cadre-inappropriate.
+- Eswatini prints existing funding for ARVs ($15.66M/yr) but not for the logistics its
+  Appendix 1 "including logistics" new column carries, so its existing commodity base
+  is a floor; its §2.1.3 surveillance table and Appendix 1 also disagree by $100k/yr on
+  the 2029–30 new component (both readings preserved, section level kept for existing).
 - Eswatini's government detail Total row disagrees with its summary table by $99 (2028) and
   $10,000 (2030); Sierra Leone's 2027 government column is $10,000 short of its own line items;
   Malawi's 2028 U.S. column is $809 short; Burundi's 2029 U.S. column is $400 over.

@@ -1,34 +1,49 @@
 Country,Investment area,Year,Funder,Amount,Basis
-Botswana,All areas combined,2026,Government,120654730.0,Printed in MoU
-Botswana,All areas combined,2027,Government,127143458.0,Printed in MoU
-Botswana,All areas combined,2028,Government,133698896.0,Printed in MoU
+Botswana,All areas combined,2026,Government,0.0,Printed in MoU
+Botswana,All areas combined,2027,Government,6488728.0,Printed in MoU
+Botswana,All areas combined,2028,Government,13044166.0,Printed in MoU
+Botswana,All areas combined,2026,Government,120654730.0,Printed in MoU (existing/pre-MoU)
+Botswana,All areas combined,2027,Government,120654730.0,Printed in MoU (existing/pre-MoU)
+Botswana,All areas combined,2028,Government,120654730.0,Printed in MoU (existing/pre-MoU)
 Botswana,All areas combined,2026,USG,34550000.0,Printed in MoU
 Botswana,All areas combined,2027,USG,32309832.0,Printed in MoU
 Botswana,All areas combined,2028,USG,29185168.0,Printed in MoU
 Botswana,Data systems,2026,USG,4560000.0,Printed in MoU
 Botswana,Data systems,2027,USG,4496000.0,Printed in MoU
 Botswana,Data systems,2028,USG,3110000.0,Printed in MoU
-Botswana,Frontline healthcare workers,2026,Government,77053167.0,Printed in MoU
-Botswana,Frontline healthcare workers,2027,Government,83474265.0,Printed in MoU
-Botswana,Frontline healthcare workers,2028,Government,89895362.0,Printed in MoU
+Botswana,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
+Botswana,Frontline healthcare workers,2027,Government,6421098.0,Printed in MoU
+Botswana,Frontline healthcare workers,2028,Government,12842195.0,Printed in MoU
+Botswana,Frontline healthcare workers,2026,Government,77053167.0,Printed in MoU (existing/pre-MoU)
+Botswana,Frontline healthcare workers,2027,Government,77053167.0,Printed in MoU (existing/pre-MoU)
+Botswana,Frontline healthcare workers,2028,Government,77053167.0,Printed in MoU (existing/pre-MoU)
 Botswana,Frontline healthcare workers,2026,USG,5247590.0,Printed in MoU
 Botswana,Frontline healthcare workers,2027,USG,4800000.0,Printed in MoU
 Botswana,Frontline healthcare workers,2028,USG,4300000.0,Printed in MoU
-Botswana,Frontline lab workers,2026,Government,729675.0,Printed in MoU
-Botswana,Frontline lab workers,2027,Government,751565.0,Printed in MoU
-Botswana,Frontline lab workers,2028,Government,774112.0,Printed in MoU
+Botswana,Frontline lab workers,2026,Government,0.0,Printed in MoU
+Botswana,Frontline lab workers,2027,Government,21890.0,Printed in MoU
+Botswana,Frontline lab workers,2028,Government,44437.0,Printed in MoU
+Botswana,Frontline lab workers,2026,Government,729675.0,Printed in MoU (existing/pre-MoU)
+Botswana,Frontline lab workers,2027,Government,729675.0,Printed in MoU (existing/pre-MoU)
+Botswana,Frontline lab workers,2028,Government,729675.0,Printed in MoU (existing/pre-MoU)
 Botswana,Frontline lab workers,2026,USG,420008.0,Printed in MoU
 Botswana,Frontline lab workers,2027,USG,375000.0,Printed in MoU
 Botswana,Frontline lab workers,2028,USG,325000.0,Printed in MoU
-Botswana,Laboratory commodities,2026,Government,22403902.0,Printed in MoU
-Botswana,Laboratory commodities,2027,Government,22449642.0,Printed in MoU
-Botswana,Laboratory commodities,2028,Government,22561436.0,Printed in MoU
+Botswana,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Botswana,Laboratory commodities,2027,Government,45740.0,Printed in MoU
+Botswana,Laboratory commodities,2028,Government,157534.0,Printed in MoU
+Botswana,Laboratory commodities,2026,Government,22403902.0,Printed in MoU (existing/pre-MoU)
+Botswana,Laboratory commodities,2027,Government,22403902.0,Printed in MoU (existing/pre-MoU)
+Botswana,Laboratory commodities,2028,Government,22403902.0,Printed in MoU (existing/pre-MoU)
 Botswana,Laboratory commodities,2026,USG,736818.0,Printed in MoU
 Botswana,Laboratory commodities,2027,USG,0.0,Printed in MoU
 Botswana,Laboratory commodities,2028,USG,0.0,Printed in MoU
-Botswana,Other commodities,2026,Government,20467986.0,Printed in MoU
-Botswana,Other commodities,2027,Government,20467986.0,Printed in MoU
-Botswana,Other commodities,2028,Government,20467986.0,Printed in MoU
+Botswana,Other commodities,2026,Government,0.0,Printed in MoU
+Botswana,Other commodities,2027,Government,0.0,Printed in MoU
+Botswana,Other commodities,2028,Government,0.0,Printed in MoU
+Botswana,Other commodities,2026,Government,20467986.0,Printed in MoU (existing/pre-MoU)
+Botswana,Other commodities,2027,Government,20467986.0,Printed in MoU (existing/pre-MoU)
+Botswana,Other commodities,2028,Government,20467986.0,Printed in MoU (existing/pre-MoU)
 Botswana,Other commodities,2026,USG,2195364.0,Printed in MoU
 Botswana,Other commodities,2027,USG,550000.0,Printed in MoU
 Botswana,Other commodities,2028,USG,550000.0,Printed in MoU
@@ -38,11 +53,21 @@ Botswana,Strategic assistance / investment,2028,USG,19900168.0,Printed in MoU
 Botswana,Surveillance & outbreak response,2026,USG,800000.0,Printed in MoU
 Botswana,Surveillance & outbreak response,2027,USG,1000000.0,Printed in MoU
 Botswana,Surveillance & outbreak response,2028,USG,1000000.0,Printed in MoU
+Burundi,All areas combined,2026,Government,44653164.0,Imputed baseline (pre-MoU)
+Burundi,All areas combined,2027,Government,44653164.0,Imputed baseline (pre-MoU)
+Burundi,All areas combined,2028,Government,44653164.0,Imputed baseline (pre-MoU)
+Burundi,All areas combined,2029,Government,44653164.0,Imputed baseline (pre-MoU)
+Burundi,All areas combined,2030,Government,44653164.0,Imputed baseline (pre-MoU)
 Burundi,All areas combined,2026,Government,0.0,Printed in MoU
 Burundi,All areas combined,2027,Government,664689.0,Printed in MoU
-Burundi,All areas combined,2028,Government,2203256.0,Printed in MoU
-Burundi,All areas combined,2029,Government,5416576.0,Printed in MoU
-Burundi,All areas combined,2030,Government,17715479.0,Printed in MoU
+Burundi,All areas combined,2028,Government,1565487.0,Printed in MoU
+Burundi,All areas combined,2029,Government,3298912.0,Printed in MoU
+Burundi,All areas combined,2030,Government,12437815.0,Printed in MoU
+Burundi,All areas combined,2026,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,All areas combined,2027,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,All areas combined,2028,Government,637769.0,Printed in MoU (existing/pre-MoU)
+Burundi,All areas combined,2029,Government,2117664.0,Printed in MoU (existing/pre-MoU)
+Burundi,All areas combined,2030,Government,5277664.0,Printed in MoU (existing/pre-MoU)
 Burundi,All areas combined,2026,USG,37112000.0,Printed in MoU
 Burundi,All areas combined,2027,USG,33112000.0,Printed in MoU
 Burundi,All areas combined,2028,USG,28312000.0,Printed in MoU
@@ -53,6 +78,11 @@ Burundi,Data systems,2027,USG,1697264.0,Printed in MoU
 Burundi,Data systems,2028,USG,1471664.0,Printed in MoU
 Burundi,Data systems,2029,USG,569664.0,Printed in MoU
 Burundi,Data systems,2030,USG,475264.0,Printed in MoU
+Burundi,Frontline healthcare workers,2026,Government,42255468.0,Imputed baseline (pre-MoU)
+Burundi,Frontline healthcare workers,2027,Government,42255468.0,Imputed baseline (pre-MoU)
+Burundi,Frontline healthcare workers,2028,Government,42255468.0,Imputed baseline (pre-MoU)
+Burundi,Frontline healthcare workers,2029,Government,42255468.0,Imputed baseline (pre-MoU)
+Burundi,Frontline healthcare workers,2030,Government,42255468.0,Imputed baseline (pre-MoU)
 Burundi,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
 Burundi,Frontline healthcare workers,2027,Government,23352.0,Printed in MoU
 Burundi,Frontline healthcare workers,2028,Government,78456.0,Printed in MoU
@@ -63,6 +93,11 @@ Burundi,Frontline healthcare workers,2027,USG,242400.0,Printed in MoU
 Burundi,Frontline healthcare workers,2028,USG,94400.0,Printed in MoU
 Burundi,Frontline healthcare workers,2029,USG,40000.0,Printed in MoU
 Burundi,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Burundi,Frontline lab workers,2026,Government,2397696.0,Imputed baseline (pre-MoU)
+Burundi,Frontline lab workers,2027,Government,2397696.0,Imputed baseline (pre-MoU)
+Burundi,Frontline lab workers,2028,Government,2397696.0,Imputed baseline (pre-MoU)
+Burundi,Frontline lab workers,2029,Government,2397696.0,Imputed baseline (pre-MoU)
+Burundi,Frontline lab workers,2030,Government,2397696.0,Imputed baseline (pre-MoU)
 Burundi,Frontline lab workers,2026,Government,0.0,Printed in MoU
 Burundi,Frontline lab workers,2027,Government,3568.0,Printed in MoU
 Burundi,Frontline lab workers,2028,Government,7136.0,Printed in MoU
@@ -77,7 +112,12 @@ Burundi,Laboratory commodities,2026,Government,0.0,Printed in MoU
 Burundi,Laboratory commodities,2027,Government,0.0,Printed in MoU
 Burundi,Laboratory commodities,2028,Government,0.0,Printed in MoU
 Burundi,Laboratory commodities,2029,Government,1360000.0,Printed in MoU
-Burundi,Laboratory commodities,2030,Government,3360000.0,Printed in MoU
+Burundi,Laboratory commodities,2030,Government,2000000.0,Printed in MoU
+Burundi,Laboratory commodities,2026,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,Laboratory commodities,2027,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,Laboratory commodities,2028,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,Laboratory commodities,2029,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,Laboratory commodities,2030,Government,1360000.0,Printed in MoU (existing/pre-MoU)
 Burundi,Laboratory commodities,2026,USG,997078.0,Printed in MoU
 Burundi,Laboratory commodities,2027,USG,1558095.0,Printed in MoU
 Burundi,Laboratory commodities,2028,USG,1594766.0,Printed in MoU
@@ -90,9 +130,14 @@ Burundi,Management & operations,2029,USG,1026720.0,Printed in MoU
 Burundi,Management & operations,2030,USG,846720.0,Printed in MoU
 Burundi,Other commodities,2026,Government,0.0,Printed in MoU
 Burundi,Other commodities,2027,Government,637769.0,Printed in MoU
-Burundi,Other commodities,2028,Government,2117664.0,Printed in MoU
-Burundi,Other commodities,2029,Government,3917664.0,Printed in MoU
-Burundi,Other commodities,2030,Government,14177647.0,Printed in MoU
+Burundi,Other commodities,2028,Government,1479895.0,Printed in MoU
+Burundi,Other commodities,2029,Government,1800000.0,Printed in MoU
+Burundi,Other commodities,2030,Government,10259983.0,Printed in MoU
+Burundi,Other commodities,2026,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,Other commodities,2027,Government,0.0,Printed in MoU (existing/pre-MoU)
+Burundi,Other commodities,2028,Government,637769.0,Printed in MoU (existing/pre-MoU)
+Burundi,Other commodities,2029,Government,2117664.0,Printed in MoU (existing/pre-MoU)
+Burundi,Other commodities,2030,Government,3917664.0,Printed in MoU (existing/pre-MoU)
 Burundi,Other commodities,2026,USG,11054700.0,Printed in MoU
 Burundi,Other commodities,2027,USG,9950553.0,Printed in MoU
 Burundi,Other commodities,2028,USG,9085239.0,Printed in MoU
@@ -294,11 +339,21 @@ Côte d'Ivoire,Surveillance & outbreak response,2027,USG,3916000.0,Printed in Mo
 Côte d'Ivoire,Surveillance & outbreak response,2028,USG,3916000.0,Printed in MoU
 Côte d'Ivoire,Surveillance & outbreak response,2029,USG,3916000.0,Printed in MoU
 Côte d'Ivoire,Surveillance & outbreak response,2030,USG,3916000.0,Printed in MoU
+Eswatini,All areas combined,2026,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,All areas combined,2027,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,All areas combined,2028,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,All areas combined,2029,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,All areas combined,2030,Government,4817720.0,Imputed baseline (pre-MoU)
 Eswatini,All areas combined,2026,Government,242719.0,Printed in MoU
 Eswatini,All areas combined,2027,Government,1943843.0,Printed in MoU
 Eswatini,All areas combined,2028,Government,6755349.0,Printed in MoU
 Eswatini,All areas combined,2029,Government,11254892.0,Printed in MoU
 Eswatini,All areas combined,2030,Government,16582789.0,Printed in MoU
+Eswatini,All areas combined,2026,Government,19178726.0,Printed in MoU (existing/pre-MoU)
+Eswatini,All areas combined,2027,Government,19178726.0,Printed in MoU (existing/pre-MoU)
+Eswatini,All areas combined,2028,Government,19178726.0,Printed in MoU (existing/pre-MoU)
+Eswatini,All areas combined,2029,Government,19178726.0,Printed in MoU (existing/pre-MoU)
+Eswatini,All areas combined,2030,Government,19178726.0,Printed in MoU (existing/pre-MoU)
 Eswatini,All areas combined,2026,USG,47000000.0,Printed in MoU
 Eswatini,All areas combined,2027,USG,47000000.0,Printed in MoU
 Eswatini,All areas combined,2028,USG,44179999.0,Printed in MoU
@@ -314,6 +369,11 @@ Eswatini,Data systems,2027,USG,9464970.0,Printed in MoU
 Eswatini,Data systems,2028,USG,11360778.0,Printed in MoU
 Eswatini,Data systems,2029,USG,9436149.0,Printed in MoU
 Eswatini,Data systems,2030,USG,6525195.0,Printed in MoU
+Eswatini,Frontline healthcare workers,2026,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2027,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2028,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2029,Government,4817720.0,Imputed baseline (pre-MoU)
+Eswatini,Frontline healthcare workers,2030,Government,4817720.0,Imputed baseline (pre-MoU)
 Eswatini,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
 Eswatini,Frontline healthcare workers,2027,Government,100000.0,Printed in MoU
 Eswatini,Frontline healthcare workers,2028,Government,1614621.0,Printed in MoU
@@ -329,6 +389,11 @@ Eswatini,Laboratory commodities,2027,Government,1169473.0,Printed in MoU
 Eswatini,Laboratory commodities,2028,Government,2338946.0,Printed in MoU
 Eswatini,Laboratory commodities,2029,Government,3508419.0,Printed in MoU
 Eswatini,Laboratory commodities,2030,Government,4677892.0,Printed in MoU
+Eswatini,Laboratory commodities,2026,Government,1980593.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Laboratory commodities,2027,Government,1980593.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Laboratory commodities,2028,Government,1980593.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Laboratory commodities,2029,Government,1980593.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Laboratory commodities,2030,Government,1980593.0,Printed in MoU (existing/pre-MoU)
 Eswatini,Laboratory commodities,2026,USG,4677892.0,Printed in MoU
 Eswatini,Laboratory commodities,2027,USG,3508419.0,Printed in MoU
 Eswatini,Laboratory commodities,2028,USG,2338946.0,Printed in MoU
@@ -349,6 +414,11 @@ Eswatini,Other commodities,2027,Government,595081.0,Printed in MoU
 Eswatini,Other commodities,2028,Government,1190062.0,Printed in MoU
 Eswatini,Other commodities,2029,Government,1307109.0,Printed in MoU
 Eswatini,Other commodities,2030,Government,1424057.0,Printed in MoU
+Eswatini,Other commodities,2026,Government,15657143.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Other commodities,2027,Government,15657143.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Other commodities,2028,Government,15657143.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Other commodities,2029,Government,15657143.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Other commodities,2030,Government,15657143.0,Printed in MoU (existing/pre-MoU)
 Eswatini,Other commodities,2026,USG,1297232.0,Printed in MoU
 Eswatini,Other commodities,2027,USG,902697.0,Printed in MoU
 Eswatini,Other commodities,2028,USG,489521.0,Printed in MoU
@@ -369,6 +439,11 @@ Eswatini,Surveillance & outbreak response,2027,Government,0.0,Printed in MoU
 Eswatini,Surveillance & outbreak response,2028,Government,0.0,Printed in MoU
 Eswatini,Surveillance & outbreak response,2029,Government,713021.0,Printed in MoU
 Eswatini,Surveillance & outbreak response,2030,Government,713021.0,Printed in MoU
+Eswatini,Surveillance & outbreak response,2026,Government,1540990.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Surveillance & outbreak response,2027,Government,1540990.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Surveillance & outbreak response,2028,Government,1540990.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Surveillance & outbreak response,2029,Government,1540990.0,Printed in MoU (existing/pre-MoU)
+Eswatini,Surveillance & outbreak response,2030,Government,1540990.0,Printed in MoU (existing/pre-MoU)
 Eswatini,Surveillance & outbreak response,2026,USG,2452862.0,Printed in MoU
 Eswatini,Surveillance & outbreak response,2027,USG,2722862.0,Printed in MoU
 Eswatini,Surveillance & outbreak response,2028,USG,6253155.0,Printed in MoU
@@ -537,11 +612,20 @@ Kenya,Surveillance & outbreak response,2027,USG,4506350.0,Printed in MoU
 Kenya,Surveillance & outbreak response,2028,USG,4506350.0,Printed in MoU
 Kenya,Surveillance & outbreak response,2029,USG,4506350.0,Printed in MoU
 Kenya,Surveillance & outbreak response,2030,USG,4506350.0,Printed in MoU
-Lesotho,All areas combined,2026,Government,17619000.0,Printed in MoU
-Lesotho,All areas combined,2027,Government,19579000.0,Printed in MoU
-Lesotho,All areas combined,2028,Government,21555000.0,Printed in MoU
-Lesotho,All areas combined,2029,Government,24014000.0,Printed in MoU
-Lesotho,All areas combined,2030,Government,26903000.0,Printed in MoU
+Lesotho,All areas combined,2027,Government,1882122.0,Imputed from FTEs
+Lesotho,All areas combined,2028,Government,4311878.0,Imputed from FTEs
+Lesotho,All areas combined,2029,Government,7072576.0,Imputed from FTEs
+Lesotho,All areas combined,2030,Government,8927333.0,Imputed from FTEs
+Lesotho,All areas combined,2026,Government,0.0,Printed in MoU
+Lesotho,All areas combined,2027,Government,1810000.0,Printed in MoU
+Lesotho,All areas combined,2028,Government,1976000.0,Printed in MoU
+Lesotho,All areas combined,2029,Government,2309000.0,Printed in MoU
+Lesotho,All areas combined,2030,Government,2700000.0,Printed in MoU
+Lesotho,All areas combined,2026,Government,17619000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,All areas combined,2027,Government,17769000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,All areas combined,2028,Government,19579000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,All areas combined,2029,Government,21705000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,All areas combined,2030,Government,24204000.0,Printed in MoU (existing/pre-MoU)
 Lesotho,All areas combined,2026,USG,54520000.0,Printed in MoU
 Lesotho,All areas combined,2027,USG,51701000.0,Printed in MoU
 Lesotho,All areas combined,2028,USG,49820000.0,Printed in MoU
@@ -552,31 +636,49 @@ Lesotho,Data systems,2027,USG,2913000.0,Printed in MoU
 Lesotho,Data systems,2028,USG,2796000.0,Printed in MoU
 Lesotho,Data systems,2029,USG,2097000.0,Printed in MoU
 Lesotho,Data systems,2030,USG,1363000.0,Printed in MoU
+Lesotho,Frontline healthcare workers,2027,Government,1691667.0,Imputed from FTEs
+Lesotho,Frontline healthcare workers,2028,Government,4083333.0,Imputed from FTEs
+Lesotho,Frontline healthcare workers,2029,Government,6691667.0,Imputed from FTEs
+Lesotho,Frontline healthcare workers,2030,Government,8508333.0,Imputed from FTEs
 Lesotho,Frontline healthcare workers,2026,USG,11125000.0,Printed in MoU
 Lesotho,Frontline healthcare workers,2027,USG,6966000.0,Printed in MoU
 Lesotho,Frontline healthcare workers,2028,USG,4862000.0,Printed in MoU
 Lesotho,Frontline healthcare workers,2029,USG,2592000.0,Printed in MoU
 Lesotho,Frontline healthcare workers,2030,USG,0.0,Printed in MoU
+Lesotho,Frontline lab workers,2027,Government,190455.0,Imputed from FTEs
+Lesotho,Frontline lab workers,2028,Government,228545.0,Imputed from FTEs
+Lesotho,Frontline lab workers,2029,Government,380909.0,Imputed from FTEs
+Lesotho,Frontline lab workers,2030,Government,419000.0,Imputed from FTEs
 Lesotho,Frontline lab workers,2026,USG,419000.0,Printed in MoU
 Lesotho,Frontline lab workers,2027,USG,229000.0,Printed in MoU
 Lesotho,Frontline lab workers,2028,USG,190000.0,Printed in MoU
 Lesotho,Frontline lab workers,2029,USG,38000.0,Printed in MoU
 Lesotho,Frontline lab workers,2030,USG,0.0,Printed in MoU
-Lesotho,Laboratory commodities,2026,Government,1017000.0,Printed in MoU
-Lesotho,Laboratory commodities,2027,Government,1317000.0,Printed in MoU
-Lesotho,Laboratory commodities,2028,Government,1467000.0,Printed in MoU
-Lesotho,Laboratory commodities,2029,Government,1917000.0,Printed in MoU
-Lesotho,Laboratory commodities,2030,Government,2597000.0,Printed in MoU
+Lesotho,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Lesotho,Laboratory commodities,2027,Government,150000.0,Printed in MoU
+Lesotho,Laboratory commodities,2028,Government,150000.0,Printed in MoU
+Lesotho,Laboratory commodities,2029,Government,300000.0,Printed in MoU
+Lesotho,Laboratory commodities,2030,Government,490000.0,Printed in MoU
+Lesotho,Laboratory commodities,2026,Government,1017000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Laboratory commodities,2027,Government,1167000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Laboratory commodities,2028,Government,1317000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Laboratory commodities,2029,Government,1617000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Laboratory commodities,2030,Government,2107000.0,Printed in MoU (existing/pre-MoU)
 Lesotho,Laboratory commodities,2026,USG,2591000.0,Printed in MoU
 Lesotho,Laboratory commodities,2027,USG,2362000.0,Printed in MoU
 Lesotho,Laboratory commodities,2028,USG,2276000.0,Printed in MoU
 Lesotho,Laboratory commodities,2029,USG,1717000.0,Printed in MoU
 Lesotho,Laboratory commodities,2030,USG,1116000.0,Printed in MoU
-Lesotho,Other commodities,2026,Government,16602000.0,Printed in MoU
-Lesotho,Other commodities,2027,Government,18262000.0,Printed in MoU
-Lesotho,Other commodities,2028,Government,20088000.0,Printed in MoU
-Lesotho,Other commodities,2029,Government,22097000.0,Printed in MoU
-Lesotho,Other commodities,2030,Government,24306000.0,Printed in MoU
+Lesotho,Other commodities,2026,Government,0.0,Printed in MoU
+Lesotho,Other commodities,2027,Government,1660000.0,Printed in MoU
+Lesotho,Other commodities,2028,Government,1826000.0,Printed in MoU
+Lesotho,Other commodities,2029,Government,2009000.0,Printed in MoU
+Lesotho,Other commodities,2030,Government,2210000.0,Printed in MoU
+Lesotho,Other commodities,2026,Government,16602000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Other commodities,2027,Government,16602000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Other commodities,2028,Government,18262000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Other commodities,2029,Government,20088000.0,Printed in MoU (existing/pre-MoU)
+Lesotho,Other commodities,2030,Government,22097000.0,Printed in MoU (existing/pre-MoU)
 Lesotho,Other commodities,2026,USG,0.0,Printed in MoU
 Lesotho,Other commodities,2027,USG,0.0,Printed in MoU
 Lesotho,Other commodities,2028,USG,0.0,Printed in MoU
@@ -692,11 +794,21 @@ Liberia,Technical assistance,2027,USG,3079898.0,Printed in MoU
 Liberia,Technical assistance,2028,USG,2624198.0,Printed in MoU
 Liberia,Technical assistance,2029,USG,1296788.0,Printed in MoU
 Liberia,Technical assistance,2030,USG,1638688.0,Printed in MoU
-Madagascar,All areas combined,2026,Government,1239642.0,Printed in MoU
-Madagascar,All areas combined,2027,Government,3919549.0,Printed in MoU
-Madagascar,All areas combined,2028,Government,7425862.0,Printed in MoU
-Madagascar,All areas combined,2029,Government,11727599.0,Printed in MoU
-Madagascar,All areas combined,2030,Government,16903600.0,Printed in MoU
+Madagascar,All areas combined,2026,Government,2943414.0,Imputed baseline (pre-MoU)
+Madagascar,All areas combined,2027,Government,2943414.0,Imputed baseline (pre-MoU)
+Madagascar,All areas combined,2028,Government,2943414.0,Imputed baseline (pre-MoU)
+Madagascar,All areas combined,2029,Government,2943414.0,Imputed baseline (pre-MoU)
+Madagascar,All areas combined,2030,Government,2943414.0,Imputed baseline (pre-MoU)
+Madagascar,All areas combined,2026,Government,680358.0,Printed in MoU
+Madagascar,All areas combined,2027,Government,2679907.0,Printed in MoU
+Madagascar,All areas combined,2028,Government,4244118.0,Printed in MoU
+Madagascar,All areas combined,2029,Government,6184289.0,Printed in MoU
+Madagascar,All areas combined,2030,Government,8250244.0,Printed in MoU
+Madagascar,All areas combined,2026,Government,10362595.0,Printed in MoU (existing/pre-MoU)
+Madagascar,All areas combined,2027,Government,11042953.0,Printed in MoU (existing/pre-MoU)
+Madagascar,All areas combined,2028,Government,12985055.0,Printed in MoU (existing/pre-MoU)
+Madagascar,All areas combined,2029,Government,15346621.0,Printed in MoU (existing/pre-MoU)
+Madagascar,All areas combined,2030,Government,18456667.0,Printed in MoU (existing/pre-MoU)
 Madagascar,All areas combined,2026,USG,35049780.0,Printed in MoU
 Madagascar,All areas combined,2027,USG,30255780.0,Printed in MoU
 Madagascar,All areas combined,2028,USG,22472580.0,Printed in MoU
@@ -707,6 +819,11 @@ Madagascar,Data systems,2027,USG,4287500.0,Printed in MoU
 Madagascar,Data systems,2028,USG,3675000.0,Printed in MoU
 Madagascar,Data systems,2029,USG,3062500.0,Printed in MoU
 Madagascar,Data systems,2030,USG,2450000.0,Printed in MoU
+Madagascar,Frontline healthcare workers,2026,Government,2226074.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline healthcare workers,2027,Government,2226074.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline healthcare workers,2028,Government,2226074.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline healthcare workers,2029,Government,2226074.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline healthcare workers,2030,Government,2226074.0,Imputed baseline (pre-MoU)
 Madagascar,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
 Madagascar,Frontline healthcare workers,2027,Government,677641.0,Printed in MoU
 Madagascar,Frontline healthcare workers,2028,Government,1755282.0,Printed in MoU
@@ -717,6 +834,11 @@ Madagascar,Frontline healthcare workers,2027,USG,6403209.0,Printed in MoU
 Madagascar,Frontline healthcare workers,2028,USG,5457506.0,Printed in MoU
 Madagascar,Frontline healthcare workers,2029,USG,4573299.0,Printed in MoU
 Madagascar,Frontline healthcare workers,2030,USG,3659640.0,Printed in MoU
+Madagascar,Frontline lab workers,2026,Government,717340.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline lab workers,2027,Government,717340.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline lab workers,2028,Government,717340.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline lab workers,2029,Government,717340.0,Imputed baseline (pre-MoU)
+Madagascar,Frontline lab workers,2030,Government,717340.0,Imputed baseline (pre-MoU)
 Madagascar,Frontline lab workers,2026,Government,0.0,Printed in MoU
 Madagascar,Frontline lab workers,2027,Government,60164.0,Printed in MoU
 Madagascar,Frontline lab workers,2028,Government,127270.0,Printed in MoU
@@ -727,21 +849,31 @@ Madagascar,Frontline lab workers,2027,USG,221920.0,Printed in MoU
 Madagascar,Frontline lab workers,2028,USG,198341.0,Printed in MoU
 Madagascar,Frontline lab workers,2029,USG,152570.0,Printed in MoU
 Madagascar,Frontline lab workers,2030,USG,120669.0,Printed in MoU
-Madagascar,Laboratory commodities,2026,Government,559284.0,Printed in MoU
-Madagascar,Laboratory commodities,2027,Government,615212.0,Printed in MoU
-Madagascar,Laboratory commodities,2028,Government,676733.0,Printed in MoU
-Madagascar,Laboratory commodities,2029,Government,744409.0,Printed in MoU
-Madagascar,Laboratory commodities,2030,Government,818848.0,Printed in MoU
+Madagascar,Laboratory commodities,2026,Government,0.0,Printed in MoU
+Madagascar,Laboratory commodities,2027,Government,55928.0,Printed in MoU
+Madagascar,Laboratory commodities,2028,Government,61521.0,Printed in MoU
+Madagascar,Laboratory commodities,2029,Government,67676.0,Printed in MoU
+Madagascar,Laboratory commodities,2030,Government,74441.0,Printed in MoU
+Madagascar,Laboratory commodities,2026,Government,559284.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Laboratory commodities,2027,Government,559284.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Laboratory commodities,2028,Government,615212.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Laboratory commodities,2029,Government,676733.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Laboratory commodities,2030,Government,744407.0,Printed in MoU (existing/pre-MoU)
 Madagascar,Laboratory commodities,2026,USG,311000.0,Printed in MoU
 Madagascar,Laboratory commodities,2027,USG,272125.0,Printed in MoU
 Madagascar,Laboratory commodities,2028,USG,233250.0,Printed in MoU
 Madagascar,Laboratory commodities,2029,USG,195375.0,Printed in MoU
 Madagascar,Laboratory commodities,2030,USG,155000.0,Printed in MoU
 Madagascar,Other commodities,2026,Government,680358.0,Printed in MoU
-Madagascar,Other commodities,2027,Government,2566532.0,Printed in MoU
-Madagascar,Other commodities,2028,Government,4866577.0,Printed in MoU
-Madagascar,Other commodities,2029,Government,7908949.0,Printed in MoU
-Madagascar,Other commodities,2030,Government,11767880.0,Printed in MoU
+Madagascar,Other commodities,2027,Government,1886174.0,Printed in MoU
+Madagascar,Other commodities,2028,Government,2300045.0,Printed in MoU
+Madagascar,Other commodities,2029,Government,3042372.0,Printed in MoU
+Madagascar,Other commodities,2030,Government,3858931.0,Printed in MoU
+Madagascar,Other commodities,2026,Government,9803311.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Other commodities,2027,Government,10483669.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Other commodities,2028,Government,12369843.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Other commodities,2029,Government,14669888.0,Printed in MoU (existing/pre-MoU)
+Madagascar,Other commodities,2030,Government,17712260.0,Printed in MoU (existing/pre-MoU)
 Madagascar,Other commodities,2026,USG,13732250.0,Printed in MoU
 Madagascar,Other commodities,2027,USG,12015719.0,Printed in MoU
 Madagascar,Other commodities,2028,USG,10299188.0,Printed in MoU
@@ -757,11 +889,21 @@ Madagascar,Technical assistance,2027,USG,5892307.0,Printed in MoU
 Madagascar,Technical assistance,2028,USG,1446295.0,Printed in MoU
 Madagascar,Technical assistance,2029,USG,3462379.0,Printed in MoU
 Madagascar,Technical assistance,2030,USG,2916345.0,Printed in MoU
+Malawi,All areas combined,2026,Government,57488795.0,Imputed baseline (pre-MoU)
+Malawi,All areas combined,2027,Government,57488795.0,Imputed baseline (pre-MoU)
+Malawi,All areas combined,2028,Government,57488795.0,Imputed baseline (pre-MoU)
+Malawi,All areas combined,2029,Government,57488795.0,Imputed baseline (pre-MoU)
+Malawi,All areas combined,2030,Government,57488795.0,Imputed baseline (pre-MoU)
 Malawi,All areas combined,2026,Government,0.0,Printed in MoU
 Malawi,All areas combined,2027,Government,7662559.0,Printed in MoU
 Malawi,All areas combined,2028,Government,11511980.0,Printed in MoU
 Malawi,All areas combined,2029,Government,15887119.0,Printed in MoU
 Malawi,All areas combined,2030,Government,19938342.0,Printed in MoU
+Malawi,All areas combined,2026,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,All areas combined,2027,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,All areas combined,2028,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,All areas combined,2029,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,All areas combined,2030,Government,6628050.0,Printed in MoU (existing/pre-MoU)
 Malawi,All areas combined,2026,USG,179437540.0,Printed in MoU
 Malawi,All areas combined,2027,USG,165901540.0,Printed in MoU
 Malawi,All areas combined,2028,USG,156237531.0,Printed in MoU
@@ -772,6 +914,11 @@ Malawi,Data systems,2027,USG,9131229.0,Printed in MoU
 Malawi,Data systems,2028,USG,9131229.0,Printed in MoU
 Malawi,Data systems,2029,USG,8218106.0,Printed in MoU
 Malawi,Data systems,2030,USG,7396295.0,Printed in MoU
+Malawi,Frontline healthcare workers,2026,Government,55243497.0,Imputed baseline (pre-MoU)
+Malawi,Frontline healthcare workers,2027,Government,55243497.0,Imputed baseline (pre-MoU)
+Malawi,Frontline healthcare workers,2028,Government,55243497.0,Imputed baseline (pre-MoU)
+Malawi,Frontline healthcare workers,2029,Government,55243497.0,Imputed baseline (pre-MoU)
+Malawi,Frontline healthcare workers,2030,Government,55243497.0,Imputed baseline (pre-MoU)
 Malawi,Frontline healthcare workers,2026,Government,0.0,Printed in MoU
 Malawi,Frontline healthcare workers,2027,Government,963958.0,Printed in MoU
 Malawi,Frontline healthcare workers,2028,Government,2121984.0,Printed in MoU
@@ -782,6 +929,11 @@ Malawi,Frontline healthcare workers,2027,USG,7760106.0,Printed in MoU
 Malawi,Frontline healthcare workers,2028,USG,5782409.0,Printed in MoU
 Malawi,Frontline healthcare workers,2029,USG,3804713.0,Printed in MoU
 Malawi,Frontline healthcare workers,2030,USG,1827017.0,Printed in MoU
+Malawi,Frontline lab workers,2026,Government,2245298.0,Imputed baseline (pre-MoU)
+Malawi,Frontline lab workers,2027,Government,2245298.0,Imputed baseline (pre-MoU)
+Malawi,Frontline lab workers,2028,Government,2245298.0,Imputed baseline (pre-MoU)
+Malawi,Frontline lab workers,2029,Government,2245298.0,Imputed baseline (pre-MoU)
+Malawi,Frontline lab workers,2030,Government,2245298.0,Imputed baseline (pre-MoU)
 Malawi,Frontline lab workers,2026,Government,0.0,Printed in MoU
 Malawi,Frontline lab workers,2027,Government,365737.0,Printed in MoU
 Malawi,Frontline lab workers,2028,Government,562672.0,Printed in MoU
@@ -797,6 +949,11 @@ Malawi,Laboratory commodities,2027,Government,1017471.0,Printed in MoU
 Malawi,Laboratory commodities,2028,Government,2034943.0,Printed in MoU
 Malawi,Laboratory commodities,2029,Government,3016415.0,Printed in MoU
 Malawi,Laboratory commodities,2030,Government,4069887.0,Printed in MoU
+Malawi,Laboratory commodities,2026,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,Laboratory commodities,2027,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,Laboratory commodities,2028,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,Laboratory commodities,2029,Government,6628050.0,Printed in MoU (existing/pre-MoU)
+Malawi,Laboratory commodities,2030,Government,6628050.0,Printed in MoU (existing/pre-MoU)
 Malawi,Laboratory commodities,2026,USG,2298947.0,Printed in MoU
 Malawi,Laboratory commodities,2027,USG,1839158.0,Printed in MoU
 Malawi,Laboratory commodities,2028,USG,1379368.0,Printed in MoU
@@ -1049,11 +1206,21 @@ Rwanda,Surveillance & outbreak response,2027,USG,6792640.0,Printed in MoU
 Rwanda,Surveillance & outbreak response,2028,USG,4798640.0,Printed in MoU
 Rwanda,Surveillance & outbreak response,2029,USG,3462640.0,Printed in MoU
 Rwanda,Surveillance & outbreak response,2030,USG,3462640.0,Printed in MoU
+Sierra Leone,All areas combined,2026,Government,8986939.0,Imputed baseline (pre-MoU)
+Sierra Leone,All areas combined,2027,Government,8986939.0,Imputed baseline (pre-MoU)
+Sierra Leone,All areas combined,2028,Government,8986939.0,Imputed baseline (pre-MoU)
+Sierra Leone,All areas combined,2029,Government,8986939.0,Imputed baseline (pre-MoU)
+Sierra Leone,All areas combined,2030,Government,8986939.0,Imputed baseline (pre-MoU)
 Sierra Leone,All areas combined,2026,Government,2573663.0,Printed in MoU
-Sierra Leone,All areas combined,2027,Government,5433633.0,Printed in MoU
-Sierra Leone,All areas combined,2028,Government,8698633.0,Printed in MoU
-Sierra Leone,All areas combined,2029,Government,11963233.0,Printed in MoU
-Sierra Leone,All areas combined,2030,Government,15795243.0,Printed in MoU
+Sierra Leone,All areas combined,2027,Government,4055000.0,Printed in MoU
+Sierra Leone,All areas combined,2028,Government,5760000.0,Printed in MoU
+Sierra Leone,All areas combined,2029,Government,7449600.0,Printed in MoU
+Sierra Leone,All areas combined,2030,Government,9706610.0,Printed in MoU
+Sierra Leone,All areas combined,2026,Government,388662.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,All areas combined,2027,Government,1777325.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,All areas combined,2028,Government,3327325.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,All areas combined,2029,Government,4902325.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,All areas combined,2030,Government,6477325.0,Printed in MoU (existing/pre-MoU)
 Sierra Leone,All areas combined,2026,USG,35700000.0,Printed in MoU
 Sierra Leone,All areas combined,2027,USG,32700000.0,Printed in MoU
 Sierra Leone,All areas combined,2028,USG,28200000.0,Printed in MoU
@@ -1064,6 +1231,11 @@ Sierra Leone,Data systems,2027,USG,4014434.0,Printed in MoU
 Sierra Leone,Data systems,2028,USG,3014434.0,Printed in MoU
 Sierra Leone,Data systems,2029,USG,2000000.0,Printed in MoU
 Sierra Leone,Data systems,2030,USG,1000000.0,Printed in MoU
+Sierra Leone,Frontline healthcare workers,2026,Government,8804539.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline healthcare workers,2027,Government,8804539.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline healthcare workers,2028,Government,8804539.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline healthcare workers,2029,Government,8804539.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline healthcare workers,2030,Government,8804539.0,Imputed baseline (pre-MoU)
 Sierra Leone,Frontline healthcare workers,2026,Government,945000.0,Printed in MoU
 Sierra Leone,Frontline healthcare workers,2027,Government,2265000.0,Printed in MoU
 Sierra Leone,Frontline healthcare workers,2028,Government,3945000.0,Printed in MoU
@@ -1074,6 +1246,11 @@ Sierra Leone,Frontline healthcare workers,2027,USG,658800.0,Printed in MoU
 Sierra Leone,Frontline healthcare workers,2028,USG,574020.0,Printed in MoU
 Sierra Leone,Frontline healthcare workers,2029,USG,169560.0,Printed in MoU
 Sierra Leone,Frontline healthcare workers,2030,USG,84780.0,Printed in MoU
+Sierra Leone,Frontline lab workers,2026,Government,182400.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline lab workers,2027,Government,182400.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline lab workers,2028,Government,182400.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline lab workers,2029,Government,182400.0,Imputed baseline (pre-MoU)
+Sierra Leone,Frontline lab workers,2030,Government,182400.0,Imputed baseline (pre-MoU)
 Sierra Leone,Frontline lab workers,2026,Government,240000.0,Printed in MoU
 Sierra Leone,Frontline lab workers,2027,Government,240000.0,Printed in MoU
 Sierra Leone,Frontline lab workers,2028,Government,240000.0,Printed in MoU
@@ -1086,19 +1263,29 @@ Sierra Leone,Frontline lab workers,2029,USG,0.0,Printed in MoU
 Sierra Leone,Frontline lab workers,2030,USG,0.0,Printed in MoU
 Sierra Leone,Laboratory commodities,2026,Government,10000.0,Printed in MoU
 Sierra Leone,Laboratory commodities,2027,Government,50000.0,Printed in MoU
-Sierra Leone,Laboratory commodities,2028,Government,135000.0,Printed in MoU
-Sierra Leone,Laboratory commodities,2029,Government,210000.0,Printed in MoU
-Sierra Leone,Laboratory commodities,2030,Government,285000.0,Printed in MoU
+Sierra Leone,Laboratory commodities,2028,Government,75000.0,Printed in MoU
+Sierra Leone,Laboratory commodities,2029,Government,75000.0,Printed in MoU
+Sierra Leone,Laboratory commodities,2030,Government,75000.0,Printed in MoU
+Sierra Leone,Laboratory commodities,2026,Government,10000.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Laboratory commodities,2027,Government,20000.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Laboratory commodities,2028,Government,70000.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Laboratory commodities,2029,Government,145000.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Laboratory commodities,2030,Government,220000.0,Printed in MoU (existing/pre-MoU)
 Sierra Leone,Laboratory commodities,2026,USG,466788.0,Printed in MoU
 Sierra Leone,Laboratory commodities,2027,USG,466788.0,Printed in MoU
 Sierra Leone,Laboratory commodities,2028,USG,466788.0,Printed in MoU
 Sierra Leone,Laboratory commodities,2029,USG,0.0,Printed in MoU
 Sierra Leone,Laboratory commodities,2030,USG,0.0,Printed in MoU
 Sierra Leone,Other commodities,2026,Government,1378663.0,Printed in MoU
-Sierra Leone,Other commodities,2027,Government,2878633.0,Printed in MoU
-Sierra Leone,Other commodities,2028,Government,4378633.0,Printed in MoU
-Sierra Leone,Other commodities,2029,Government,5878633.0,Printed in MoU
-Sierra Leone,Other commodities,2030,Government,7505643.0,Printed in MoU
+Sierra Leone,Other commodities,2027,Government,1500000.0,Printed in MoU
+Sierra Leone,Other commodities,2028,Government,1500000.0,Printed in MoU
+Sierra Leone,Other commodities,2029,Government,1500000.0,Printed in MoU
+Sierra Leone,Other commodities,2030,Government,1627010.0,Printed in MoU
+Sierra Leone,Other commodities,2026,Government,378662.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Other commodities,2027,Government,1757325.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Other commodities,2028,Government,3257325.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Other commodities,2029,Government,4757325.0,Printed in MoU (existing/pre-MoU)
+Sierra Leone,Other commodities,2030,Government,6257325.0,Printed in MoU (existing/pre-MoU)
 Sierra Leone,Other commodities,2026,USG,9855419.0,Printed in MoU
 Sierra Leone,Other commodities,2027,USG,7884335.0,Printed in MoU
 Sierra Leone,Other commodities,2028,USG,5913251.0,Printed in MoU

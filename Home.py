@@ -51,17 +51,17 @@ with c2:
     include_imputed = st.toggle(
         "Incl. imputed govt $", value=True,
         help="Government FTE commitments priced at government/USG unit rates where "
-             "the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique "
-             "labs, Rwanda, Côte d'Ivoire) — or, for Uganda, prices only each year's "
+             "the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Rwanda, "
+             "Côte d'Ivoire, Lesotho) — or, for Uganda, prices only each year's "
              "new cohort (absorbed-cohort continuation imputed). See Sources & "
              "methodology.",
     )
     include_baseline = st.toggle(
         "Incl. pre-MoU / existing funding $", value=True,
-        help=lib.md("Existing government workforce valued at reference rates (~$2.65bn; "
-             "CIV, Uganda, Mozambique, Liberia) plus printed existing commodity "
-             "funding carried from 2026 (~$889M; Kenya, Uganda, CIV, Liberia, "
-             "Mozambique). Baseline effort, not MoU co-financing."),
+        help=lib.md("Existing government workforce valued at each MoU's own rates "
+             "(~$3.09bn across nine countries) plus every row the MoUs mark as "
+             "existing rather than new (~$1.79bn across thirteen). Baseline "
+             "effort, not MoU co-financing."),
     )
 df = data(include_imputed, include_baseline)
 with c1:
@@ -332,6 +332,6 @@ st.info(lib.md(
     "Countries without a published existing-funding split (Nigeria, Ethiopia, Rwanda) "
     "show new co-financing only — their true government shares are understated. "
     "Government $ for frontline labs & healthcare workers in Cameroon, Ethiopia, "
-    "Mozambique, Rwanda, Uganda and Côte d'Ivoire are imputed from FTE commitments "
+    "Rwanda, Uganda, Côte d'Ivoire and Lesotho are imputed from FTE commitments "
     "when the toggle above is on. Full caveats on the **Sources & methodology** page."
 ))

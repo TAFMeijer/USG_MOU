@@ -53,18 +53,17 @@ def countries_meta():
 include_imputed = st.sidebar.toggle(
     "Include imputed govt $ (labs & HCW)", value=True,
     help="Government FTE commitments priced at government/USG unit rates where the "
-         "MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Mozambique labs, "
-         "Rwanda, Côte d'Ivoire) — or, for Uganda, prices only each year's new cohort "
+         "MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Rwanda, "
+         "Côte d'Ivoire, Lesotho) — or, for Uganda, prices only each year's new cohort "
          "(the continuation of absorbed cohorts is imputed). Workers absorbed in year "
          "t stay funded in every later year. Summed into the government band of each "
          "panel; switch off to see printed $ only. See Sources & methodology.",
 )
 include_baseline = st.sidebar.toggle(
     "Include pre-MoU / existing funding $", value=True,
-    help="Two pre-MoU components: the existing government workforce the MoU "
-         "tabulates, valued at reference rates (CIV, Uganda, Mozambique, Liberia), "
-         "and the government funding the MoUs mark as existing rather than new "
-         "(Kenya, Uganda, CIV, Liberia, Mozambique, Cameroon). Baseline effort, not "
+    help="Two pre-MoU components: the existing government workforce nine MoUs "
+         "tabulate, valued at each MoU's own rates, and the government funding "
+         "thirteen MoUs mark as existing rather than new. Baseline effort, not "
          "MoU co-financing; switching off lowers the government band accordingly.",
 )
 show_usg_ref = st.sidebar.toggle(

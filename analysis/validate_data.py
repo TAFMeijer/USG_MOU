@@ -119,16 +119,28 @@ quoted = [
     ("Mozambique has no imputed lab $", imputed.get("Mozambique", 0.0), 0.0, 1.0),
     ("Uganda imputed $122.8M", imputed["Uganda"], 122.8e6, 0.05e6),
     ("CIV imputed $163.9M", imputed["Côte d'Ivoire"], 163.9e6, 0.05e6),
-    ("baseline workforce ~$2.50bn", sum(baseline.values()), 2.50e9, 5e6),
+    ("Lesotho imputed $22.2M", imputed["Lesotho"], 22.2e6, 0.05e6),
+    ("baseline workforce ~$3.09bn", sum(baseline.values()), 3.094e9, 5e6),
     ("Uganda baseline $951M", baseline["Uganda"], 951e6, 0.5e6),
     ("Mozambique baseline $767M", baseline["Mozambique"], 767e6, 0.5e6),
     ("CIV baseline $626M", baseline["Côte d'Ivoire"], 626e6, 0.5e6),
+    ("Malawi baseline $287M", baseline["Malawi"], 287.4e6, 0.5e6),
+    ("Burundi baseline $223M", baseline["Burundi"], 223.3e6, 0.5e6),
     ("Liberia baseline $156M", baseline["Liberia"], 156e6, 0.5e6),
-    ("existing government $ ~$1.10bn", sum(existing.values()), 1.104e9, 5e6),
+    ("existing government $ ~$1.79bn", sum(existing.values()), 1.789e9, 5e6),
     ("Kenya existing $540M", existing["Kenya"], 540e6, 0.5e6),
+    ("Botswana existing $362M", existing["Botswana"], 362e6, 0.5e6),
     ("Uganda existing $274M", existing["Uganda"], 274e6, 0.5e6),
     ("CIV existing $219M", existing["Côte d'Ivoire"], 219e6, 0.5e6),
 ]
+# Lesotho's imputed HRH $ must stay inside the MoU's own headline residual: the
+# App.1 GoL column ($132,495,000) minus every itemised GoL row leaves $22,825,000
+# unexplained over 2027-30, which is exactly the room the unpriced worker
+# salaries occupy. If a data change pushes the imputation past it, something is
+# double-counted.
+LES_RESIDUAL = 132_495_000 - 8_315_000 - 101_356_000  # headline - lab - other commodities
+quoted.append(("Lesotho imputed within the App.1 residual (cap-check)",
+               imputed["Lesotho"], LES_RESIDUAL * 0.985, LES_RESIDUAL * 0.015))
 for label, actual, want, tol in quoted:
     check(f"methodology figure: {label}", approx(actual, want, tol), f"data says {actual:,.0f}")
 

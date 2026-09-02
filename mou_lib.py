@@ -103,13 +103,13 @@ IMPUTED_CAPTION = (
 
 BASELINE_CAPTION = (
     "Pre-MoU baseline $ covers two components: the **existing government workforce** "
-    "the MoU tabulates (2026 'Existing # FTEs Funded' stock, valued at the same "
-    "rates — CIV, Uganda, Mozambique, Liberia) and the **printed existing government "
-    "funding** the MoUs mark as existing rather than new (Kenya, Uganda, CIV, "
-    "Liberia, Mozambique, Cameroon). Baseline effort that predates the MoU, **not** "
-    "MoU co-financing. Both sit inside the government band of every panel; the "
-    "sidebar toggle removes them together, lowering the band to the co-financing "
-    "the MoUs themselves count as new."
+    "nine MoUs tabulate (2026 'Existing # FTEs Funded' stock — CIV, Uganda, "
+    "Mozambique, Liberia, Malawi, Sierra Leone, Burundi, Madagascar, Eswatini — "
+    "valued at each MoU's own rates) and the **printed existing government funding** "
+    "thirteen MoUs mark as existing rather than new. Baseline effort that predates "
+    "the MoU, **not** MoU co-financing. Both sit inside the government band of every "
+    "panel; the sidebar toggle removes them together, lowering the band to the "
+    "co-financing the MoUs themselves count as new."
 )
 
 
