@@ -240,3 +240,76 @@ if new_rows:
           f"split rows across {len({r['Country'] for r in new_rows})} countries")
 else:
     print("nothing to do")
+
+# --------------------------------------------------------------------------
+# Part 2 — the four rolling-existing countries (Lesotho, Sierra Leone,
+# Madagascar, Burundi): their Existing columns absorb prior-year MoU
+# commitments, so the whole column is NOT pre-MoU money. Per the maintainer's
+# decision (Sep 2026), only the 2026 existing level — the genuine pre-MoU base,
+# held flat — stays in the existing basis; the roll-forward above it returns to
+# the main printed band as explicit "CONTINUATION" line items. Burundi's base
+# is $0 (the USG funds 100% at baseline), so it keeps no existing rows at all.
+# Invariant: flat base + continuation reproduce the printed Existing column.
+# (Uganda's existing columns roll the same way but keep the whole-row treatment
+# adopted in the September 2026 rework — a documented asymmetry.)
+REBASE = [
+    ("Lesotho", "Laboratory commodities", "EXISTING GoL: lab commodities (Sec 2.2.3)",
+     1017000, "CONTINUATION GoL: lab commodities (Sec 2.2.3 Existing above the 2026 base)"),
+    ("Lesotho", "Other commodities", "EXISTING GoL: commodities (Sec 2.3.3)",
+     16602000, "CONTINUATION GoL: commodities (Sec 2.3.3 Existing above the 2026 base)"),
+    ("Sierra Leone", "Laboratory commodities", "EXISTING GoSL: lab commodities (Sec 2.2.3)",
+     10000, "CONTINUATION GoSL: lab commodities (Sec 2.2.3 Existing above the 2026 base)"),
+    ("Sierra Leone", "Other commodities", "EXISTING GoSL: commodities (Sec 2.3.3)",
+     378662, "CONTINUATION GoSL: commodities (Sec 2.3.3 Existing above the 2026 base)"),
+    ("Madagascar", "Laboratory commodities",
+     "EXISTING Government of Madagascar: lab commodities (Sec 2.2.3)",
+     559284, "CONTINUATION Government of Madagascar: lab commodities "
+             "(Sec 2.2.3 Existing above the 2026 base)"),
+    ("Madagascar", "Other commodities",
+     "EXISTING Government of Madagascar: commodities (Sec 2.3.3)",
+     9803311, "CONTINUATION Government of Madagascar: commodities "
+              "(Sec 2.3.3 Existing above the 2026 base)"),
+    ("Burundi", "Laboratory commodities",
+     "EXISTING Burundi Government: lab commodities (Sec 2.2.3)",
+     0, "CONTINUATION Burundi Government: lab commodities "
+        "(Sec 2.2.3 Existing column - no pre-MoU base)"),
+    ("Burundi", "Other commodities",
+     "EXISTING Burundi Government: commodities (Sec 2.3.3)",
+     0, "CONTINUATION Burundi Government: commodities "
+        "(Sec 2.3.3 Existing column - no pre-MoU base)"),
+]
+
+t = pd.read_csv(DATA / "budget_tidy.csv")
+already = set(zip(t["Country"], t["Category (as printed in MoU)"].astype(str)))
+changed = 0
+for country, area, ex_cat, base, cont_cat in REBASE:
+    if (country, cont_cat) in already:
+        print(f"skip (already rebased): {country} / {area}")
+        continue
+    m = ((t["Country"] == country) & (t["Investment area"] == area)
+         & (t["Category (as printed in MoU)"] == ex_cat))
+    assert m.sum() == 5, (country, area, int(m.sum()))
+    ex = t[m].sort_values("Year")
+    printed_existing = ex["Amount"].tolist()
+    assert printed_existing[0] == base or base == 0, (country, area, printed_existing)
+    cont_note = ("MoU-era continuation: the printed Existing column minus the flat 2026 "
+                 "pre-MoU base of $" + f"{base:,.0f}" + "/yr - prior-year new commitments "
+                 "the MoU rolls into its Existing column; kept in the MAIN printed band "
+                 "(maintainer decision, Sep 2026)")
+    cont_rows = ex.copy()
+    cont_rows["Amount"] = [v - base for v in printed_existing]
+    cont_rows["Row type"] = "Line item"
+    cont_rows["Category (as printed in MoU)"] = cont_cat
+    cont_rows["Source note"] = cont_note
+    t.loc[m, "Amount"] = float(base)
+    t.loc[m, "Source note"] = (
+        "Pre-MoU base: the 2026 value of the Sec Existing column, held flat - the level "
+        "funded before the MoU; the column's growth (absorbed prior-year new commitments) "
+        "is carried separately as a CONTINUATION line item in the main band")
+    if base == 0:
+        t = t[~m]  # nothing pre-MoU to show
+    t = pd.concat([t, cont_rows], ignore_index=True)
+    changed += 1
+if changed:
+    t.to_csv(DATA / "budget_tidy.csv", index=False)
+    print(f"rebased {changed} country-areas onto flat pre-MoU bases")

@@ -207,17 +207,20 @@ printed-existing basis below; valuing its FTEs too would double count. Derivatio
 `analysis/impute_new_countries.py`.
 
 The same toggle also removes the **printed existing government funding** the MoUs
-tabulate (`Basis = "Printed in MoU (existing/pre-MoU)"`): every row the MoUs mark as
-existing rather than new, in full — **Kenya $540M · Botswana $362M (nearly all of its
-announced $381M co-financing) · Uganda $274M · Côte d'Ivoire $219M · Lesotho $101M ·
-Eswatini $96M · Madagascar $68M · Liberia $40M · Malawi $33M · Mozambique $25M ·
-Sierra Leone $17M · Burundi $8M · Cameroon $6M over 2026–30 (~$1.79bn; Kenya's 2031
-adds a further ~$106M in the tidy data)**. Countries whose Existing columns roll
-prior-year commitments forward (Lesotho, Sierra Leone, Madagascar, Burundi) have those
-absorbed MoU-era amounts inside this basis too, per the uniform whole-existing-row
-convention — for Burundi the entire $8M is such roll-forward, as its pre-MoU base is
-$0. With the toggle off, government $ reduces to the new co-financing the MoUs
-themselves count as new — in 2026 that is chiefly Nigeria, whose MoU prints a $344.8M
+tabulate (`Basis = "Printed in MoU (existing/pre-MoU)"`) — **Kenya $540M · Botswana
+$362M (nearly all of its announced $381M co-financing) · Uganda $274M · Côte d'Ivoire
+$219M · Eswatini $96M · Lesotho $88M · Madagascar $52M · Liberia $40M · Malawi $33M ·
+Mozambique $25M · Sierra Leone $2M · Cameroon $6M over 2026–30 (~$1.74bn; Kenya's 2031
+adds a further ~$106M in the tidy data)**. For the four countries whose Existing
+columns roll prior-year commitments forward (Lesotho, Sierra Leone, Madagascar,
+Burundi), only the **2026 pre-MoU base, held flat**, sits in this basis; the
+roll-forward above it — absorbed MoU-era commitments — stays in the main band as
+explicit `CONTINUATION` line items, and Burundi (pre-MoU base $0) accordingly has no
+existing basis at all. Countries whose Existing columns are flat pre-MoU money
+(Botswana, Eswatini, Malawi, Kenya…) carry the whole row, as does Uganda, whose
+rolling columns keep the whole-row treatment adopted in the September 2026 rework — a
+documented asymmetry. With the toggle off, government $ reduces to new co-financing
+plus that continuation — in 2026 chiefly Nigeria, whose MoU prints a $344.8M
 government commitment in year one. Split derivation:
 `analysis/split_new_country_existing.py`.
 

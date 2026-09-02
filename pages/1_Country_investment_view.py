@@ -62,9 +62,11 @@ include_imputed = st.sidebar.toggle(
 include_baseline = st.sidebar.toggle(
     "Include pre-MoU / existing funding $", value=True,
     help="Two pre-MoU components: the existing government workforce nine MoUs "
-         "tabulate, valued at each MoU's own rates, and the government funding "
-         "thirteen MoUs mark as existing rather than new. Baseline effort, not "
-         "MoU co-financing; switching off lowers the government band accordingly.",
+         "tabulate, valued at each MoU's own rates, and printed pre-MoU government "
+         "funding (where a MoU's Existing column rolls prior-year commitments "
+         "forward, only the flat 2026 base counts — the roll-forward stays in the "
+         "main band). Baseline effort, not MoU co-financing; switching off lowers "
+         "the government band accordingly.",
 )
 show_usg_ref = st.sidebar.toggle(
     "Show 2026-level reference", value=True,
