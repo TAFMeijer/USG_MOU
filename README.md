@@ -171,6 +171,19 @@ draft; the agreement was signed on 25 June 2026 and its final text is not public
 - **Three new texts disagree with the KFF tracker**: Malawi ($744.8M/$55.0M vs
   $792M/$143.8M), Eswatini ($192.7M vs $205M) and Botswana ($99.6M vs $106M, exactly 6%).
 
-**Build scripts:** `analysis/extract_aug2026_release.py` (indicator rows and the
-provenance refresh) and `analysis/rebuild_budget_series.py` (regenerates
-`data/budget_series.csv` from `data/budget_tidy.csv`).
+**Build scripts.** `data/budget_tidy.csv` and `data/programmatic_tidy.csv` are the
+hand-transcribed source of truth; everything else is derived. After any change under
+`data/`, regenerate and check in the same commit:
+
+```bash
+python3 analysis/fte_rate_imputation_all.py && python3 analysis/apply_imputation_to_dashboard.py && python3 analysis/rebuild_budget_series.py && python3 analysis/rebuild_explorer_data.py && python3 analysis/validate_data.py
+```
+
+The first two recompute the imputed and pre-MoU-baseline government rows; the next two
+regenerate `data/budget_series.csv` and the JSON snapshot embedded in `explorer.html` /
+`docs/index.html`. `analysis/validate_data.py` then re-checks the invariants the dataset
+rests on — aggregates against their parts, series against tidy, `countries.csv`
+arithmetic, the explorer snapshot, the totals quoted on the methodology page, and the
+programmatic `Direction` / `Qualifier` columns. Skip the imputation steps if only
+printed figures changed. `analysis/extract_aug2026_release.py` covers the indicator rows
+and provenance refresh for the August 2026 release.
