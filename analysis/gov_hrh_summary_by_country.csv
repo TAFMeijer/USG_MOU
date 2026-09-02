@@ -4,7 +4,6 @@ Cameroon,Frontline lab workers,IMPUTED,374.0,6185.9,2313526.0,2313526.0,2615599.
 Côte d'Ivoire,Frontline healthcare workers,IMPUTED,52000.0,2411.81,125413967.0,125413967.0,187260839.0,"own USG 2026 rate (App.1); cumulative new (39,800 baseline excl.)",medium
 Côte d'Ivoire,Frontline lab workers,IMPUTED,2500.0,15384.62,38461538.0,15464744.0,40000000.0,"own USG 2026 rate (App.1); cumulative new (1,900 baseline excl.)",medium
 Ethiopia,Frontline lab workers,IMPUTED,197.0,5488.16,1081168.0,1081168.0,1108893.0,"own USG rate, constant across years",high
-Mozambique,Frontline lab workers,IMPUTED,205.0,6600.0,1353000.0,1353000.0,1675533.0,own USG marginal rate (exact fixed+marginal fit),high
 Rwanda,Frontline healthcare workers,IMPUTED,7061.0,1562.76,11034628.0,11034628.0,17957100.0,own USG 2026 rate (App.1 $ vs Sec FTEs misaligned),low
 Rwanda,Frontline lab workers,IMPUTED,1120.0,2700.07,3024074.0,3024074.0,6757332.0,own USG 2026 rate (App.1 $ vs Sec FTEs misaligned),low
 Uganda,Frontline healthcare workers,IMPUTED (continuation),32222.0,3601.17,116036899.0,115392668.0,128033025.0,CONTINUATION of absorbed cohorts (printed $ covers new cohorts only); own rate,medium

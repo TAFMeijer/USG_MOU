@@ -117,8 +117,12 @@ PLANS = [
      "own USG 2026 rate (envelope caveat); cumulative new+existing FTEs", "medium"),
     ("Ethiopia", LAB, 433565 / 79, 433565 / 79, 219527 / 39,
      "own USG rate, constant across years", "high"),
-    ("Mozambique", LAB, 6600.0, 6600.0, 858200 / 105,
-     "own USG marginal rate (exact fixed+marginal fit)", "high"),
+    # Mozambique lab workers are NOT imputed: App.1's footnote prices "4,893
+    # front-line Healthcare workers" at $46,973,106, and 4,893 = 4,788 HCW +
+    # 105 lab exactly, so the printed government total already pays the lab
+    # cohort. Imputing them again at the $6,600 marginal rate double-counted
+    # $1,353,000. The printed $ is carried on the HCW line and the footnote is
+    # attached to both areas so the lab line's $0 is explained.
     ("Rwanda", HCW, 4272578 / 2734, 4272578 / 2734, 16807601 / 6609,
      "own USG 2026 rate (App.1 $ vs Sec FTEs misaligned)", "low"),
     ("Rwanda", LAB, 780319 / 289, 780319 / 289, 3704466 / 614,

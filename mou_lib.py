@@ -296,7 +296,9 @@ BUDGET_FOOTNOTES = [
     dict(Country="Mozambique", Area="Frontline lab workers", Funder="Government", marked=None,
          text="*The total additional cost to employ 4,893 front-line Healthcare workers "
               "over the five-year period is $46,973,106",
-         src="App.1 p.34 · printed under the GoM new-support table (4,893 = 4,788 HCW + 105 lab FTEs)"),
+         src="App.1 p.34 · printed under the GoM new-support table. 4,893 = 4,788 HCW + 105 "
+             "lab FTEs exactly, so this printed total already pays the lab cohort — which is "
+             "why the government lab line carries no separate imputed $"),
     dict(Country="Mozambique", Area="All areas combined", Funder="Government", marked=None,
          text="*Includes funding for additional front-line Healthcare workers",
          src="App.1 p.33 · asterisk on the 'Mozambique Government' column header"),

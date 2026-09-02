@@ -116,6 +116,7 @@ imputed, baseline, existing = (by_basis(b) for b in
                                (lib.BASIS_IMPUTED, lib.BASIS_BASELINE, lib.BASIS_PRINTED_EXISTING))
 quoted = [
     ("Cameroon imputed $27.7M", imputed["Cameroon"], 27.7e6, 0.05e6),
+    ("Mozambique has no imputed lab $", imputed.get("Mozambique", 0.0), 0.0, 1.0),
     ("Uganda imputed $122.8M", imputed["Uganda"], 122.8e6, 0.05e6),
     ("CIV imputed $163.9M", imputed["Côte d'Ivoire"], 163.9e6, 0.05e6),
     ("baseline workforce ~$2.50bn", sum(baseline.values()), 2.50e9, 5e6),

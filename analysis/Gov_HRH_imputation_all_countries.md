@@ -26,7 +26,7 @@ costs the USG roughly 2.5× the peer-government median. Confidence rises from *l
 non-salary cost a government would not bear still applies, which is why the range brackets
 the own rate against the peer median rather than against the own years alone.
 
-This revision also carries the Liberia correction: the released text prints $152,400 for
+This revision also drops **Mozambique's lab imputation** for the double count described below, and carries the Liberia correction: the released text prints $152,400 for
 the 2027 government frontline-lab cell where the superseded scan printed $1,341,984,
 lowering printed government HRH by $1.19M.
 
@@ -75,7 +75,6 @@ The two unpriced countries can be cross-checked indirectly, and both point cumul
 | Country | Line | Gov FTE-yrs funded | Rate | Gov $ (central) | Range | Confidence |
 |---|---|---|---|---|---|---|
 | Ethiopia | Lab workers | 197 | $5,488 (own USG, constant all years) | **$1.08M** | 1.08–1.11M | high |
-| Mozambique | Lab workers | 205 | $6,600 (own USG marginal, exact fit) | **$1.35M** | 1.35–1.68M | high |
 | Cameroon | HCW + lab | 5,771 + 374 | own USG 2026 rates | **$27.70M** | 25.4–30.9M | medium |
 | Rwanda | HCW | 7,061 | $1,563 (own USG 2026) | **$11.03M** | 11.0–18.0M | low |
 | Rwanda | Lab workers | 1,120 | $2,700 (own USG 2026) | **$3.02M** | 3.0–6.8M | low |
@@ -84,7 +83,9 @@ The two unpriced countries can be cross-checked indirectly, and both point cumul
 | Côte d'Ivoire | HCW | 52,000 | $2,412 (own USG 2026, App.1) | **$125.41M** | 125.4–187.3M | medium |
 | Côte d'Ivoire | Lab workers | 2,500 | $15,385 (own USG 2026, App.1) | **$38.46M** | 15.5–40.0M | medium |
 
-Confidence notes. Ethiopia and Mozambique labs are handover mirrors (gov FTEs ramp up exactly as USG FTEs ramp down) priced at rates the MoU applies consistently — these are as close to "printed" as an imputation gets. Rwanda's $ (App.1) and FTE (Sec 2.2.3/2.4.3) series visibly misalign (its lab rate would swing from $2,700 to $104,042), so only the 2026 rate is usable and the blended-rate upper bound is wide. Uganda's lab rate is scaled down from the peer lab median by Uganda's own wage level (its gov HCW rate, $1,849, is 55% of the peer median). Côte d'Ivoire prices HRH on the USG side only (App.1), so both government lines are imputed at those rates; at ~$164M it is still the largest imputation (5,200 new HCW absorbed *per year*, cumulating to 20,800 funded in 2030), its USG HCW FTE series mixes salaried staff with ITN/SMC campaign workers, and its printed 2028 Total column is internally inconsistent (52,500 vs the 50,200 its own columns imply — the difference is that year's USG count). Check the cadre and the table arithmetic before using the CIV figure externally.
+**Mozambique's lab workers were dropped from the imputation in rev. 4** (they had been $1.35M at the $6,600 marginal rate): App.1's footnote prices "4,893 front-line Healthcare workers" at $46,973,106 and 4,893 = 4,788 HCW + 105 lab exactly, so the printed government total already pays them and the separate layer double-counted.
+
+Confidence notes. Ethiopia labs are a handover mirror (gov FTEs ramp up exactly as USG FTEs ramp down) priced at a rate the MoU applies consistently — these are as close to "printed" as an imputation gets. Rwanda's $ (App.1) and FTE (Sec 2.2.3/2.4.3) series visibly misalign (its lab rate would swing from $2,700 to $104,042), so only the 2026 rate is usable and the blended-rate upper bound is wide. Uganda's lab rate is scaled down from the peer lab median by Uganda's own wage level (its gov HCW rate, $1,849, is 55% of the peer median). Côte d'Ivoire prices HRH on the USG side only (App.1), so both government lines are imputed at those rates; at ~$164M it is still the largest imputation (5,200 new HCW absorbed *per year*, cumulating to 20,800 funded in 2030), its USG HCW FTE series mixes salaried staff with ITN/SMC campaign workers, and its printed 2028 Total column is internally inconsistent (52,500 vs the 50,200 its own columns imply — the difference is that year's USG count). Check the cadre and the table arithmetic before using the CIV figure externally.
 
 Peer rate benchmarks used: government HCW $/FTE — Ethiopia $1,748, Uganda $1,849, Kenya $3,368, Mozambique $3,989, Liberia $4,541 (median $3,368). Lab $/FTE — Liberia $2,500, Ethiopia $5,488, Cameroon $6,186, Mozambique $6,600, Kenya $12,548 (median $6,186).
 
@@ -93,13 +94,13 @@ Peer rate benchmarks used: government HCW $/FTE — Ethiopia $1,748, Uganda $1,8
 | Component | 5-yr value |
 |---|---|
 | Printed in the MoUs (all 16 texts; Ethiopia, Kenya†, Liberia, Moz HCW, Nigeria, Uganda HCW new cohorts and the seven newest) | **$1,001.9M** |
-| Imputed, high/medium confidence (Cameroon, Ethiopia lab, Moz lab, Uganda HCW continuation, Côte d'Ivoire) | **$310.1M** |
+| Imputed, high/medium confidence (Cameroon, Ethiopia lab, Uganda HCW continuation, Côte d'Ivoire) | **$308.7M** |
 | Imputed, low confidence (Rwanda, Uganda lab continuation) | **$20.8M** |
 | **Total government frontline-HRH commitment** | **≈ $1.33bn** |
 
 † Kenya's series runs six years (2026–2031). Nigeria's $297.6M is printed without any FTE counts, so its implied rate can't be checked.
 
-Imputation closes ~25% of the picture: roughly $1.33bn of government HRH commitments across the sixteen countries, of which $1,002M is printed and ~$331M recovered from FTE tables. The two big imputed blocks — Côte d'Ivoire's ~$164M and Uganda's ~$123M continuation — deserve flags wherever this is presented, for different reasons: CIV's prices government workers at the rates the USG pays, Uganda's rests on a well-identified own rate but a pricing convention the flat-rate test (above) shows no other MoU uses.
+Imputation closes ~25% of the picture: roughly $1.33bn of government HRH commitments across the sixteen countries, of which $1,002M is printed and ~$329M recovered from FTE tables. The two big imputed blocks — Côte d'Ivoire's ~$164M and Uganda's ~$123M continuation — deserve flags wherever this is presented, for different reasons: CIV's prices government workers at the rates the USG pays, Uganda's rests on a well-identified own rate but a pricing convention the flat-rate test (above) shows no other MoU uses.
 
 ## The pre-MoU baseline workforce: visible and filterable
 

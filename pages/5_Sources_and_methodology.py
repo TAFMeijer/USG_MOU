@@ -134,7 +134,7 @@ Cameroon tabulate *existing* government funding alongside new co-financing; Nige
 Ethiopia and Rwanda do not, so their government lines are new co-financing only and their
 true shares are **understated**.
 
-**Imputed government $ (sidebar toggle).** Six MoUs commit government
+**Imputed government $ (sidebar toggle).** Five MoUs commit government
 frontline **lab-worker and healthcare-worker FTEs without pricing them**. Where the charts
 show government $ for those lines, they are **imputed**: government FTEs × a $/FTE rate
 derived from the *same MoU's USG side* (2026 unit rate, flat nominal), or from
@@ -162,7 +162,7 @@ FTE-years × the own rate) as separate rows inside the government band. Uganda's
 sum to the national table exactly.
 
 Imputed amounts (5-yr): Cameroon $27.7M (HCW + lab, own 2026 rates) · Ethiopia labs $1.1M
-(own constant rate) · Mozambique labs $1.4M (own marginal rate, $6,600/FTE) · Rwanda
+(own constant rate) · Rwanda
 $14.1M (own 2026 rates; its $ and FTE tables misalign — low confidence) · Uganda $122.8M
 (absorbed-cohort continuation, own $3,601 rate) · **Côte d'Ivoire $163.9M (its own
 printed USG rates — $2,412/FTE for healthcare workers, $15,385/FTE for lab workers;
@@ -274,6 +274,10 @@ Madagascar (22 Dec, where Public Citizen records "22 or 23") — and are noted p
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
 - Rwanda's government worker commitments are expressed in FTEs and never monetised
   (now imputed — see above — at low confidence).
+- Mozambique's government lab workers are NOT imputed: App.1's footnote prices "4,893
+  front-line Healthcare workers" at $46,973,106, and 4,893 = 4,788 healthcare + 105 lab
+  exactly, so the printed total already pays them. The money sits on the healthcare-worker
+  line and the footnote is shown on both.
 - Côte d'Ivoire's *government* frontline workers are FTE-only — its Appendix 1 government
   column prices commodities alone — so their $ are imputed, at the country's own printed
   USG rates.
