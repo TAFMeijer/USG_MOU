@@ -48,8 +48,9 @@ st.caption(
     f"the MoU"
     + (f" (hosted by {host}; click the country name to open the PDF)" if host else "")
     + " · all source links on the [Sources & methodology](Sources_and_methodology) page. "
-    "Values are as printed; some targets are inequalities ('>95%', '<140') — see each "
-    "chart's tooltip."
+    "Values are as printed. Where the MoU states a bound rather than an exact figure "
+    "('>95%', '<140'), the numeric bound is plotted, the chart title is marked † and the "
+    "tooltip's 'As printed' field carries the inequality."
 )
 
 m = p[(p["Country"] == country) & (p["Programmatic area"].isin(pareas))].copy()
@@ -106,8 +107,24 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_717: bool = False) -> al
     label = sub["Indicator"].iat[0]
     short = label if len(label) <= 55 else label[:52] + "…"
     has_note = bool((sub[lib.FOOTNOTE_COL] != "").any())
+    # Value always holds the numeric bound; Qualifier holds the inequality the
+    # MoU prints on that cell (">95%", "<140"). Show the printed form in the
+    # tooltip so a bound is never read as an exact commitment.
+    sub = sub.copy()
+
+    def _num(v):
+        if pd.isna(v):
+            return "–"
+        return f"{v:,.0f}" if float(v).is_integer() else f"{v:,g}"
+
+    sub["As printed"] = (sub[lib.QUALIFIER_COL].fillna("")
+                         + sub["Value"].map(_num)
+                         + sub["Unit"].map(lambda u: "%" if u == "%" else ""))
+    has_qualifier = bool((sub[lib.QUALIFIER_COL].fillna("") != "").any())
     if has_note:
         short += " *"  # a footnote printed in the MoU applies to this indicator
+    if has_qualifier:
+        short += " †"  # at least one cell is a bound (>, <, ≥), not an exact value
     if is_717:
         # 7-1-7 commitments: fixed 0-10 day axis so the 7 / 1 / 7 pattern reads instantly
         y = alt.Y("Value:Q", title=None,
@@ -135,7 +152,9 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_717: bool = False) -> al
         .encode(
             x=alt.X("Year:O", sort=YEAR_ORDER, axis=YEAR_AXIS),
             y=y,
-            tooltip=["Indicator", "Year", "Value", "Unit", "Unit / source note"]
+            tooltip=["Indicator", "Year",
+                     alt.Tooltip("As printed:N", title="As printed in the MoU"),
+                     "Value", "Unit", "Unit / source note"]
             + ([alt.Tooltip(f"{lib.FOOTNOTE_COL}:N", title="MoU footnote")]
                if has_note else []),
         )

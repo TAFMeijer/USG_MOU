@@ -81,6 +81,30 @@ a caveat. Liberia's MoU prints no table footnotes. Côte d'Ivoire has one orphan
 scan's appendix pages. The dashboard shows these notes in chart tooltips and under the
 affected panels.
 
+**Threshold targets.** Several MoUs state a target as a bound rather than an exact figure
+— Uganda's ">95%", Ethiopia's "<140" and "<20", Mozambique's "≥92%", Cameroon's "<7%"
+stockout ceiling, Eswatini's and Botswana's ">90%", Nigeria's "≥85%". The **numeric bound
+is stored in `Value`** so the series stays plottable, and the printed inequality in a
+separate `Qualifier` column (">", "<", "≥", "≤", "~"; blank = exact). Charts mark such an
+indicator with a † and show the printed form ("<140") in the tooltip. Ethiopia's two "<"
+cells had previously been dropped altogether, so its Maternal Mortality Ratio and Neonatal
+Mortality Rate charts simply ended a year early.
+
+**Five-year targets without a per-year path.** Nigeria's four 7-1-7 metrics print a 2025
+baseline and a single "5-Year Target" column (≥95% / sustain ≥90–100% / ≥90% / ≥85%) with
+no intermediate years. Each is stored at **2030**, the term's final year, matching the
+MoU's own narrative ("from 33% baseline in 2025 to ~85% within 5 years"); each row's
+Source note says so, and the notification target stores the ≥90% floor of its printed
+90–100% band.
+
+**Direction of improvement.** Every indicator row carries a `Direction` column ("Lower is
+better" / "Higher is better") set from the indicator's meaning rather than inferred from
+its name at render time; lower-is-better indicators get a zero-based y-axis so the size of
+the promised reduction reads in true proportion. The distinction matters where a name
+misleads: "# patients with TB notified (i.e., bacteriologically confirmed + clinically
+diagnosed)" and "% confirmed malaria cases receiving first-line treatment" are
+case-finding and coverage measures where higher is the goal, though both mention cases.
+
 **What sums, what doesn't.** Three row types are aggregated into
 `data/budget_series.csv`, which feeds every chart: `Row type = "Line item"`, the
 existing-government rows (`"Line item - existing (excl. from headline total)"`) and

@@ -199,6 +199,11 @@ def five_year_totals(df: pd.DataFrame, area: str) -> pd.DataFrame:
 # bacteriologically confirmed + clinically diagnosed)" trips "diagnos" and reads
 # as lower-is-better, when rising notification is exactly the goal.
 DIRECTION_COL = "Direction"
+# Inequality printed on a target cell where the MoU states a bound rather than an
+# exact figure. `Value` always carries the numeric bound so the series stays
+# plottable; this column preserves what was printed (">", "<", "≥", "≤", "~"),
+# and blank means the cell is exact.
+QUALIFIER_COL = "Qualifier"
 LOWER_LABEL = "Lower is better"
 HIGHER_LABEL = "Higher is better"
 
