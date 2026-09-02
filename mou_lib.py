@@ -328,9 +328,16 @@ BUDGET_FOOTNOTES = [
          src="§2.6.3 p.12 · under the funding plan table"),
     dict(Country="Côte d'Ivoire", Area="Frontline healthcare workers", Funder="Government", marked=None,
          text="Côte d'Ivoire Existing # FTEs Funded* — the asterisk is printed on this column "
-              "header, but its footnote text appears nowhere in the published PDF (the file "
-              "ends at p.24 of 29; the appendix pages are missing)",
+              "header, but no matching footnote text appears anywhere in the document, "
+              "appendices included (confirmed against the complete 29-page FOIA release)",
          src="§2.4.3 p.11 · orphan marker on the frontline-worker FTE table"),
+    dict(Country="Côte d'Ivoire", Area="All areas combined", Funder="Government", marked=None,
+         text="*This amount represents additional domestic health expenditure per year in "
+              "the national budget, building off a baseline of actual expenses from the 2025 "
+              "budget.",
+         src="App.1 p.25 · on the \u201cCote d\u2019Ivoire Government*\u201d column of the "
+             "co-funding summary; confirms that the $450M column is a domestic-expenditure "
+             "pledge, which is why the charts exclude it"),
 ]
 # Chart frames label government lines with GOV_LABEL — mirror that here once.
 for _n in BUDGET_FOOTNOTES:

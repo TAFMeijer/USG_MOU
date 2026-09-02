@@ -76,9 +76,9 @@ with the exact section/page and marked cells in `MoU footnote location`. Each no
 carried across the **full 2026–2030 line** it qualifies, even where the printed marker sits
 on specific cells (e.g. Mozambique's surveillance line: "*Includes funding for surveys
 discussed in Section 4.1." — asterisks on 2027 & 2029), so a single-year filter can't miss
-a caveat. Liberia's MoU prints no table footnotes. Côte d'Ivoire has one orphan asterisk
-(on the "Existing # FTEs Funded" column header) whose note text is missing along with the
-scan's appendix pages. The dashboard shows these notes in chart tooltips and under the
+a caveat. Liberia's MoU prints no table footnotes. Côte d'Ivoire has one genuinely orphan
+asterisk (on the "Existing # FTEs Funded" column header): the complete 29-page text carries
+no matching note anywhere, appendices included. The dashboard shows these notes in chart tooltips and under the
 affected panels.
 
 **Threshold targets.** Several MoUs state a target as a bound rather than an exact figure
@@ -151,8 +151,12 @@ sum to the national table exactly.
 Imputed amounts (5-yr): Cameroon $27.7M (HCW + lab, own 2026 rates) · Ethiopia labs $1.1M
 (own constant rate) · Mozambique labs $1.4M (own marginal rate, $6,600/FTE) · Rwanda
 $14.1M (own 2026 rates; its $ and FTE tables misalign — low confidence) · Uganda $122.8M
-(absorbed-cohort continuation, own $3,601 rate) · **Côte d'Ivoire $202.7M (peer rates
-only — its MoU prints no HRH $ at all; range $97–268M — treat with caution)**.
+(absorbed-cohort continuation, own $3,601 rate) · **Côte d'Ivoire $163.9M (its own
+printed USG rates — $2,412/FTE for healthcare workers, $15,385/FTE for lab workers;
+range $141–227M)**. Côte d'Ivoire rests on its own rates only because the FOIA release
+supplied the appendix that prices the USG's frontline workers; on peer rates alone it came
+to $202.7M. Its **government** side still prices no health worker at all, so the
+imputation itself stands.
 Every imputed row is flagged `Row type = "Imputed (derived - not printed in MoU)"` in
 `data/budget_tidy.csv` with FTEs, rate and confidence in its Source note; the sidebar /
 overview toggle removes them entirely. Full derivation: `analysis/fte_rate_imputation_all.py`
@@ -162,9 +166,9 @@ and `analysis/Gov_HRH_imputation_all_countries.md`.
 government's *existing* workforce — the pre-MoU baseline stock in the "Existing # FTEs
 Funded" columns: **Uganda 49,014 HCW + 2,199 lab (national 51,213 net of lab) ·
 Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) · Liberia
-6,577 HCW + 538 lab**. Valued at the same rates this is **~$2.65bn over the term**
-(Uganda $951M · CIV $775M · Moz $767M · Liberia $156M) — two and a half times the
-~$1.07bn of MoU HRH commitments, and the concrete form of the "existing government
+6,577 HCW + 538 lab**. Valued at the same rates this is **~$2.50bn over the term**
+(Uganda $951M · Moz $767M · CIV $626M · Liberia $156M) — nearly twice the
+~$1.33bn of MoU HRH commitments, and the concrete form of the "existing government
 funding" the co-funding summaries fold into their headlines. It is carried as its own
 basis (`Basis = "Imputed baseline (pre-MoU)"`, `Row type = "Imputed baseline
 (pre-MoU - derived)"`) precisely so it can be summed into the band *and* filtered back
@@ -257,9 +261,9 @@ Madagascar (22 Dec, where Public Citizen records "22 or 23") — and are noted p
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
 - Rwanda's government worker commitments are expressed in FTEs and never monetised
   (now imputed — see above — at low confidence).
-- Côte d'Ivoire's frontline workers are FTE-only, and the available scan is missing its
-  appendix pages (25–29); its imputed $ rest entirely on peer-country rates.
-- Liberia's own summary and detail tables disagree by $1.19M for 2027 (source error).
+- Côte d'Ivoire's *government* frontline workers are FTE-only — its Appendix 1 government
+  column prices commodities alone — so their $ are imputed, at the country's own printed
+  USG rates.
 - Botswana's U.S. line items miss their printed column totals in all three years; its §2.6.3
   strategic-assistance series also differs from its Appendix 1 row by $3.1M.
 - Lesotho's Appendix 1 omits government commodity funding entirely ($16.6M–$24.3M a year,

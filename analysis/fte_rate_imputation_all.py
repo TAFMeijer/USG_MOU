@@ -125,16 +125,23 @@ PLANS = [
      "CONTINUATION of absorbed cohorts (printed $ covers new cohorts only); own rate", "medium"),
     ("Uganda", LAB, None, None, None,
      "CONTINUATION of absorbed lab cohorts (new-year costs sit in the printed HRH $)", "low"),
-    ("Côte d'Ivoire", HCW, None, None, None,
-     "peer government HCW median; cumulative new (39,800 baseline excl.)", "low"),
-    ("Côte d'Ivoire", LAB, None, None, None,
-     "peer lab median; cumulative new (1,900 baseline excl.)", "low"),
+    # CIV moved from peer rates to its OWN printed rates: App.1 (pp.25-26 of the
+    # FOIA release) prices the USG's frontline workers, which the earlier
+    # 24-page scan never showed. HCW $13.4M / 5,556 CORE FTEs = $2,411.81
+    # (2027-28 give $2,666.67 / $2,521.74; the seasonal CHW column is excluded,
+    # and 2029-30 print $ against 0 core FTEs so they yield no rate at all);
+    # lab $1.0M / 65 = $15,384.62 (2027-28: $15,555.56 / $16,000.00). The
+    # GOVERNMENT column still prices no health worker, so the imputation stands
+    # and only its rate basis changes. Ranges bracket the own rate against the
+    # peer-government median that used to be the central estimate.
+    ("Côte d'Ivoire", HCW, 13400000 / 5556, 13400000 / 5556, PEER_HCW_MEDIAN,
+     "own USG 2026 rate (App.1); cumulative new (39,800 baseline excl.)", "medium"),
+    ("Côte d'Ivoire", LAB, 1000000 / 65, PEER_LAB_MEDIAN, 400000 / 25,
+     "own USG 2026 rate (App.1); cumulative new (1,900 baseline excl.)", "medium"),
 ]
 PEER_FILL = {
     ("Uganda", HCW): (peer_hcw["Uganda"], 19177200 / 5355, 77001800 / 19379),
     ("Uganda", LAB): (PEER_LAB_MEDIAN * UGA_WAGE_FACTOR, gov_rate_median("Liberia", LAB), PEER_LAB_MEDIAN),
-    ("Côte d'Ivoire", HCW): (PEER_HCW_MEDIAN, min(peer_hcw.values()), max(peer_hcw.values())),
-    ("Côte d'Ivoire", LAB): (PEER_LAB_MEDIAN, min(peer_lab.values()), max(peer_lab.values())),
 }
 CONTINUATION = {("Uganda", HCW), ("Uganda", LAB)}
 
@@ -189,8 +196,8 @@ s.to_csv(HERE / "gov_hrh_summary_by_country.csv", index=False)
 # printed $). Priced at own-country government rates where they exist.
 BASELINES = [
     # (country, area, FTEs/yr, rate, rate label)
-    ("Côte d'Ivoire", HCW, 39800, PEER_HCW_MEDIAN, "peer gov HCW median"),
-    ("Côte d'Ivoire", LAB, 1900, PEER_LAB_MEDIAN, "peer lab median"),
+    ("Côte d'Ivoire", HCW, 39800, 13400000 / 5556, "own USG 2026 rate (App.1)"),
+    ("Côte d'Ivoire", LAB, 1900, 1000000 / 65, "own USG 2026 rate (App.1)"),
     # Uganda national baseline 51,213 minus its 2,199 lab component (own rows)
     ("Uganda", HCW, 49014, peer_hcw["Uganda"], "own new-cohort rate (median $3,601)"),
     ("Uganda", LAB, 2199, PEER_LAB_MEDIAN * UGA_WAGE_FACTOR, "peer lab median x wage factor"),
