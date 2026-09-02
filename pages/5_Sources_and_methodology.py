@@ -147,12 +147,16 @@ its USG 2026 rate.
 
 **New vs Existing FTEs.** The FTE tables print a "New" and an "Existing" column, where
 *Existing is written from each year's own perspective*: Existing(t) = pre-MoU baseline +
-cumulative prior-year new absorptions. A worker absorbed in year t is paid in every later
-year, so the imputation funds **new + previously absorbed FTEs each year** (e.g. Cameroon
-labs: 62 → 125 → 187 FTEs, i.e. $0.38M → $0.77M → $1.16M). Pre-MoU baseline workforces
-(Côte d'Ivoire: 39,800 HCW + 1,900 lab; Uganda: 2,199 lab) are **excluded** — they are
-baseline effort, not MoU co-financing. The printed Existing columns are recorded in
-`budget_tidy.csv` as `Row type = "Line item - existing (excl. from headline total)"`.
+cumulative prior-year new absorptions, and New(t) is often just that year's increment.
+`budget_tidy.csv` normalises every government FTE series to **one convention**: the
+existing rows carry the **flat pre-MoU base** (the 2026 stock; a base of 0 means no
+existing rows, e.g. Cameroon and Lesotho) and the new rows carry the **cumulative
+cohort** (new + previously absorbed — a worker absorbed in year t is paid in every later
+year), so flat base + cumulative new reproduces the printed Total in every year. The
+printed rolling/per-year columns are quoted in each row's Source note (Uganda's
+per-cadre columns also verbatim in `analysis/uganda_cadre_fte.csv`). The imputations
+price the cumulative cohorts (e.g. Cameroon labs: 62 → 125 → 187 FTEs, i.e. $0.38M →
+$0.77M → $1.16M); the pre-MoU stocks are valued only in the baseline layer below.
 
 **Uganda: continuation of absorbed cohorts.** Uganda's printed government HRH $ prices
 only each year's **new** cohort (the App. 3 national New column — $/new-FTE is a near-flat

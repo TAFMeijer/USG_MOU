@@ -352,3 +352,113 @@ if not ((t["Country"] == "Mozambique")
     print("added Mozambique existing lab FTE rows (Sec 2.2.3)")
 else:
     print("skip (already added): Mozambique existing lab FTEs")
+
+# --------------------------------------------------------------------------
+# Part 4 — one FTE convention for all 16 countries (maintainer decision, Sep
+# 2026): government EXISTING FTE rows carry the flat pre-MoU base (the 2026
+# stock; a base of 0 means no existing rows at all) and government NEW FTE
+# rows carry the CUMULATIVE cohort (new + previously absorbed), so flat base +
+# cumulative new = the printed Total column in every year. Where a MoU prints
+# per-year increments or a rolling Existing column instead, the printed values
+# are quoted in the Source note (Uganda's per-cadre columns are also preserved
+# verbatim in analysis/uganda_cadre_fte.csv). Idempotent: values are SET.
+t = pd.read_csv(DATA / "budget_tidy.csv")
+NOTE_FLAT = ("Pre-MoU base held flat per the uniform FTE convention; the printed "
+             "Existing column rolls forward absorbed cohorts: {printed}")
+NOTE_CUM = ("Cumulative new cohort (new + previously absorbed) per the uniform FTE "
+            "convention; printed per-year New column: {printed}")
+
+def set_fte(country, area, cat, values, note):
+    m = ((t["Country"] == country) & (t["Investment area"] == area)
+         & (t["Category (as printed in MoU)"] == cat) & (t["Unit"] == "FTEs"))
+    assert m.sum() == len(values), (country, area, cat, int(m.sum()), len(values))
+    idx = t.loc[m].sort_values("Year").index
+    old = [int(v) for v in t.loc[idx, "Amount"]]
+    t.loc[idx, "Amount"] = [float(v) for v in values]
+    t.loc[idx, "Source note"] = note.format(printed=old)
+    return old != list(values)
+
+FHW, LAB = "Frontline healthcare workers", "Frontline lab workers"
+changed = 0
+# rolling Existing columns -> flat pre-MoU base
+for c, a, cat, base in [
+    ("Mozambique", LAB, "Frontline Lab Workers (Existing # FTEs Funded, Sec 2.2.3)", 3317),
+    ("Mozambique", FHW, "Existing # FTEs Funded", 38462),
+    ("Uganda", FHW, "Existing # FTEs Funded", 49014),
+    ("Uganda", LAB, "Existing # FTEs Funded", 2199),
+    ("Côte d'Ivoire", FHW, "Existing # FTEs Funded", 39800),
+    ("Côte d'Ivoire", LAB, "Existing # FTEs Funded", 1900),
+]:
+    changed += set_fte(c, a, cat, [base] * 5, NOTE_FLAT)
+# per-year New columns -> cumulative cohorts
+for c, a, cat, vals in [
+    ("Côte d'Ivoire", FHW, "Frontline healthcare workers - NEW Côte d'Ivoire FTEs",
+     [0, 5200, 10400, 15600, 20800]),
+    ("Côte d'Ivoire", LAB, "Frontline laboratory workers - NEW Côte d'Ivoire FTEs",
+     [0, 250, 500, 750, 1000]),
+    ("Cameroon", FHW, "GoC new Frontline Healthcare Worker FTEs (Sec 2.4.3)",
+     [0, 0, 1001, 1924, 2846]),
+    ("Cameroon", LAB, "GoC new Frontline Lab Worker FTEs (Sec 2.2.3)",
+     [0, 0, 62, 125, 187]),
+    ("Malawi", FHW, "Government of Malawi: Frontline Healthcare Workers (# FTEs)",
+     [0, 351, 739, 1127, 1515]),
+    ("Malawi", LAB, "Government of Malawi: Frontline Lab Workers (# FTEs)",
+     [0, 99, 198, 380, 479]),
+    ("Madagascar", FHW,
+     "Government of Madagascar: Frontline Healthcare Workers (# FTEs)",
+     [0, 2262, 4660, 7272, 9947]),
+    ("Uganda", FHW, "GoU NEW FTEs: epidemiologists", [0, 11, 21, 50, 80]),
+    ("Uganda", FHW, "GoU NEW FTEs: medical cadres", [0, 65, 297, 595, 890]),
+    ("Uganda", FHW, "GoU NEW FTEs: nurses and midwives", [0, 124, 457, 838, 1435]),
+    ("Uganda", FHW, "GoU NEW FTEs: pharmacists", [0, 20, 46, 66, 148]),
+    ("Uganda", FHW, "GoU NEW FTEs: social workers", [0, 20, 120, 492, 1092]),
+    ("Uganda", LAB, "GoU NEW FTEs: laboratory cadres", [0, 115, 311, 660, 1272]),
+    ("Uganda", FHW, "NEW GoU: Human Resources for Health (# FTEs)",
+     [0, 5355, 11252, 16701, 19379]),
+]:
+    changed += set_fte(c, a, cat, vals, NOTE_CUM)
+changed += set_fte("Uganda", FHW, "GoU NEW FTEs: CHEWs", [5000, 10000, 14000, 14462],
+                   NOTE_CUM)  # printed 2027-2030 only; 2026 CHEW new is blank
+# Cameroon's Existing column starts (and stays, pre-MoU) at 0: drop its rows
+drop = ((t["Country"] == "Cameroon") & (t["Unit"] == "FTEs")
+        & (t["Category (as printed in MoU)"] == "Existing # FTEs Funded"))
+if drop.any():
+    t = t[~drop]
+    changed += 1
+    print("dropped Cameroon zero-base existing FTE rows")
+# countries whose pre-MoU FTE stock had no tidy rows at all: add them flat
+ADD_STOCK = [
+    ("Burundi", FHW, 11260, "Sec 2.4.3: 1,169 doctors + 10,091 nurses"),
+    ("Burundi", LAB, 1344, "Sec 2.2.3: lab technicians"),
+    ("Malawi", FHW, 19127, "Sec 2.4.3 Existing column"),
+    ("Malawi", LAB, 639, "Sec 2.2.3 Existing column"),
+    ("Sierra Leone", FHW, 12554, "Sec 2.4.3 Existing column"),
+    ("Sierra Leone", LAB, 76, "Sec 2.2.3 Existing column (the all-government "
+                              "epidemiologists, per App.3)"),
+    ("Madagascar", FHW, 5769, "Sec 2.4.3 Existing column"),
+    ("Madagascar", LAB, 310, "Sec 2.2.3 Existing column"),
+    ("Eswatini", FHW, 754, "Sec 2.4.3 Existing GOKE column"),
+    ("Eswatini", LAB, 54, "Sec 2.2.3 Existing GOKE column"),
+]
+new_rows = []
+for c, a, stock, src in ADD_STOCK:
+    cat = f"Existing # FTEs Funded ({src.split(':')[0].split(' (')[0]})"
+    if ((t["Country"] == c) & (t["Investment area"] == a)
+            & (t["Row type"] == EXISTING_RT) & (t["Unit"] == "FTEs")).any():
+        continue
+    tmpl = t[(t["Country"] == c) & (t["Funder"] == "Government")].iloc[0].to_dict()
+    for y in YEARS:
+        r = dict(tmpl)
+        r.update({"Investment area": a, "Year": y, "Amount": float(stock),
+                  "Unit": "FTEs", "Row type": EXISTING_RT,
+                  "Category (as printed in MoU)": cat,
+                  "Source note": f"Pre-MoU stock held flat ({src}); the printed "
+                                 "column rolls absorbed cohorts forward. Valued in "
+                                 "the imputed-baseline layer",
+                  "MoU footnote (verbatim)": "", "MoU footnote location": ""})
+        new_rows.append(r)
+if new_rows:
+    t = pd.concat([t, pd.DataFrame(new_rows)], ignore_index=True)
+t.to_csv(DATA / "budget_tidy.csv", index=False)
+print(f"FTE convention: {changed} row-groups normalised, "
+      f"{len(new_rows)} existing-stock rows added")
