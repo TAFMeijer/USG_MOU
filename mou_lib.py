@@ -352,7 +352,7 @@ def footnote_block(notes: list, size_px: int = 12) -> str:
         )
         lines.append(
             f"<div>* <b>{n['Country']}</b> — “{md(str(n['text']))}”{marked} "
-            f"<span style='opacity:.75'>[{n['src']}]</span></div>"
+            f"<span style='opacity:.75'>[{md(str(n['src']))}]</span></div>"
         )
     muted = palette()["muted"]
     return (

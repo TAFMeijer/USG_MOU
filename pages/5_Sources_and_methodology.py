@@ -142,15 +142,13 @@ dotted series (`Basis = "Imputed baseline (pre-MoU)"`, `Row type = "Imputed base
 effort, not MoU co-financing. Kenya, Cameroon, Ethiopia, Rwanda and Nigeria print no
 workforce baseline.
 
-The same toggle also removes the **printed existing commodity funding** the MoUs carry
-from 2026 (dash-dot lines, `Basis = "Printed in MoU (existing/pre-MoU)"`): each existing
-series' 2026 level held flat — **Kenya $540M · Uganda $154M · Côte d'Ivoire $130M ·
-Liberia $40M · Mozambique $25M over 2026–30 (~$889M; Kenya's 2031 adds a further
-~$108M in the tidy data)**. Growth above the 2026 level (e.g. Uganda's ramps) and
-existing series that start at zero (e.g. Cameroon's, which begin in 2029 as absorbed
-continuation) are MoU-era commitments and stay in the main series. With the toggle off,
-government $ in 2026 reduces to genuine day-one new co-financing — chiefly Nigeria,
-whose MoU prints a $344.8M government commitment already in 2026.
+The same toggle also removes the **printed existing government funding** the MoUs
+tabulate (`Basis = "Printed in MoU (existing/pre-MoU)"`): every row the MoUs mark as
+existing rather than new, in full — **Kenya $540M · Uganda $274M · Côte d'Ivoire $219M ·
+Liberia $40M · Mozambique $25M · Cameroon $6M over 2026–30 (~$1.10bn; Kenya's 2031 adds a
+further ~$106M in the tidy data)**. With the toggle off, government $ reduces to the new
+co-financing the MoUs themselves count as new — in 2026 that is chiefly Nigeria, whose MoU
+prints a $344.8M government commitment in year one.
 
 **USG 2026-level reference (thin dotted line / third toggle).** There is no separate USG
 baseline layer to add: unlike the government side, the USG's funding is fully priced in

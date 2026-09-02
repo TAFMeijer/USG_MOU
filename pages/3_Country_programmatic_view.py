@@ -175,9 +175,12 @@ for section in SECTION_ORDER:
         if sub.empty:
             continue
         is_pct = (sub["Value type"] == "Percentage").all()
-        # Only the 7-1-7 commitments get the 0-10 day axis — other day-unit
-        # indicators (e.g. procurement lead time, 201 days) must not be squeezed onto it.
-        is_717 = section == "Outbreak response (7-1-7)"
+        # Only DAY-denominated 7-1-7 commitments get the 0-10 day axis. Other
+        # day-unit indicators (e.g. procurement lead time, 201 days) must not be
+        # squeezed onto it, and neither must the countries that state 7-1-7 as
+        # percentages of events met (Nigeria) — those belong on the 0-100 axis,
+        # so the test is per indicator, not per section.
+        is_717 = section == "Outbreak response (7-1-7)" and not is_pct
         with cols[i % 3]:
             unit_lbl = sub["Unit"].iat[0]
             st.altair_chart(indicator_chart(sub, is_pct, is_717), use_container_width=True)
