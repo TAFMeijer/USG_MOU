@@ -127,12 +127,12 @@ quoted = [
     ("Malawi baseline $287M", baseline["Malawi"], 287.4e6, 0.5e6),
     ("Burundi baseline $223M", baseline["Burundi"], 223.3e6, 0.5e6),
     ("Liberia baseline $156M", baseline["Liberia"], 156e6, 0.5e6),
-    ("existing government $ ~$1.74bn", sum(existing.values()), 1.737e9, 5e6),
+    ("existing government $ ~$1.62bn", sum(existing.values()), 1.617e9, 5e6),
     ("Burundi has no existing basis (no pre-MoU base)",
      existing.get("Burundi", 0.0), 0.0, 1.0),
     ("Kenya existing $540M", existing["Kenya"], 540e6, 0.5e6),
     ("Botswana existing $362M", existing["Botswana"], 362e6, 0.5e6),
-    ("Uganda existing $274M", existing["Uganda"], 274e6, 0.5e6),
+    ("Uganda existing $154M (flat 2026 base)", existing["Uganda"], 154.04e6, 0.5e6),
     ("CIV existing $219M", existing["Côte d'Ivoire"], 219e6, 0.5e6),
 ]
 # Lesotho's imputed HRH $ must stay inside the MoU's own headline residual: the

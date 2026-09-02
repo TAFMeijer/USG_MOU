@@ -250,9 +250,17 @@ else:
 # the main printed band as explicit "CONTINUATION" line items. Burundi's base
 # is $0 (the USG funds 100% at baseline), so it keeps no existing rows at all.
 # Invariant: flat base + continuation reproduce the printed Existing column.
-# (Uganda's existing columns roll the same way but keep the whole-row treatment
-# adopted in the September 2026 rework — a documented asymmetry.)
+# Uganda's existing columns roll the same way and follow the same rule
+# (extended by maintainer decision, Sep 2026).
 REBASE = [
+    ("Uganda", "Laboratory commodities",
+     "EXISTING GoU: laboratory commodities (Sec 2.2.3)",
+     14054109, "CONTINUATION GoU: laboratory commodities "
+               "(Sec 2.2.3 Existing above the 2026 base)"),
+    ("Uganda", "Other commodities",
+     "EXISTING GoU: other commodities (Sec 2.3.3)",
+     16754110, "CONTINUATION GoU: other commodities "
+               "(Sec 2.3.3 Existing above the 2026 base)"),
     ("Lesotho", "Laboratory commodities", "EXISTING GoL: lab commodities (Sec 2.2.3)",
      1017000, "CONTINUATION GoL: lab commodities (Sec 2.2.3 Existing above the 2026 base)"),
     ("Lesotho", "Other commodities", "EXISTING GoL: commodities (Sec 2.3.3)",
