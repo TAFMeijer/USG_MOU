@@ -40,8 +40,9 @@ have no public text at all.
 
 | Page | What it shows |
 |---|---|
-| **Home (Overview)** | All countries side by side, per investment area — yearly trajectories and 5-year totals, with a **US$ ↔ % of combined** toggle |
+| **Home (Overview)** | All 16 countries side by side, per investment area — yearly trajectories and full-term totals, with a **US$ ↔ % of combined** toggle and a **highlight-one-country** picker that greys the rest |
 | **Country investment view** | One country's small multiples across every investment area, with a USG / Govt (existing + new) / Both toggle and the same $/% toggle; the country name links to the source PDF |
+| **Investment area view** | The transpose: pick one investment area and see the global USG/government split for it, every country ranked by commitment, and one small multiple per country ordered largest to smallest |
 | **Country programmatic view (v0)** | One country's indicator baselines & 2026–2030 targets (outcome / process / 7-1-7), each indicator as its own small chart |
 | **Full data tables** | The complete budget and programmatic datasets across all countries — filterable, sortable, searchable, downloadable |
 | **Sources & methodology** | Every link (trackers, mirrors, all 34 agreements), extraction method, and caveats |
