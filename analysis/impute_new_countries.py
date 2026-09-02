@@ -130,6 +130,17 @@ BASELINES.append(("Madagascar", FHW, 5769, r,
 BASELINES.append(("Madagascar", LAB, 310, 2314.0,
                   "310 existing lab FTEs (Sec 2.2.3 Existing column, 2026)",
                   "own gov rate, exactly $2,314/FTE in all four priced years", "high"))
+# Mozambique — audit follow-up: Sec 2.2.3 prints 3,317 existing GoM lab FTEs
+# (pre-MoU stock; the column rolls forward absorbed new cohorts, whose cost the
+# printed $46,973,106 HCW total already pays). Valued at the own USG marginal
+# rate: USG lab $ fit exactly $165,200 fixed + $6,600 x FTE in all four funded
+# years; the marginal rate is used for the stock (the 2026 average, $8,173,
+# would replicate the fixed component 3,317 times).
+BASELINES.append(("Mozambique", LAB, 3317, 6600.0,
+                  "3,317 existing lab FTEs (Sec 2.2.3 Existing column, 2026; "
+                  "missed by the original App.3-cadre harvest)",
+                  "own USG marginal rate $6,600/FTE (fixed+marginal fit, "
+                  "exact in all four funded years)", "medium"))
 # Eswatini — one blended stock: its gov $ line aggregates HCW + lab + epi
 r, prov = med_rate([100000, 1614621, 2421932, 3229242], [50, 170, 360, 632],
                    "own gov blended median")
@@ -150,10 +161,14 @@ for country, area, stock, rate, stock_note, rate_note, conf in BASELINES:
 for fname, add, mine in [
     ("imputed_gov_hrh_all_countries.csv", imputed, {"Lesotho"}),
     ("imputed_baseline_workforce.csv", baseline,
-     {c for c, *_ in BASELINES}),
+     {(c, a) for c, a, *_ in BASELINES}),
 ]:
     df = pd.read_csv(HERE / fname)
-    df = df[~df["Country"].isin(mine)]  # idempotency
+    if isinstance(next(iter(mine)), tuple):  # idempotency by country-area pair
+        df = df[~df.apply(lambda r: (r["Country"], r["Investment area"]) in mine,
+                          axis=1)]
+    else:
+        df = df[~df["Country"].isin(mine)]
     out = pd.concat([df, pd.DataFrame(add)[df.columns]], ignore_index=True)
     out.to_csv(HERE / fname, index=False)
     tot = pd.DataFrame(add)["Amount"].sum()

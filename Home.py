@@ -61,7 +61,7 @@ with c2:
     include_baseline = st.toggle(
         "Incl. pre-MoU / existing funding $", value=True,
         help=lib.md("Existing government workforce valued at each MoU's own rates "
-             "(~$3.09bn across nine countries) plus printed pre-MoU government "
+             "(~$3.20bn across nine countries) plus printed pre-MoU government "
              "funding (~$1.62bn across twelve; where a MoU's Existing column rolls "
              "prior-year commitments forward, only the flat 2026 base counts). "
              "Baseline effort, not MoU co-financing."),

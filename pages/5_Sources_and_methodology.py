@@ -187,14 +187,14 @@ and `analysis/Gov_HRH_imputation_all_countries.md`.
 **Pre-MoU baseline workforce (second toggle).** Nine MoUs also tabulate the
 government's *existing* workforce — the pre-MoU baseline stock in the "Existing # FTEs
 Funded" columns: **Uganda 49,014 HCW + 2,199 lab (national 51,213 net of lab) ·
-Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) · Liberia
+Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) + 3,317 lab (§2.2.3) · Liberia
 6,577 HCW + 538 lab · Malawi 19,127 HCW + 639 lab · Sierra Leone 12,554 HCW + 76 lab ·
 Burundi 11,260 HCW + 1,344 lab · Madagascar 5,769 HCW + 310 lab · Eswatini 814 blended
 (754 HCW + 54 lab + 6 epi)**. The four originals are valued at the same rates as their
 imputations; the 2026-wave stocks at **each government's own printed absorption cost**
 (printed gov worker $ ÷ cumulative new FTEs, median across years — exact constants for
 Burundi/Sierra Leone/Madagascar labs; Eswatini's blended rate is LOW confidence). Total
-**~$3.09bn over the term** (Uganda $951M · Moz $767M · CIV $626M · Malawi $287M ·
+**~$3.20bn over the term** (Uganda $951M · Moz $877M · CIV $626M · Malawi $287M ·
 Burundi $223M · Liberia $156M · Sierra Leone $45M · Eswatini $24M · Madagascar $15M) —
 the concrete form of the "existing government funding" the co-funding summaries fold
 into their headlines. It is carried as its own basis (`Basis = "Imputed baseline

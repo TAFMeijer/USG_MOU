@@ -321,3 +321,34 @@ for country, area, ex_cat, base, cont_cat in REBASE:
 if changed:
     t.to_csv(DATA / "budget_tidy.csv", index=False)
     print(f"rebased {changed} country-areas onto flat pre-MoU bases")
+
+# --------------------------------------------------------------------------
+# Part 3 — Mozambique's existing lab workforce (audit follow-up, Sep 2026).
+# Sec 2.2.3's lab FTE table prints a GoM Existing column (3,317 pre-MoU stock,
+# rolling to 3,377 as new cohorts absorb) that the original harvest missed —
+# the baseline sweep used the App.3 HCW cadres only. Record the printed column
+# as existing FTE rows; the matching $ value lives in the imputed-baseline
+# layer (impute_new_countries.py), like CIV's 1,900 / Uganda's 2,199 lab.
+t = pd.read_csv(DATA / "budget_tidy.csv")
+MOZ_CAT = "Frontline Lab Workers (Existing # FTEs Funded, Sec 2.2.3)"
+if not ((t["Country"] == "Mozambique")
+        & (t["Category (as printed in MoU)"] == MOZ_CAT)).any():
+    tmpl = t[(t["Country"] == "Mozambique") & (t["Funder"] == "Government")
+             & (t["Unit"] == "FTEs")].iloc[0].to_dict()
+    rows = []
+    for y, v in zip(YEARS, [3317, 3317, 3327, 3347, 3377]):
+        r = dict(tmpl)
+        r.update({"Investment area": "Frontline lab workers", "Year": y,
+                  "Amount": float(v), "Row type": EXISTING_RT,
+                  "Category (as printed in MoU)": MOZ_CAT,
+                  "Source note": "Sec 2.2.3 Existing column: 3,317 pre-MoU lab "
+                                 "FTEs, rolling forward absorbed new cohorts "
+                                 "(3,317 + prior-year new). Valued in the "
+                                 "imputed-baseline layer at the 2026 stock",
+                  "MoU footnote (verbatim)": "", "MoU footnote location": ""})
+        rows.append(r)
+    t = pd.concat([t, pd.DataFrame(rows)], ignore_index=True)
+    t.to_csv(DATA / "budget_tidy.csv", index=False)
+    print("added Mozambique existing lab FTE rows (Sec 2.2.3)")
+else:
+    print("skip (already added): Mozambique existing lab FTEs")
