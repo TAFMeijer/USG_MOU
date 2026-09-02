@@ -382,6 +382,55 @@ def attach_budget_notes(df: pd.DataFrame, area: str) -> pd.DataFrame:
     return df
 
 
+# ---------------------------------------------------------------------------
+# Dashboard-authored panel notes (NOT printed MoU footnotes): explanations for
+# panels whose dollar line falls even though the printed FTE tables hold or
+# grow. In each case the agreement absorbs workers at the government's own
+# (lower) pay rates as the USG's more expensive funding exits — a designed
+# feature of the handover, not missing funding. Rates from the printed tables;
+# the validator's 25pp tripwire watches these same panels.
+RATE_NOTES = {
+    ("Sierra Leone", "Frontline lab workers"):
+        "The dollar line falls while the lab workforce holds at 190: the USG funds "
+        "its 14 workers at $9,223/FTE, and the agreement absorbs them at the "
+        "GoSL's own $2,400/FTE. Lower domestic pay rates are part of the "
+        "agreement — the workforce is fully sustained.",
+    ("Eswatini", "Frontline healthcare workers"):
+        "The dollar line falls faster than the workforce: the USG's blended "
+        "$8,443/FTE (2026) funding exits while the GOKE absorbs workers at its "
+        "own lower blended rates (implied $2,000–$9,498/FTE across years). Lower "
+        "domestic pay rates are part of the agreement, not missing funding.",
+    ("Eswatini", "Frontline lab workers"):
+        "The dollar line falls while the lab workforce only edges down "
+        "(140 → 133): GOKE absorption at its own blended rates replaces the "
+        "USG's costlier funding. Lower domestic pay rates are part of the "
+        "agreement, not missing funding.",
+    ("Malawi", "Frontline healthcare workers"):
+        "The dollar line falls faster than the workforce: the USG's ~$4,821/FTE "
+        "(2026 blended) funding exits while the GoM absorbs new workers at its "
+        "own ~$2,750–2,925/FTE. Lower domestic pay rates are part of the "
+        "agreement, not missing funding.",
+    ("Malawi", "Frontline lab workers"):
+        "The dollar line stays flat while the lab workforce grows 874 → 1,209: "
+        "growth comes from GoM absorption at its own ~$2,842–3,694/FTE while the "
+        "USG's ~$8,957/FTE (2026) funding exits. Lower domestic pay rates are "
+        "part of the agreement. (App. 1's USG FTE column also conflicts with "
+        "§2.2.3's — a source inconsistency, audit F7.)",
+}
+
+
+def rate_note(country: str, area: str, size_px: int = 10) -> str:
+    """HTML block for a dashboard-authored rate note, '' when none applies."""
+    text = RATE_NOTES.get((country, area))
+    if not text:
+        return ""
+    muted = palette()["muted"]
+    return (
+        f"<div style='font-size:{size_px}px;color:{muted};line-height:1.4;"
+        f"margin:2px 0 8px'>ℹ️ <i>Dashboard note:</i> {md(text)}</div>"
+    )
+
+
 def footnote_block(notes: list, size_px: int = 12) -> str:
     """Markdown/HTML block listing printed MoU footnotes (render with
     st.markdown(..., unsafe_allow_html=True))."""

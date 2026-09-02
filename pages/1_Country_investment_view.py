@@ -563,6 +563,9 @@ def render_area_panel(a: str) -> None:
                                 title="2026 combined level (reference)")])
                 )
         st.altair_chart(ch, use_container_width=True)
+        rn = lib.rate_note(country, a)
+        if rn:  # falling $ with a held/growing workforce: lower domestic rates
+            st.markdown(rn, unsafe_allow_html=True)
         if panel_fns:
             st.markdown(lib.footnote_block(panel_fns, size_px=10),
                         unsafe_allow_html=True)
