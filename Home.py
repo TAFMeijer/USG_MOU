@@ -108,12 +108,25 @@ if caveats:
 # both channels. Which countries are solid and which dashed is arbitrary (nine texts
 # predate Sept 2026 but only eight hues exist, so Uganda sits in the dashed block);
 # what matters is that the pairing is FIXED per country and never reassigned by rank.
-COUNTRY_DOMAIN = [c for c in PAL["country_order"] if c in set(df["Country"])]
+# Read defensively. Streamlit can re-execute this script against an mou_lib module
+# it has not reloaded, so a key added to palette() in the same commit may briefly be
+# absent; every country present in the data must still get a colour. Falling back to
+# the palette's own key order (and to no dash) degrades the encoding rather than
+# raising, and any country the palette does not know keeps a neutral grey instead of
+# being dropped from the scale domain the way the pre-September nine-hue scale did.
+_pal_country = PAL["country"]
+_order = PAL.get("country_order") or list(_pal_country)
+_dash = PAL.get("country_dash") or {}
+_present = set(df["Country"])
+COUNTRY_DOMAIN = ([c for c in _order if c in _present]
+                  + sorted(_present - set(_order)))
+UNKNOWN_COUNTRY_COLOR = "#57565a" if PAL["dark"] else "#898781"
 country_scale = alt.Scale(
-    domain=COUNTRY_DOMAIN, range=[PAL["country"][c] for c in COUNTRY_DOMAIN]
+    domain=COUNTRY_DOMAIN,
+    range=[_pal_country.get(c, UNKNOWN_COUNTRY_COLOR) for c in COUNTRY_DOMAIN],
 )
 dash_scale = alt.Scale(
-    domain=COUNTRY_DOMAIN, range=[PAL["country_dash"][c] for c in COUNTRY_DOMAIN]
+    domain=COUNTRY_DOMAIN, range=[_dash.get(c, [1, 0]) for c in COUNTRY_DOMAIN]
 )
 # symbolType="stroke" draws the swatch as a line segment, so the legend shows the
 # stroke style as well as the hue - identity is never carried by colour alone.
