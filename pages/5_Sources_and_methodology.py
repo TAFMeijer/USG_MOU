@@ -305,10 +305,13 @@ Madagascar (22 Dec, where Public Citizen records "22 or 23") — and are noted p
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
 - Rwanda's government worker commitments are expressed in FTEs and never monetised
   (now imputed — see above — at low confidence).
-- Mozambique's government lab workers are NOT imputed: App.1's footnote prices "4,893
-  front-line Healthcare workers" at $46,973,106, and 4,893 = 4,788 healthcare + 105 lab
-  exactly, so the printed total already pays them. The money sits on the healthcare-worker
-  line and the footnote is shown on both.
+- Mozambique's government lab workers are NOT separately imputed: App.1's footnote prices
+  "4,893 front-line Healthcare workers" at $46,973,106, and 4,893 = 4,788 healthcare +
+  105 lab exactly, so that one printed total pays both cadres. The charts apportion it —
+  the lab share (cumulative lab FTEs × $6,600, $1.35M over the term) on the lab line, the
+  remainder on the healthcare-worker line — so each panel shows its own USG→GoM handover;
+  in FTE terms Mozambique's lab workforce is constant at 3,422 throughout. The footnote is
+  shown on both panels.
 - Côte d'Ivoire's *government* frontline workers are FTE-only — its Appendix 1 government
   column prices commodities alone — so their $ are imputed, at the country's own printed
   USG rates.

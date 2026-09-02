@@ -462,3 +462,54 @@ if new_rows:
 t.to_csv(DATA / "budget_tidy.csv", index=False)
 print(f"FTE convention: {changed} row-groups normalised, "
       f"{len(new_rows)} existing-stock rows added")
+
+# --------------------------------------------------------------------------
+# Part 5 — Mozambique: apportion the printed worker total across its two
+# cadres (maintainer decision, Sep 2026). App.1 p.34's footnote prices the
+# WHOLE new cohort — "4,893 front-line Healthcare workers ... $46,973,106",
+# where 4,893 = 4,788 HCW + 105 lab exactly — and the derived per-year
+# residual had been parked wholly on the HCW line. That made the lab panel
+# taper with the USG exit even though total lab FTEs are constant (3,422
+# every year: the GoM absorbs exactly what the USG hands over). The lab share
+# is now carved out at the own USG marginal lab rate ($6,600/FTE, the rate the
+# baseline layer uses on the same panel): cumulative lab FTEs 10/30/60/105 ->
+# $66k/$198k/$396k/$693k, with the HCW line reduced by the same amounts.
+# Totals unchanged; a pro-rata FTE split of the blended residual (~$3,947/FTE)
+# would give ~$1.0M instead of $1.35M - noted, not used.
+t = pd.read_csv(DATA / "budget_tidy.csv")
+MOZ_LAB_CAT = "Frontline Lab Workers ($, share of the 4,893-worker total)"
+if not ((t["Country"] == "Mozambique")
+        & (t["Category (as printed in MoU)"] == MOZ_LAB_CAT)).any():
+    LAB_SHARE = {2026: 0.0, 2027: 66000.0, 2028: 198000.0,
+                 2029: 396000.0, 2030: 693000.0}
+    fhw = ((t["Country"] == "Mozambique") & (t["Funder"] == "Government")
+           & (t["Category (as printed in MoU)"]
+              == "Frontline Healthcare Workers ($, derived residual)"))
+    assert fhw.sum() == 5
+    for i in t.loc[fhw].index:
+        t.loc[i, "Amount"] -= LAB_SHARE[int(t.loc[i, "Year"])]
+    t.loc[fhw, "Source note"] = (
+        "Derived residual of the printed GoM totals, NET of the lab-cadre share "
+        "(cumulative lab FTEs x $6,600 - see the Frontline Lab Workers rows). "
+        "App.1 p.34's $46,973,106 footnote prices all 4,893 new workers "
+        "(4,788 HCW + 105 lab) together")
+    tmpl = t.loc[fhw].iloc[0].to_dict()
+    rows = []
+    for y, v in LAB_SHARE.items():
+        r = dict(tmpl)
+        r.update({"Investment area": "Frontline lab workers", "Year": y,
+                  "Amount": v, "Category (as printed in MoU)": MOZ_LAB_CAT,
+                  "Source note": "Lab-cadre share of the printed $46,973,106 "
+                                 "worker total (4,893 = 4,788 HCW + 105 lab): "
+                                 "cumulative lab FTEs 10/30/60/105 x $6,600 "
+                                 "(own USG marginal rate, as in the baseline "
+                                 "layer). Carved OUT of the HCW residual - "
+                                 "totals unchanged. A pro-rata FTE split at "
+                                 "the blended ~$3,947/FTE would give ~$1.0M "
+                                 "over the term instead of $1.35M"})
+        rows.append(r)
+    t = pd.concat([t, pd.DataFrame(rows)], ignore_index=True)
+    t.to_csv(DATA / "budget_tidy.csv", index=False)
+    print("Mozambique: lab share carved out of the HCW worker total")
+else:
+    print("skip (already apportioned): Mozambique lab share")
