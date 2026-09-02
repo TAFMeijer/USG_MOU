@@ -87,14 +87,18 @@ if not fn_rows.empty:
                 f"applies to: {cover}"
             )
 
-SECTION_ORDER = ["Outcome", "Process", "Outbreak response (7-1-7)", "Co-investment benchmark"]
+# Domestic-financing benchmarks are NOT a section here: they are money
+# commitments, carried on the budget side (strategic_areas.csv and the pledge
+# rows of budget_tidy.csv), and repeating them as "indicators" invites
+# double-reading. A Metric type absent from this list simply will not render —
+# analysis/validate_data.py checks that none is.
+SECTION_ORDER = ["Outcome", "Process", "Outbreak response (7-1-7)"]
 SECTION_BLURB = {
     "Outcome": "Health outcomes the agreement commits to improving.",
     "Process": "Service-delivery volumes and coverage rates that are audited annually.",
     "Outbreak response (7-1-7)": "Detect within 7 days, notify within 1 day, respond within "
     "7 days. Most MoUs state these as standing commitments; Nigeria also sets baselines "
     "and 5-year targets.",
-    "Co-investment benchmark": "Domestic financing benchmarks tied to continued USG funding.",
 }
 
 
@@ -112,7 +116,7 @@ def indicator_chart(sub: pd.DataFrame, is_pct: bool, is_717: bool = False) -> al
     elif is_pct:
         y = alt.Y("Value:Q", title=None, scale=alt.Scale(domain=[0, 100]),
                   axis=alt.Axis(format="d"))
-    elif lib.is_lower_better(label):
+    elif lib.lower_is_better(sub):
         # Deaths / mortality / new cases: anchor at zero so the size of the
         # promised reduction is read in true proportion.
         top = float(sub["Value"].max())
@@ -184,7 +188,7 @@ for section in SECTION_ORDER:
         with cols[i % 3]:
             unit_lbl = sub["Unit"].iat[0]
             st.altair_chart(indicator_chart(sub, is_pct, is_717), use_container_width=True)
-            if not is_717 and not is_pct and lib.is_lower_better(ind):
+            if not is_717 and not is_pct and lib.lower_is_better(sub):
                 st.caption(f"Unit: {unit_lbl} · ▼ lower is better (axis from 0)")
             else:
                 st.caption(f"Unit: {unit_lbl}")

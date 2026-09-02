@@ -54,6 +54,11 @@ AREA_COLORS = {
     "Programme management": "#c3c2b7",
     "Technical assistance": "#e87ba4",
     "Other health sector co-investment": "#52514e",
+    # Cameroon's aggregate co-investment rows only. They exist in budget_tidy
+    # (Row type "Aggregate co-investment (overlaps itemised rows - do not sum)")
+    # and in the explorer's AREA_NOTES, but never reach budget_series, so this
+    # area is deliberately absent from AREA_ORDER and never offered as a
+    # selection — the color is here for the full-data table alone.
     "Commodities & HRH co-investment": "#b7d3f6",
 }
 
@@ -187,6 +192,16 @@ def five_year_totals(df: pd.DataFrame, area: str) -> pd.DataFrame:
     return tot
 
 
+# Direction of improvement. The authority is the `Direction` column of
+# programmatic_tidy.csv, populated once per row; the keyword heuristic below is
+# only the fallback for frames that lack it (and the seed that populated it).
+# Keywords alone cannot be trusted: "# patients with TB notified (i.e.,
+# bacteriologically confirmed + clinically diagnosed)" trips "diagnos" and reads
+# as lower-is-better, when rising notification is exactly the goal.
+DIRECTION_COL = "Direction"
+LOWER_LABEL = "Lower is better"
+HIGHER_LABEL = "Higher is better"
+
 # Indicators where a FALL is the improvement (deaths, mortality, new cases…).
 # These get a zero-based y-axis so the decline reads in true proportion rather
 # than being exaggerated by a zoomed axis.
@@ -207,6 +222,16 @@ def is_lower_better(indicator: str) -> bool:
     if any(k in t for k in LOWER_IS_BETTER_EXCEPTIONS):
         return False
     return any(k in t for k in LOWER_IS_BETTER_KEYWORDS)
+
+
+def lower_is_better(sub: pd.DataFrame) -> bool:
+    """Direction for one indicator's rows: the data column when present,
+    otherwise the keyword heuristic on the indicator name."""
+    if DIRECTION_COL in sub.columns:
+        vals = sub[DIRECTION_COL].dropna()
+        if len(vals):
+            return bool((vals == LOWER_LABEL).all())
+    return is_lower_better(sub["Indicator"].iat[0])
 
 
 def md(text: str) -> str:
