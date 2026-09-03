@@ -4,6 +4,9 @@ import pandas as pd
 import streamlit as st
 
 import mou_lib as lib
+import guard
+
+guard.require(lib, "BASELINE_BASES", "BASIS_IMPUTED", "DATA", "GOV_LABEL", "add_share", "area_options", "attach_budget_notes", "budget_footnotes", "five_year_totals", "fmt_usd", "footnote_block", "load_budget_series", "md", "palette")
 
 st.set_page_config(
     page_title="USG MoU dashboard — Overview",

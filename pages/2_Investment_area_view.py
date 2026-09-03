@@ -11,6 +11,9 @@ import pandas as pd
 import streamlit as st
 
 import mou_lib as lib
+import guard
+
+guard.require(lib, "BASELINE_BASES", "BASIS_IMPUTED", "GOV_LABEL", "area_options", "attach_budget_notes", "budget_footnotes", "fmt_usd", "footnote_block", "load_budget_series", "load_budget_tidy", "load_countries", "md", "palette")
 
 st.set_page_config(page_title="MoU dashboard — Investment area view", page_icon="🧭",
                    layout="wide")

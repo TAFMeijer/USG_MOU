@@ -8,6 +8,9 @@ import pandas as pd
 import streamlit as st
 
 import mou_lib as lib
+import guard
+
+guard.require(lib, "DATA", "FOOTNOTE_COL", "load_budget_tidy", "load_programmatic")
 
 st.set_page_config(page_title="MoU dashboard — Full data tables", page_icon="🗂️",
                    layout="wide")

@@ -8,6 +8,9 @@ import pandas as pd
 import streamlit as st
 
 import mou_lib as lib
+import guard
+
+guard.require(lib, "DATA", "FOOTNOTE_COL", "FOOTNOTE_LOC_COL", "QUALIFIER_COL", "load_countries", "load_programmatic", "lower_is_better", "palette")
 
 st.set_page_config(page_title="MoU dashboard — Country programmatic view", page_icon="📈",
                    layout="wide")

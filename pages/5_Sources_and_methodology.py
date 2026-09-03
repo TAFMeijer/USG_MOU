@@ -3,6 +3,9 @@ import pandas as pd
 import streamlit as st
 
 import mou_lib as lib
+import guard
+
+guard.require(lib, "load_countries", "load_sources", "md")
 
 st.set_page_config(page_title="MoU dashboard — Sources & methodology", page_icon="🔗", layout="wide")
 
