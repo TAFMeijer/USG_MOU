@@ -12,7 +12,7 @@ import guard
 
 guard.require(lib, "DATA", "FOOTNOTE_COL", "load_budget_tidy", "load_programmatic")
 
-st.set_page_config(page_title="MoU dashboard — Full data tables", page_icon="🗂️",
+st.set_page_config(page_title="MoU dashboard: Full data tables", page_icon="🗂️",
                    layout="wide")
 
 st.title("Full data tables")
@@ -70,7 +70,7 @@ with tab_budget:
 
     st.dataframe(
         b,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=560,
         column_config={
@@ -92,8 +92,8 @@ with tab_budget:
         st.caption(
             f"{len(b):,} rows shown. To sum money safely: filter Unit = USD and "
             "Row type = 'Line item' (plus the existing-government rows and, for Uganda, "
-            "'Line item - outside headline total' — a priced commitment the MoU leaves out "
-            "of its own appendix) — the MoUs' own "
+            "'Line item - outside headline total', a priced commitment the MoU leaves out "
+            "of its own appendix); the MoUs' own "
             "subtotals, appendix breakdowns and expenditure pledges are flagged so they "
             "don't double-count. 'MoU footnote (verbatim)' = notes printed in the MoU "
             "itself, carried across the full 5-year line; 'MoU footnote location' "
@@ -144,7 +144,7 @@ with tab_prog:
 
     st.dataframe(
         p,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=560,
         column_config={

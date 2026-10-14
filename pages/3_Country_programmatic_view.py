@@ -12,7 +12,7 @@ import guard
 
 guard.require(lib, "DATA", "FOOTNOTE_COL", "FOOTNOTE_LOC_COL", "QUALIFIER_COL", "load_countries", "load_programmatic", "lower_is_better", "palette")
 
-st.set_page_config(page_title="MoU dashboard — Country programmatic view", page_icon="📈",
+st.set_page_config(page_title="MoU dashboard: Country programmatic view", page_icon="📈",
                    layout="wide")
 
 YEAR_ORDER = ["Baseline", "2026", "2027", "2028", "2029", "2030"]
@@ -45,7 +45,7 @@ row = meta.loc[country]
 url = row.get("MoU PDF URL", "")
 host = row.get("Hosted by", "")
 title = f"[{country}]({url})" if isinstance(url, str) and url.startswith("http") else country
-st.markdown(f"## {title} — programmatic targets")
+st.markdown(f"## {title}: programmatic targets")
 st.caption(
     f"Signed {row['Signed']} · baselines and 2026–2030 targets as printed in Section 1 of "
     f"the MoU"
@@ -75,7 +75,7 @@ if not fn_rows.empty:
     )
     with st.expander(
         f"Footnotes printed in this MoU's indicator tables "
-        f"({len(fn_groups)}) — charts carrying one are marked *",
+        f"({len(fn_groups)}), charts carrying one are marked *",
         expanded=False,
     ):
         st.caption(
@@ -87,7 +87,7 @@ if not fn_rows.empty:
             inds = r["Indicator"]
             cover = ", ".join(inds[:4]) + (f" … +{len(inds) - 4} more" if len(inds) > 4 else "")
             st.markdown(
-                f"* “{r[lib.FOOTNOTE_COL]}” — *{r[lib.FOOTNOTE_LOC_COL]}* · "
+                f"* “{r[lib.FOOTNOTE_COL]}”, *{r[lib.FOOTNOTE_LOC_COL]}* · "
                 f"applies to: {cover}"
             )
 
@@ -209,7 +209,7 @@ for section in SECTION_ORDER:
         is_717 = section == "Outbreak response (7-1-7)" and not is_pct
         with cols[i % 3]:
             unit_lbl = sub["Unit"].iat[0]
-            st.altair_chart(indicator_chart(sub, is_pct, is_717), use_container_width=True)
+            st.altair_chart(indicator_chart(sub, is_pct, is_717), width="stretch")
             if not is_717 and not is_pct and lib.lower_is_better(sub):
                 st.caption(f"Unit: {unit_lbl} · ▼ lower is better (axis from 0)")
             else:
@@ -235,7 +235,7 @@ with st.expander("Data table & download"):
         tbl = tbl[tbl["Indicator"].str.contains(f_text, case=False, na=False)]
     st.dataframe(
         tbl,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Value": st.column_config.NumberColumn(format="localized"),
@@ -260,7 +260,7 @@ st.markdown(
     """
 ---
 ##### Ideas for v1 (open for discussion)
-- **Cross-country comparison for the common indicators** — the ~12 indicators that appear
+- **Cross-country comparison for the common indicators**, the ~12 indicators that appear
   in nearly every MoU (ART, viral suppression, TB notification, ITNs, ANC4+, measles
   vaccine, data-audit accuracy…) as one comparable page.
 - **Ambition index**: % change from baseline to 2030 per indicator (needs care with mixed

@@ -7,7 +7,7 @@ import guard
 
 guard.require(lib, "load_countries", "load_sources", "md")
 
-st.set_page_config(page_title="MoU dashboard — Sources & methodology", page_icon="🔗", layout="wide")
+st.set_page_config(page_title="MoU dashboard: Sources & methodology", page_icon="🔗", layout="wide")
 
 st.title("Sources & methodology")
 
@@ -17,11 +17,11 @@ st.markdown(
     "were transcribed from the 16 published full MoU texts and verified against the PDFs."
 )
 st.warning(
-    "**Provenance caveat** — the MoUs are government-to-government cooperation documents "
+    "**Provenance caveat:** the MoUs are government-to-government cooperation documents "
     "that were not originally drafted for publication; the copies used here were placed "
     "in the public domain by third parties (Public Citizen, Health Policy Watch, Think "
     "Global Health). By their own terms the MoUs are not international agreements and "
-    "all amounts are plans *subject to the availability of funds* — nothing on this "
+    "all amounts are plans *subject to the availability of funds*; nothing on this "
     "dashboard represents appropriations, disbursements or current implementation "
     "status, and the published scans may have been amended or superseded since. This is "
     "an independent research reconstruction, not an official product of any government "
@@ -30,14 +30,14 @@ st.warning(
 
 # ---------------- reference trackers ----------------
 st.markdown(lib.md("""
-**How each text became public.** Sixteen of the 34 signed agreements now have a public full text, and the route matters. Public Citizen marks each one: an **asterisk (\\*)** means the U.S. government published the text itself, via its Case Act reporting page; a **caret (^)** means the U.S. government released it only in response to Public Citizen's Freedom of Information Act requests. Five texts carry both markers (Kenya, Mozambique, Nigeria, Ethiopia, Malawi), Uganda alone is Case Act only, and **ten are public solely because of the FOIA litigation** — Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire and Burundi. Public Citizen sued the State Department over its failure to produce these records; the August 2026 production (FL-2026-00021) is what that suit yielded. Every country row carries its marker in `Disclosure marker` and the route in plain words in `How the text became public`.
+**How each text became public.** Sixteen of the 34 signed agreements now have a public full text, and the route matters. Public Citizen marks each one: an **asterisk (\\*)** means the U.S. government published the text itself, via its Case Act reporting page; a **caret (^)** means the U.S. government released it only in response to Public Citizen's Freedom of Information Act requests. Five texts carry both markers (Kenya, Mozambique, Nigeria, Ethiopia, Malawi), Uganda alone is Case Act only, and **ten are public solely because of the FOIA litigation**, Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire and Burundi. Public Citizen sued the State Department over its failure to produce these records; the August 2026 production (FL-2026-00021) is what that suit yielded. Every country row carries its marker in `Disclosure marker` and the route in plain words in `How the text became public`.
 """))
 
 st.subheader("Reference trackers & mirrors")
 src = lib.load_sources()
 st.dataframe(
     src,
-    use_container_width=True,
+    width="stretch",
     hide_index=True,
     column_config={"URL": st.column_config.LinkColumn("URL")},
 )
@@ -51,7 +51,7 @@ st.caption(
 c = lib.load_countries()
 st.dataframe(
     c,
-    use_container_width=True,
+    width="stretch",
     hide_index=True,
     column_config={
         "MoU PDF URL": st.column_config.LinkColumn("MoU PDF"),
@@ -73,20 +73,20 @@ transcription errors were caught and corrected; genuine errors *in the source do
 `Source note` column of `data/budget_tidy.csv`.
 
 **Printed MoU footnotes.** The footnotes the MoUs themselves print on their funding and
-indicator tables — asterisked cells, "Note:" lines, superscript source citations — are
+indicator tables, asterisked cells, "Note:" lines, superscript source citations, are
 transcribed **verbatim** into the `MoU footnote (verbatim)` column of both tidy tables,
 with the exact section/page and marked cells in `MoU footnote location`. Each note is
 carried across the **full 2026–2030 line** it qualifies, even where the printed marker sits
 on specific cells (e.g. Mozambique's surveillance line: "*Includes funding for surveys
-discussed in Section 4.1." — asterisks on 2027 & 2029), so a single-year filter can't miss
+discussed in Section 4.1.", asterisks on 2027 & 2029), so a single-year filter can't miss
 a caveat. Liberia's MoU prints no table footnotes. Côte d'Ivoire has one genuinely orphan
 asterisk (on the "Existing # FTEs Funded" column header): the complete 29-page text carries
 no matching note anywhere, appendices included. The dashboard shows these notes in chart tooltips and under the
 affected panels.
 
 **Threshold targets.** Several MoUs state a target as a bound rather than an exact figure
-— Uganda's ">95%", Ethiopia's "<140" and "<20", Mozambique's "≥92%", Cameroon's "<7%"
-stockout ceiling, Eswatini's and Botswana's ">90%", Nigeria's "≥85%". The **numeric bound
+(Uganda's ">95%", Ethiopia's "<140" and "<20", Mozambique's "≥92%", Cameroon's "<7%"
+stockout ceiling, Eswatini's and Botswana's ">90%", Nigeria's "≥85%"). The **numeric bound
 is stored in `Value`** so the series stays plottable, and the printed inequality in a
 separate `Qualifier` column (">", "<", "≥", "≤", "~"; blank = exact). Charts mark such an
 indicator with a † and show the printed form ("<140") in the tooltip. Ethiopia's two "<"
@@ -109,7 +109,7 @@ diagnosed)" and "% confirmed malaria cases receiving first-line treatment" are
 case-finding and coverage measures where higher is the goal, though both mention cases.
 
 **Announced headline vs the MoU's own summary.** `data/countries.csv` keeps the KFF
-tracker's figures in its headline columns, so all 34 agreements stay comparable — including
+tracker's figures in its headline columns, so all 34 agreements stay comparable, including
 the 18 with no public text. For the 16 texts we hold, three extra columns record what the
 document itself prints in its co-funding summary: `MoU USG (USD)`, `MoU co-financing (USD)`
 and a `MoU basis note` naming the table and its quirks. Eleven of the sixteen differ, and
@@ -117,14 +117,14 @@ some materially: **Malawi** prints $744.8M against an announced $792M (and its $
 "co-financing" is a 2030-only expenditure-increase pledge, not the $55M it itemises),
 **Eswatini** $192.7M against $205M, **Botswana** $99.6M against $106M, and **Nigeria's**
 $1,953.5M excludes the 6% M&O allocation that takes it to the announced $2,078.2M. **Kenya**
-prints no USD government figure at all — its column is in Kenyan Shillings. The Country view
+prints no USD government figure at all, its column is in Kenyan Shillings. The Country view
 shows the MoU's own pair beneath the headline whenever the two disagree. The charts are
 built from the line items, not from either headline.
 
 **What sums, what doesn't.** Three row types are aggregated into
 `data/budget_series.csv`, which feeds every chart: `Row type = "Line item"`, the
 existing-government rows (`"Line item - existing (excl. from headline total)"`) and
-`"Line item - outside headline total"` — priced commitments a MoU makes in its text but
+`"Line item - outside headline total"`, priced commitments a MoU makes in its text but
 leaves out of its own co-funding appendix. Only Uganda has the last kind (the $1M/yr GoU
 MCH equipment maintenance of §2.3.2.VIII), so Uganda's charted government total runs $1M/yr
 above the MoU's own headline by design. Kenya's 2031 column is dropped so the five-year
@@ -133,8 +133,8 @@ breakdowns (nested in line items), domestic-expenditure-increase pledges (a diff
 measure of the same money), and FTE headcount rows (not dollars).
 
 **Government = new + existing.** Thirteen of the sixteen MoUs tabulate *existing*
-government funding alongside new co-financing (the original six — Kenya, Uganda,
-Mozambique, Liberia, Côte d'Ivoire, Cameroon — plus Botswana, Eswatini, Lesotho,
+government funding alongside new co-financing (the original six, Kenya, Uganda,
+Mozambique, Liberia, Côte d'Ivoire, Cameroon, plus Botswana, Eswatini, Lesotho,
 Madagascar, Malawi, Sierra Leone and, formally, Burundi, whose existing columns carry
 no pre-MoU money). Nigeria, Ethiopia and Rwanda do not, so their government lines are
 new co-financing only and their true shares are **understated**.
@@ -144,7 +144,7 @@ frontline **lab-worker and healthcare-worker FTEs without pricing them**. Where 
 show government $ for those lines, they are **imputed**: government FTEs × a $/FTE rate
 derived from the *same MoU's USG side* (2026 unit rate, flat nominal), or from
 peer-country government rates where no in-country rate exists. This is the MoUs' own
-convention — Ethiopia's printed government HCW $ equals its USG FTE drawdown × the USG
+convention, Ethiopia's printed government HCW $ equals its USG FTE drawdown × the USG
 2026 rate ($1,748) to the dollar, and Kenya's printed government lab rate ($12,548) equals
 its USG 2026 rate.
 
@@ -154,7 +154,7 @@ cumulative prior-year new absorptions, and New(t) is often just that year's incr
 `budget_tidy.csv` normalises every government FTE series to **one convention**: the
 existing rows carry the **flat pre-MoU base** (the 2026 stock; a base of 0 means no
 existing rows, e.g. Cameroon and Lesotho) and the new rows carry the **cumulative
-cohort** (new + previously absorbed — a worker absorbed in year t is paid in every later
+cohort** (new + previously absorbed, a worker absorbed in year t is paid in every later
 year), so flat base + cumulative new reproduces the printed Total in every year. The
 printed rolling/per-year columns are quoted in each row's Source note (Uganda's
 per-cadre columns also verbatim in `analysis/uganda_cadre_fte.csv`). The imputations
@@ -162,7 +162,7 @@ price the cumulative cohorts (e.g. Cameroon labs: 62 → 125 → 187 FTEs, i.e. 
 $0.77M → $1.16M); the pre-MoU stocks are valued only in the baseline layer below.
 
 **Uganda: continuation of absorbed cohorts.** Uganda's printed government HRH $ prices
-only each year's **new** cohort (the App. 3 national New column — $/new-FTE is a near-flat
+only each year's **new** cohort (the App. 3 national New column, $/new-FTE is a near-flat
 $3,581/$3,591/$3,611, rising to $6,337 in 2030 as the cohort mix shifts from CHEWs to
 clinical cadres); absorbed cohorts move into the Existing column with their continued
 salaries unpriced. The dashboard imputes that continuation (32,222 HCW + 1,086 lab
@@ -174,16 +174,16 @@ sum to the national table exactly.
 
 Imputed amounts (5-yr): Cameroon $27.7M (HCW + lab, own 2026 rates) · Ethiopia labs $1.1M
 (own constant rate) · Rwanda
-$14.1M (own 2026 rates; its $ and FTE tables misalign — low confidence) · Uganda $122.8M
+$14.1M (own 2026 rates; its $ and FTE tables misalign, low confidence) · Uganda $122.8M
 (absorbed-cohort continuation, own $3,601 rate) · **Côte d'Ivoire $163.9M (its own
-printed USG rates — $2,412/FTE for healthcare workers, $15,385/FTE for lab workers;
+printed USG rates, $2,412/FTE for healthcare workers, $15,385/FTE for lab workers;
 range $141–227M)**. Côte d'Ivoire rests on its own rates only because the FOIA release
 supplied the appendix that prices the USG's frontline workers; on peer rates alone it came
 to $202.7M. Its **government** side still prices no health worker at all, so the
 imputation itself stands. · **Lesotho $22.2M** (own USG 2026 rates: HCW $8,333/FTE =
 11,125,000 ÷ 1,335 net of lab, lab $19,045/FTE; the government Total-FTE columns net of
 lab). Lesotho is the only 2026-wave MoU that prints government worker FTEs but no
-government worker $ anywhere — the salaries sit in the unexplained remainder of its
+government worker $ anywhere, the salaries sit in the unexplained remainder of its
 App. 1 government column, and the imputation is **cap-checked against that remainder**:
 $22.2M imputed vs the $22.8M the MoU itself leaves unitemised (97%), the only imputed
 country whose own headline corroborates the estimate (enforced by
@@ -194,41 +194,41 @@ overview toggle removes them entirely. Full derivation: `analysis/fte_rate_imput
 and `analysis/Gov_HRH_imputation_all_countries.md`.
 
 **Pre-MoU baseline workforce (second toggle).** Nine MoUs also tabulate the
-government's *existing* workforce — the pre-MoU baseline stock in the "Existing # FTEs
+government's *existing* workforce, the pre-MoU baseline stock in the "Existing # FTEs
 Funded" columns: **Uganda 49,014 HCW + 2,199 lab (national 51,213 net of lab) ·
 Côte d'Ivoire 39,800 HCW + 1,900 lab · Mozambique 38,462 HCW (App. 3 cadres) + 3,317 lab (§2.2.3) · Liberia
 6,577 HCW + 538 lab · Malawi 19,127 HCW + 639 lab · Sierra Leone 12,554 HCW + 76 lab ·
 Burundi 11,260 HCW + 1,344 lab · Madagascar 5,769 HCW + 310 lab · Eswatini 814 blended
 (754 HCW + 54 lab + 6 epi, one blended rate split across the HCW and lab lines)**. The four originals are valued at the same rates as their
 imputations; the 2026-wave stocks at **each government's own printed absorption cost**
-(printed gov worker $ ÷ cumulative new FTEs, median across years — exact constants for
+(printed gov worker $ ÷ cumulative new FTEs, median across years, exact constants for
 Burundi/Sierra Leone/Madagascar labs; Eswatini's blended rate is LOW confidence). Total
 **~$3.20bn over the term** (Uganda $951M · Moz $877M · CIV $626M · Malawi $287M ·
-Burundi $223M · Liberia $156M · Sierra Leone $45M · Eswatini $24M · Madagascar $15M) —
+Burundi $223M · Liberia $156M · Sierra Leone $45M · Eswatini $24M · Madagascar $15M),
 the concrete form of the "existing government funding" the co-funding summaries fold
 into their headlines. It is carried as its own basis (`Basis = "Imputed baseline
 (pre-MoU)"`, `Row type = "Imputed baseline (pre-MoU - derived)"`) precisely so it can
-be summed into the band *and* filtered back out — it is baseline effort, not MoU
+be summed into the band *and* filtered back out, it is baseline effort, not MoU
 co-financing. Kenya, Cameroon, Ethiopia, Rwanda, Nigeria and Lesotho print no workforce
 baseline (Lesotho's Existing columns start at 0), and **Botswana's is excluded
-deliberately** — its existing workforce is already priced in dollars and sits in the
+deliberately**, its existing workforce is already priced in dollars and sits in the
 printed-existing basis below; valuing its FTEs too would double count. Derivation:
 `analysis/impute_new_countries.py`.
 
 The same toggle also removes the **printed existing government funding** the MoUs
-tabulate (`Basis = "Printed in MoU (existing/pre-MoU)"`) — **Kenya $540M · Botswana
+tabulate (`Basis = "Printed in MoU (existing/pre-MoU)"`), **Kenya $540M · Botswana
 $362M (nearly all of its announced $381M co-financing) · Côte d'Ivoire $219M ·
 Uganda $154M · Eswatini $96M · Lesotho $88M · Madagascar $52M · Liberia $40M ·
 Malawi $33M · Mozambique $25M · Sierra Leone $2M · Cameroon $6M over 2026–30
 (~$1.62bn; Kenya's 2031 adds a further ~$106M in the tidy data)**. For the five
 countries whose Existing columns roll prior-year commitments forward (Uganda,
 Lesotho, Sierra Leone, Madagascar, Burundi), only the **2026 pre-MoU base, held
-flat**, sits in this basis; the roll-forward above it — absorbed MoU-era
-commitments — stays in the main band as explicit `CONTINUATION` line items, and
+flat**, sits in this basis; the roll-forward above it, absorbed MoU-era
+commitments, stays in the main band as explicit `CONTINUATION` line items, and
 Burundi (pre-MoU base $0) accordingly has no existing basis at all. Countries whose
 Existing columns are flat pre-MoU money (Botswana, Eswatini, Malawi, Kenya…) carry
 the whole row. With the toggle off, government $ reduces to new co-financing
-plus that continuation — in 2026 chiefly Nigeria, whose MoU prints a $344.8M
+plus that continuation, in 2026 chiefly Nigeria, whose MoU prints a $344.8M
 government commitment in year one. Split derivation:
 `analysis/split_new_country_existing.py`.
 
@@ -252,10 +252,10 @@ MoU budget lines.
 lines are the largest and least specified amounts in most MoUs (up to $278M in a single
 year). A full-document sweep of all sixteen MoUs' §2.6 sections found: **Cameroon** is the
 only country with a priced domain × year table (4 domains, §2.6.3 pp.16–17, summing to
-its strategic line within print rounding — captured in `budget_tidy.csv` as
+its strategic line within print rounding, captured in `budget_tidy.csv` as
 appendix-detail rows and shown as a donut). **Côte d'Ivoire** prices 10 named items in
 narrative form ("$X per year for N years", §2.6.2 pp.15–18; its 2026 items sum to $45.6M
-vs the $47.07M lump — $1.47M unexplained). **Rwanda** prices 5 of 8 named items in
+vs the $47.07M lump, $1.47M unexplained). **Rwanda** prices 5 of 8 named items in
 narrative ($5M/yr CBHI, $6.8M E-Buzima, $4.5M HIV integration, $21M vector control, $10M
 bio-surveillance). **Nigeria** names 3 strategic objectives plus a 10% (~$208M)
 faith-based allocation. **Ethiopia (8 areas), Kenya (5), Mozambique (12), Uganda (7) and
@@ -265,17 +265,17 @@ that exceed its 2026 lump). All items, prices and page references are in
 `data/strategic_areas.csv`; the Country view shows each country's domains beside its
 strategic-assistance panel.
 
-**The August 2026 release — seven new texts, and what they change.** Public Citizen published
+**The August 2026 release, seven new texts, and what they change.** Public Citizen published
 the State Department's FOIA production on 30 August 2026, taking public full texts from 9 to 16.
-Seven countries are new to this dashboard — **Lesotho, Eswatini, Sierra Leone, Botswana,
-Madagascar, Malawi and Burundi** — and four earlier texts (Rwanda, Liberia, Cameroon,
+Seven countries are new to this dashboard, **Lesotho, Eswatini, Sierra Leone, Botswana,
+Madagascar, Malawi and Burundi**, and four earlier texts (Rwanda, Liberia, Cameroon,
 Côte d'Ivoire) were re-released from the official production. Every source link now points at the
 official release rather than a third-party mirror. Four things in the new batch break patterns the
 first nine established:
 
 - **Botswana is a three-year MoU (2026–2028).** Every other published text runs five years. Its
   headline amounts are *not* comparable to the others without adjusting for term length, and its
-  government share — 79% of the combined total — is the highest of any MoU.
+  government share, 79% of the combined total, is the highest of any MoU.
 - **Botswana's U.S. line items do not sum to its own printed totals** in any of its three years
   (−$3.6M over the term). It is the only published MoU where the U.S. side fails to reconcile.
 - **Burundi and Côte d'Ivoire itemise the 6% management-and-operations carve-out** as an
@@ -284,7 +284,7 @@ first nine established:
   footnotes it explicitly).
 - **The government "new funding" tables are mislabelled.** Appendix 1 heads them "total *new*
   planned financial support", but comparing them with the §2.x.3 funding plans shows they carry
-  the **Total Government Funding** column — new *plus* existing. This holds across every text
+  the **Total Government Funding** column, new *plus* existing. This holds across every text
   checked, the original nine included, so the government figures in this dashboard already contain
   both components and existing funding is not added on top.
 
@@ -297,28 +297,28 @@ are used for the detailed tables; the KFF figures remain in `countries.csv` for 
 comparability, and both are visible side by side.
 
 **Signature verification.** All 16 texts were confirmed to be signed finals. The FOIA copies
-redact the signatures themselves under exemption (b)(6) — white boxes over the ink — but the
+redact the signatures themselves under exemption (b)(6), white boxes over the ink, but the
 signature blocks, dated place-of-signing lines, names and titles are intact, and in several
 (Cameroon, Malawi, Rwanda, Côte d'Ivoire) the strokes overrun the redaction box. **South Sudan
 is excluded**: the only available text is a pre-signature April 2026 draft, and the agreement was
-signed on 25 June 2026. Four signature dates in the signed texts differ from the tracker dates —
+signed on 25 June 2026. Four signature dates in the signed texts differ from the tracker dates,
 Malawi (13 vs 14 Jan 2026), Botswana (22 vs 23 Dec 2025), Nigeria (19 vs 20 Dec 2025) and
-Madagascar (22 Dec, where Public Citizen records "22 or 23") — and are noted per country.
+Madagascar (22 Dec, where Public Citizen records "22 or 23"), and are noted per country.
 
 **Known gaps in the sources.**
 - Kenya USG excludes a "cost of doing business & audits" margin (~$97.9M over the term).
 - Nigeria & Ethiopia USG exclude a ~6% M&O carve-out with no per-year breakdown.
 - Rwanda's government worker commitments are expressed in FTEs and never monetised
-  (now imputed — see above — at low confidence).
+  (now imputed, see above, at low confidence).
 - Mozambique's government lab workers are NOT separately imputed: App.1's footnote prices
   "4,893 front-line Healthcare workers" at $46,973,106, and 4,893 = 4,788 healthcare +
-  105 lab exactly, so that one printed total pays both cadres. The charts apportion it —
+  105 lab exactly, so that one printed total pays both cadres. The charts apportion it,
   the lab share (cumulative lab FTEs × $6,600, $1.35M over the term) on the lab line, the
-  remainder on the healthcare-worker line — so each panel shows its own USG→GoM handover;
+  remainder on the healthcare-worker line, so each panel shows its own USG→GoM handover;
   in FTE terms Mozambique's lab workforce is constant at 3,422 throughout. The footnote is
   shown on both panels.
-- Côte d'Ivoire's *government* frontline workers are FTE-only — its Appendix 1 government
-  column prices commodities alone — so their $ are imputed, at the country's own printed
+- Côte d'Ivoire's *government* frontline workers are FTE-only, its Appendix 1 government
+  column prices commodities alone, so their $ are imputed, at the country's own printed
   USG rates.
 - Botswana's U.S. line items miss their printed column totals in all three years; its §2.6.3
   strategic-assistance series also differs from its Appendix 1 row by $3.1M.

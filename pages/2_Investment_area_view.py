@@ -15,7 +15,7 @@ import guard
 
 guard.require(lib, "BASELINE_BASES", "BASIS_IMPUTED", "GOV_LABEL", "area_options", "attach_budget_notes", "budget_footnotes", "fmt_usd", "footnote_block", "load_budget_series", "load_budget_tidy", "load_countries", "md", "palette")
 
-st.set_page_config(page_title="MoU dashboard — Investment area view", page_icon="🧭",
+st.set_page_config(page_title="MoU dashboard: Investment area view", page_icon="🧭",
                    layout="wide")
 
 # Same fix as the country view: the chart hover-toolbar is absolutely positioned
@@ -60,7 +60,7 @@ include_baseline = st.sidebar.toggle(
 )
 show_ref = st.sidebar.toggle(
     "Show 2026-level reference", value=True,
-    help=lib.md("Thin dotted line at the COMBINED 2026 level held flat in each panel — "
+    help=lib.md("Thin dotted line at the COMBINED 2026 level held flat in each panel, "
                 "the de-facto pre-MoU baseline carried into year one. Read the stacked "
                 "top edge against it: holding the line means government absorption keeps "
                 "the area at its 2026 level. Reference only, never added to a total."),
@@ -105,7 +105,7 @@ if len(present):
     top3 = ranked.head(3)
     st.caption(lib.md(
         f"Most concentrated in **{top3.index[0]}** ({lib.fmt_usd(top3.iloc[0])}, "
-        f"{100 * top3.iloc[0] / comb_t:.0f}% of the area) — the top three "
+        f"{100 * top3.iloc[0] / comb_t:.0f}% of the area), the top three "
         f"({', '.join(top3.index)}) carry {100 * top3.sum() / comb_t:.0f}% of everything "
         "committed to this area across all published MoUs."
     ))
@@ -146,7 +146,7 @@ with ov1, st.container(border=True, height=OVERVIEW_H):
         .properties(height=max(300, 26 * len(present)),
                     title=alt.TitleParams("Full-term total by country", fontSize=13))
     )
-    st.altair_chart(bars, use_container_width=True)
+    st.altair_chart(bars, width="stretch")
     st.caption("Ordered largest → smallest; the panel grid below follows the same order. "
                "Botswana's MoU runs 2026–28, so its bar covers three years, not five.")
 
@@ -198,9 +198,9 @@ with ov2, st.container(border=True, height=OVERVIEW_H):
                         tooltip=[alt.Tooltip("Amount:Q", format=",.0f",
                                              title="2026 combined level (reference)")])
             )
-    st.altair_chart(gch, use_container_width=True)
+    st.altair_chart(gch, width="stretch")
     st.caption(lib.md(
-        "USG at the bottom, government stacked on top — the top edge is combined "
+        "USG at the bottom, government stacked on top, the top edge is combined "
         "funding for this area across every published MoU. Percentages are each band "
         "against the 2026 combined level, so the two together read as 'this year vs 2026'."
     ))
@@ -272,7 +272,7 @@ def render_country_panel(cty: str) -> None:
                         tooltip=[alt.Tooltip("Amount:Q", format=",.0f",
                                              title="2026 combined level (reference)")])
             )
-    st.altair_chart(ch, use_container_width=True)
+    st.altair_chart(ch, width="stretch")
     if panel_fns:
         st.markdown(lib.footnote_block(panel_fns, size_px=10), unsafe_allow_html=True)
 
@@ -285,13 +285,13 @@ for start in range(0, len(present), 3):
 
 st.markdown(
     f'<span style="color:{PAL["usg"]};font-weight:600">▮ USG (bottom)</span> &nbsp; '
-    f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top — '
+    f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top,'
     'top edge = combined funding</span> &nbsp; '
     f'<span style="color:{PAL["muted"]}">·· 2026 combined level (reference)</span> '
     '<span style="color:white;font-weight:700">%</span> '
     f'<span style="color:{PAL["muted"]};font-size:12px">= share of that country\'s '
     "2026 combined level for this area (>100% = growth, <100% = shortfall; labels "
-    'under 5% hidden). Panels share a grammar, not a y-axis — each is scaled to its '
+    'under 5% hidden). Panels share a grammar, not a y-axis, each is scaled to its '
     'own country, so compare shapes here and levels in the ranked bar above.</span>',
     unsafe_allow_html=True,
 )
@@ -316,11 +316,11 @@ with st.expander(f"Line-item detail for {area} (as printed in the MoUs, with cav
         detail = detail[detail["Funder"].isin(f_funder)]
     if f_row:
         detail = detail[detail["Row type"].isin(f_row)]
-    st.dataframe(detail, use_container_width=True, hide_index=True,
+    st.dataframe(detail, width="stretch", hide_index=True,
                  column_config={"Amount": st.column_config.NumberColumn(
                      "Amount", format="localized")})
     st.caption(lib.md(
         f"{len(detail):,} rows. To sum money safely: filter Unit = USD and Row type = "
-        "'Line item' (plus the existing-government rows) — the MoUs' own subtotals and "
+        "'Line item' (plus the existing-government rows), the MoUs' own subtotals and "
         "appendix breakdowns are flagged so they don't double-count."
     ))

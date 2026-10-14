@@ -103,11 +103,11 @@ IMPUTED_CAPTION = (
 
 BASELINE_CAPTION = (
     "Pre-MoU baseline $ covers two components: the **existing government workforce** "
-    "nine MoUs tabulate (2026 'Existing # FTEs Funded' stock — CIV, Uganda, "
-    "Mozambique, Liberia, Malawi, Sierra Leone, Burundi, Madagascar, Eswatini — "
+    "nine MoUs tabulate (2026 'Existing # FTEs Funded' stock: CIV, Uganda, "
+    "Mozambique, Liberia, Malawi, Sierra Leone, Burundi, Madagascar, Eswatini; "
     "valued at each MoU's own rates) and the **printed existing government funding** "
     "twelve MoUs carry (for the five whose Existing columns roll prior-year "
-    "commitments forward — Uganda, Lesotho, Sierra Leone, Madagascar, Burundi — only the flat "
+    "commitments forward (Uganda, Lesotho, Sierra Leone, Madagascar, Burundi), only the flat "
     "2026 pre-MoU base counts; the roll-forward stays in the main band). Baseline "
     "effort that predates the MoU, **not** MoU co-financing. Both sit inside the "
     "government band of every panel; the sidebar toggle removes them together."
@@ -289,7 +289,7 @@ BUDGET_FOOTNOTES = [
          src="App.2 p.35 · on the 2026 Other Commodities quantification table"),
     dict(Country="Mozambique", Area="Other commodities", Funder="USG", marked=None,
          text="$5,000,000 (reduced to $2,000,000 in FY27-FY30)",
-         src="App.2 p.35 · printed inside the 'MCH – TBD' cell; explains part of the 2026→'27 step-down"),
+         src="App.2 p.35 · printed inside the 'MCH: TBD' cell; explains part of the 2026→'27 step-down"),
     dict(Country="Mozambique", Area="Frontline healthcare workers", Funder="Government", marked=None,
          text="*The total additional cost to employ 4,893 front-line Healthcare workers "
               "over the five-year period is $46,973,106",
@@ -299,7 +299,7 @@ BUDGET_FOOTNOTES = [
               "over the five-year period is $46,973,106",
          src="App.1 p.34 · printed under the GoM new-support table. 4,893 = 4,788 HCW + 105 "
              "lab FTEs exactly, so this one printed total pays both cadres; the charts "
-             "apportion it — the lab share (cumulative lab FTEs × $6,600) on this line, "
+             "apportion it: the lab share (cumulative lab FTEs × $6,600) on this line, "
              "the remainder on the healthcare-worker line"),
     dict(Country="Mozambique", Area="All areas combined", Funder="Government", marked=None,
          text="*Includes funding for additional front-line Healthcare workers",
@@ -331,7 +331,7 @@ BUDGET_FOOTNOTES = [
               "U.S. Government operating costs.",
          src="§2.6.3 p.12 · under the funding plan table"),
     dict(Country="Côte d'Ivoire", Area="Frontline healthcare workers", Funder="Government", marked=None,
-         text="Côte d'Ivoire Existing # FTEs Funded* — the asterisk is printed on this column "
+         text="Côte d'Ivoire Existing # FTEs Funded*: the asterisk is printed on this column "
               "header, but no matching footnote text appears anywhere in the document, "
               "appendices included (confirmed against the complete 29-page FOIA release)",
          src="§2.4.3 p.11 · orphan marker on the frontline-worker FTE table"),
@@ -394,7 +394,7 @@ RATE_NOTES = {
         "The dollar line falls while the lab workforce holds at 190: the USG funds "
         "its 14 workers at $9,223/FTE, and the agreement absorbs them at the "
         "GoSL's own $2,400/FTE. Lower domestic pay rates are part of the "
-        "agreement — the workforce is fully sustained.",
+        "agreement; the workforce is fully sustained.",
     ("Eswatini", "Frontline healthcare workers"):
         "The dollar line falls faster than the workforce: the USG's blended "
         "$8,443/FTE (2026) funding exits while the GOKE absorbs workers at its "
@@ -415,7 +415,7 @@ RATE_NOTES = {
         "growth comes from GoM absorption at its own ~$2,842–3,694/FTE while the "
         "USG's ~$8,957/FTE (2026) funding exits. Lower domestic pay rates are "
         "part of the agreement. (App. 1's USG FTE column also conflicts with "
-        "§2.2.3's — a source inconsistency, audit F7.)",
+        "§2.2.3's: a source inconsistency, audit F7.)",
 }
 
 
@@ -443,7 +443,7 @@ def footnote_block(notes: list, size_px: int = 12) -> str:
             if n.get("marked") else ""
         )
         lines.append(
-            f"<div>* <b>{n['Country']}</b> — “{md(str(n['text']))}”{marked} "
+            f"<div>* <b>{n['Country']}</b>: “{md(str(n['text']))}”{marked} "
             f"<span style='opacity:.75'>[{md(str(n['src']))}]</span></div>"
         )
     muted = palette()["muted"]

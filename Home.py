@@ -9,12 +9,12 @@ import guard
 guard.require(lib, "BASELINE_BASES", "BASIS_IMPUTED", "DATA", "GOV_LABEL", "add_share", "area_options", "attach_budget_notes", "budget_footnotes", "five_year_totals", "fmt_usd", "footnote_block", "load_budget_series", "md", "palette")
 
 st.set_page_config(
-    page_title="USG MoU dashboard — Overview",
+    page_title="USG MoU dashboard: Overview",
     page_icon="🌍",
     layout="wide",
 )
 
-st.title("USG bilateral health MoUs — funding across all countries")
+st.title("USG bilateral health MoUs: funding across all countries")
 st.caption(
     "Five-year cooperation plans (2026–2030) signed under the America First Global Health "
     "Strategy. This page compares the 16 countries whose full MoU text is public. "
@@ -57,7 +57,7 @@ with c2:
         "Incl. imputed govt $", value=True,
         help="Government FTE commitments priced at government/USG unit rates where "
              "the MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Rwanda, "
-             "Côte d'Ivoire, Lesotho) — or, for Uganda, prices only each year's "
+             "Côte d'Ivoire, Lesotho), or, for Uganda, prices only each year's "
              "new cohort (absorbed-cohort continuation imputed). See Sources & "
              "methodology.",
     )
@@ -95,7 +95,7 @@ if include_baseline:
     caveats.append("pre-MoU/existing funding $")
 if caveats:
     st.caption(lib.md(
-        "Includes " + " and ".join(caveats) + " — see **Sources & methodology**."
+        "Includes " + " and ".join(caveats) + " (see **Sources & methodology**)."
     ))
 
 # Sixteen countries is more than colour can separate, so the chart is a GREY
@@ -127,7 +127,7 @@ def trend_chart(plot: pd.DataFrame, y_enc, order_col: str, tooltip,
     hue_scale = alt.Scale(
         domain=order, range=[_pal_country.get(c, PAL["usg"]) for c in order])
     legend = alt.Legend(
-        title=["2026, large → small", "— click to highlight —"],
+        title=["2026, large → small", " · click to highlight: "],
         titleFontSize=11, titleColor=PAL["muted"], labelLimit=0,
         labelFontSize=12, symbolType="stroke", symbolStrokeWidth=2.5,
         symbolOpacity=1, rowPadding=3,
@@ -192,7 +192,7 @@ def nudge_ties(plot: pd.DataFrame, col: str, step: float = 0.008) -> pd.DataFram
 
 
 # ---------------- chart 1: trajectories by year ----------------
-st.subheader(f"{area} — by year")
+st.subheader(f"{area}, by year")
 if unit == "US$":
     funder_pick = st.radio(
         "Funder", ["USG", lib.GOV_LABEL, "Combined"], horizontal=True, key="ov_funder"
@@ -210,7 +210,7 @@ if unit == "US$":
     y_usd = alt.Y("Amount:Q", title="US$ per year",
                   axis=alt.Axis(format="~s",
                                 labelExpr='replace(datum.label, "G", "bn")'))
-    st.altair_chart(trend_chart(plot, y_usd, "Amount", tt), use_container_width=True)
+    st.altair_chart(trend_chart(plot, y_usd, "Amount", tt), width="stretch")
     st.caption(lib.md(
         "One grey field of trajectories, with the countries listed on the right from "
         "largest to smallest 2026 value under the current filters. **Click a country "
@@ -225,7 +225,7 @@ else:
         "the majority funder. Click a country in the list on the right (or a line) to "
         "draw it in colour; hover a line to lift it out of the grey field. Countries "
         "with *identical* shares are nudged apart by <1pp so every line stays "
-        "visible — tooltips show the true value."
+        "visible, tooltips show the true value."
     )
     plot = nudge_ties(m[m["Funder"] == "USG"].dropna(subset=["Share"]), "Share")
     plot = lib.attach_budget_notes(plot, area)
@@ -244,7 +244,7 @@ else:
     rule = alt.Chart(pd.DataFrame({"y": [0.5]})).mark_rule(
         strokeDash=[4, 4], color=PAL["muted"]
     ).encode(y="y:Q")
-    st.altair_chart(base + rule, use_container_width=True)
+    st.altair_chart(base + rule, width="stretch")
 
 # printed MoU footnotes for this selection (each applies across the full line)
 fns = [n for n in lib.budget_footnotes(area=area) if n["Country"] in countries]
@@ -252,8 +252,8 @@ if fns:
     st.markdown(lib.footnote_block(fns), unsafe_allow_html=True)
 
 # ---------------- chart 2: 5-year totals ----------------
-st.subheader(f"{area} — totals over each MoU's full term, by country")
-st.caption("Every MoU runs 2026–2030 except Botswana, whose term is 2026–2028 — "
+st.subheader(f"{area}, totals over each MoU's full term, by country")
+st.caption("Every MoU runs 2026–2030 except Botswana, whose term is 2026–2028, "
            "its bar covers three years, not five.")
 tot = lib.five_year_totals(m, area)
 funder_color = alt.Color(
@@ -289,7 +289,7 @@ else:
         )
         .properties(height=max(340, 34 * len(countries)))
     )
-st.altair_chart(ch2, use_container_width=True)
+st.altair_chart(ch2, width="stretch")
 
 # ---------------- table & downloads ----------------
 with st.expander("Data behind these charts"):
@@ -300,7 +300,7 @@ with st.expander("Data behind these charts"):
     year_cols = [c for c in show.columns if c.isdigit()]
     st.dataframe(
         show,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={c: st.column_config.NumberColumn(c, format="localized")
                        for c in year_cols},
@@ -315,7 +315,7 @@ with st.expander("Data behind these charts"):
 
 st.info(lib.md(
     "Countries without a published existing-funding split (Nigeria, Ethiopia, Rwanda) "
-    "show new co-financing only — their true government shares are understated. "
+    "show new co-financing only, their true government shares are understated. "
     "Government $ for frontline labs & healthcare workers in Cameroon, Ethiopia, "
     "Rwanda, Uganda, Côte d'Ivoire and Lesotho are imputed from FTE commitments "
     "when the toggle above is on. Full caveats on the **Sources & methodology** page."

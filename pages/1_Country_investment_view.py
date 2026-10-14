@@ -8,7 +8,7 @@ import guard
 
 guard.require(lib, "BASELINE_BASES", "BASELINE_CAPTION", "BASIS_BASELINE", "BASIS_IMPUTED", "BASIS_PRINTED_EXISTING", "DATA", "FOOTNOTE_COL", "GOV_LABEL", "IMPUTED_CAPTION", "add_share", "attach_budget_notes", "budget_footnotes", "fmt_usd", "footnote_block", "imputed_total", "load_budget_series", "load_budget_tidy", "load_countries", "md", "palette", "rate_note")
 
-st.set_page_config(page_title="MoU dashboard — Country investment view", page_icon="💵",
+st.set_page_config(page_title="MoU dashboard: Country investment view", page_icon="💵",
                    layout="wide")
 
 # The chart hover-toolbar (fullscreen / download PNG / Vega "..." menu) is
@@ -57,7 +57,7 @@ include_imputed = st.sidebar.toggle(
     "Include imputed govt $ (labs & HCW)", value=True,
     help="Government FTE commitments priced at government/USG unit rates where the "
          "MoU prints FTEs but no dollars (Cameroon, Ethiopia labs, Rwanda, "
-         "Côte d'Ivoire, Lesotho) — or, for Uganda, prices only each year's new cohort "
+         "Côte d'Ivoire, Lesotho), or, for Uganda, prices only each year's new cohort "
          "(the continuation of absorbed cohorts is imputed). Workers absorbed in year "
          "t stay funded in every later year. Summed into the government band of each "
          "panel; switch off to see printed $ only. See Sources & methodology.",
@@ -67,7 +67,7 @@ include_baseline = st.sidebar.toggle(
     help="Two pre-MoU components: the existing government workforce nine MoUs "
          "tabulate, valued at each MoU's own rates, and printed pre-MoU government "
          "funding (where a MoU's Existing column rolls prior-year commitments "
-         "forward, only the flat 2026 base counts — the roll-forward stays in the "
+         "forward, only the flat 2026 base counts, the roll-forward stays in the "
          "main band). Baseline effort, not MoU co-financing; switching off lowers "
          "the government band accordingly.",
 )
@@ -75,11 +75,11 @@ show_usg_ref = st.sidebar.toggle(
     "Show 2026-level reference", value=True,
     help=lib.md("Thin dotted line at the COMBINED 2026 level (USG + government "
                 "where the government already funds in 2026) held flat in each "
-                "panel — the de-facto pre-MoU baseline carried into year one "
+                "panel: the de-facto pre-MoU baseline carried into year one "
                 "(Rwanda's MoU states 2026 = what the USG 'currently funds'). "
                 "Read the stacked top edge against it: holding the line means "
                 "government absorption keeps the area at its 2026 level. "
-                "Reference only — never added to any total."),
+                "Reference only, never added to any total."),
 )
 df = data(include_imputed, include_baseline)
 meta = countries_meta()
@@ -128,12 +128,12 @@ base_t = (lib.imputed_total(df, country, lib.BASIS_BASELINE)
 if include_imputed and imp_t > 0:
     st.caption(lib.md(
         f"⚠️ The government figures include **{lib.fmt_usd(imp_t)} of imputed $** "
-        "for frontline labs & healthcare workers — " + lib.IMPUTED_CAPTION
+        "for frontline labs & healthcare workers, " + lib.IMPUTED_CAPTION
     ))
 if include_baseline and base_t > 0:
     st.caption(lib.md(
         f"⚠️ They also include **{lib.fmt_usd(base_t)} of pre-MoU / existing "
-        "funding $** — " + lib.BASELINE_CAPTION
+        "funding $**, " + lib.BASELINE_CAPTION
     ))
 if show_usg_ref:
     if panel_style == "Stacked area":
@@ -144,7 +144,7 @@ if show_usg_ref:
             _word = "above" if _delta >= 0 else "below"
             st.caption(lib.md(
                 f"Reference: the dotted line marks the **2026 combined level** "
-                f"(USG + government, {lib.fmt_usd(_c26)}/yr) held flat — "
+                f"(USG + government, {lib.fmt_usd(_c26)}/yr) held flat,"
                 f"{lib.fmt_usd(_ref5)} over the term vs {lib.fmt_usd(comb_t)} "
                 f"planned combined, i.e. **{lib.fmt_usd(abs(_delta))} {_word}** "
                 "the 2026 level. Where a panel's top edge holds the dotted line, "
@@ -159,13 +159,13 @@ if hfns:
 share = row["USG share"]
 st.caption(lib.md(
     f"For reference, the **KFF headline** for {country} is "
-    f"{lib.fmt_usd(row['Total agreement (USD)'])} total — "
+    f"{lib.fmt_usd(row['Total agreement (USD)'])} total,"
     f"{lib.fmt_usd(row['USG (USD)'])} USG / "
     f"{lib.fmt_usd(row['Co-financing (USD)'])} co-financing"
     + (f" ({100 * share:.0f}% USG)" if pd.notna(share) else "")
     + ". KFF counts each MoU's headline pledge, which for some countries is a "
     "domestic-expenditure-increase commitment rather than itemised funding, so it can "
-    "differ from the itemised amounts charted on this page — see Sources & methodology."
+    "differ from the itemised amounts charted on this page (see Sources & methodology)."
 ))
 
 # What the MoU's own co-funding summary prints, shown whenever it differs from the
@@ -176,7 +176,7 @@ if pd.notna(mou_usg) and (mou_usg != row["USG (USD)"] or mou_gov != row["Co-fina
     st.caption(lib.md(
         f"Its **own co-funding summary** prints {lib.fmt_usd(mou_usg)} USG / "
         + (lib.fmt_usd(mou_gov) if pd.notna(mou_gov) else "no USD government figure")
-        + f" — {row['MoU basis note']}."
+        + f": {row['MoU basis note']}."
     ))
 
 # ---------------- data for this country ----------------
@@ -247,10 +247,10 @@ with ov1, st.container(border=True, height=OVERVIEW_H):
     ev = st.altair_chart(
         (arcs + center_value + center_sub).properties(
             height=320, title=alt.TitleParams(f"Totals by area, {TERM}", fontSize=13)),
-        use_container_width=True,
+        width="stretch",
         on_select="rerun", key=f"area_donut_{country}",
     )
-    st.caption("Legend ordered large → small — click an entry (or an arc) to "
+    st.caption("Legend ordered large → small; click an entry (or an arc) to "
                "highlight that area here AND in the trajectory chart; click "
                "again to reset.")
 
@@ -302,8 +302,8 @@ with ov2, st.container(border=True, height=OVERVIEW_H):
         .properties(height=320,
                     title=alt.TitleParams("Yearly trajectory by area", fontSize=13))
     )
-    st.altair_chart(traj, use_container_width=True)
-    st.caption("Same colors as the donut legend — one legend serves both. "
+    st.altair_chart(traj, width="stretch")
+    st.caption("Same colors as the donut legend: one legend serves both. "
                "Shows each area's scale and its scale-down over the term.")
 
 # ---------------- small multiples ----------------
@@ -395,7 +395,7 @@ def mix_recon_caption(cty: str, donut_total: float, sep_total: float) -> str:
         txt = f"Items sum to the 2026 USG line item ({lib.fmt_usd(line26)})."
     else:
         txt = (f"⚠️ App. 2 items sum to {lib.fmt_usd(donut_total)} vs "
-               f"{lib.fmt_usd(line26)} 2026 line item — unexplained gap.")
+               f"{lib.fmt_usd(line26)} 2026 line item, unexplained gap.")
     if sep_total:
         txt += (f" Excludes {lib.fmt_usd(sep_total)} of MCH equipment & "
                 "infrastructure printed as separate App. 2 tables (not part of "
@@ -438,7 +438,7 @@ def mix_donut(mx: pd.DataFrame) -> alt.Chart:
     )
     return (arcs + center).properties(
         height=168,
-        title=alt.TitleParams("Other commodities — 2026 mix (USG, App. 2)", fontSize=13),
+        title=alt.TitleParams("Other commodities: 2026 mix (USG, App. 2)", fontSize=13),
     )
 
 
@@ -565,7 +565,7 @@ def render_area_panel(a: str) -> None:
                                 "Amount:Q", format=",.0f",
                                 title="2026 combined level (reference)")])
                 )
-        st.altair_chart(ch, use_container_width=True)
+        st.altair_chart(ch, width="stretch")
         rn = lib.rate_note(country, a)
         if rn:  # falling $ with a held/growing workforce: lower domestic rates
             st.markdown(rn, unsafe_allow_html=True)
@@ -576,11 +576,11 @@ def render_area_panel(a: str) -> None:
 
 def render_mix_panel() -> None:
     st.altair_chart(
-        mix_donut(mix).properties(height=CHART_H - 20), use_container_width=True)
+        mix_donut(mix).properties(height=CHART_H - 20), width="stretch")
     st.markdown(lib.md(mix_legend_html(mix)), unsafe_allow_html=True)
     st.markdown(
         f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
-        "⚠️ 2026 snapshot (App. 2) — this split is not "
+        "⚠️ 2026 snapshot (App. 2): this split is not "
         "published in the yearly data for 2027–30. "
         f"{lib.md(mix_recon_caption(country, mix['Amount'].sum(), mix_sep_total))}"
         "</div>",
@@ -626,9 +626,9 @@ def render_strat_panel() -> None:
         st.altair_chart(
             (arcs2 + center2).properties(
                 height=CHART_H - 20,
-                title=alt.TitleParams("Strategic investments — domain split (§2.6)",
+                title=alt.TitleParams("Strategic investments: domain split (§2.6)",
                                       fontSize=13)),
-            use_container_width=True,
+            width="stretch",
         )
         chips = "".join(
             "<div style='margin:0 0 3px'>"
@@ -644,13 +644,13 @@ def render_strat_panel() -> None:
                     unsafe_allow_html=True)
         st.markdown(lib.md(
             f'<div style="font-size:10px;color:{PAL["muted"]};line-height:1.25">'
-            f"{strat.iloc[0]['Source']} — {strat.iloc[0]['Note']}.</div>"),
+            f"{strat.iloc[0]['Source']}: {strat.iloc[0]['Note']}.</div>"),
             unsafe_allow_html=True)
     else:  # named list (with per-item printed prices where the MoU gives them)
         items = "".join(
             "<div style='margin:0 0 5px'>"
             f"<span style='color:{PAL['ink']};font-weight:600'>{r['Item']}</span>"
-            + (f" <span style='color:{PAL['muted']}'>— {r['Price (as printed)']}"
+            + (f" <span style='color:{PAL['muted']}'> · {r['Price (as printed)']}"
                "</span>" if str(r["Price (as printed)"]) not in ("", "nan") else "")
             + "</div>"
             for _, r in strat.iterrows()
@@ -658,15 +658,15 @@ def render_strat_panel() -> None:
         notes = " ".join(n for n in strat["Note"].dropna().astype(str) if n)
         any_priced = strat["Price (as printed)"].astype(str).str.strip().replace(
             "nan", "").str.len().gt(0).any()
-        tail = ("Prices as printed in the narrative — no domain × year table"
+        tail = ("Prices as printed in the narrative, no domain × year table"
                 if any_priced else "The MoU does not price these individually")
         st.markdown(lib.md(
             "<div style='font-size:13px;font-weight:700;margin-bottom:6px'>"
-            "Strategic investments — named areas (§2.6)</div>"
+            "Strategic investments, named areas (§2.6)</div>"
             f"<div style='font-size:11.5px;line-height:1.4'>{items}</div>"
             f'<div style="font-size:10px;color:{PAL["muted"]};margin-top:6px">'
             f"{strat.iloc[0]['Source']}. {tail}"
-            f"{' — ' + notes if notes else ''}.</div>"),
+            f"{', ' + notes if notes else ''}.</div>"),
             unsafe_allow_html=True)
 
 
@@ -683,7 +683,7 @@ for start in range(0, len(panels), 3):
 
 st.markdown(
     f'<span style="color:{PAL["usg"]};font-weight:600">▮ USG (bottom)</span> &nbsp; '
-    f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top — '
+    f'<span style="color:{PAL["gov"]};font-weight:600">▮ Govt, stacked on top,'
     'top edge = combined funding</span> &nbsp; '
     f'<span style="color:{PAL["muted"]}">·· 2026 combined level (reference)</span> '
     '<span style="color:white;font-weight:700">%</span> '
@@ -691,7 +691,7 @@ st.markdown(
     "combined level - the two bands sum to that year vs 2026 (>100% = growth, "
     '<100% = shortfall; labels under 5% hidden)</span> '
     f'<span style="color:{PAL["muted"]};font-size:12px">(printed/imputed/baseline '
-    'components are summed in this view — see the captions above for the split)</span>',
+    'components are summed in this view, see the captions above for the split)</span>',
     unsafe_allow_html=True,
 )
 
@@ -743,7 +743,7 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
 
     st.dataframe(
         detail,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Amount": st.column_config.NumberColumn(format="localized"),
@@ -755,7 +755,7 @@ with st.expander("Line-item detail (as printed in the MoU, with caveats)"):
         f"{len(detail):,} rows shown. Click any column header to sort; the 🔍 icon in the "
         "table toolbar does a live full-text search. Only rows with Row type = 'Line item' "
         "(plus existing-government rows and 'Line item - outside headline total', which "
-        "Uganda alone carries) feed the charts above — and, when the sidebar "
+        "Uganda alone carries) feed the charts above, and, when the sidebar "
         "toggle is on, rows with Row type = 'Imputed (derived - not printed in MoU)', "
         "whose Source note records the FTEs, rate and confidence used. Other row types "
         "are excluded to avoid double counting. 'MoU footnote (verbatim)' holds the notes "
