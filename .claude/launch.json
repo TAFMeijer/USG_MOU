@@ -4,8 +4,8 @@
     {
       "name": "dashboard",
       "runtimeExecutable": "streamlit",
-      "runtimeArgs": ["run", "Home.py", "--server.headless", "true", "--server.port", "8601"],
-      "port": 8601
+      "runtimeArgs": ["run", "Home.py", "--server.headless", "true", "--server.port", "8541"],
+      "port": 8541
     }
   ]
 }
