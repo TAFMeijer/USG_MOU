@@ -364,7 +364,7 @@ else:
 # verbatim in analysis/uganda_cadre_fte.csv). Idempotent: values are SET.
 t = pd.read_csv(DATA / "budget_tidy.csv")
 NOTE_FLAT = ("Pre-MoU base held flat per the uniform FTE convention; the printed "
-             "Existing column rolls forward absorbed cohorts: {printed}")
+             "Existing column instead rolls forward the cohorts absorbed since 2026")
 NOTE_CUM = ("Cumulative new cohort (new + previously absorbed) per the uniform FTE "
             "convention; printed per-year New column: {printed}")
 
@@ -375,7 +375,10 @@ def set_fte(country, area, cat, values, note):
     idx = t.loc[m].sort_values("Year").index
     old = [int(v) for v in t.loc[idx, "Amount"]]
     t.loc[idx, "Amount"] = [float(v) for v in values]
-    t.loc[idx, "Source note"] = note.format(printed=old)
+    # quote the printed per-year New column, recovered from the cumulative values (a
+    # re-run sees the already-cumulative Amounts, so they cannot be quoted as printed)
+    printed = [int(values[0])] + [int(b - a) for a, b in zip(values, values[1:])]
+    t.loc[idx, "Source note"] = note.format(printed=printed)
     return old != list(values)
 
 FHW, LAB = "Frontline healthcare workers", "Frontline lab workers"
