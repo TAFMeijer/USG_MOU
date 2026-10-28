@@ -6,15 +6,15 @@
 
 
 Interactive dashboard tracking the **America First Global Health Strategy bilateral health
-MoUs** (34 countries, five-year cooperation plans 2026–2030): who funds what, how U.S.
+MoUs** (36 countries, five-year cooperation plans 2026–2030): who funds what, how U.S.
 funding tapers while government co-financing ramps up, and the programmatic targets each
 agreement commits to.
 
 All information here is **publicly available**, amounts from the
 [KFF tracker](https://www.kff.org/global-health-policy/kff-tracker-america-first-mou-bilateral-global-health-agreements/),
-detailed tables transcribed from the **16 published full MoU texts** hosted by
-[Public Citizen](https://www.citizen.org/article/u-s-bilateral-health-agreements-case-act-reporting/),
-with [Health Policy Watch](https://healthpolicy-watch.news/) and
+detailed tables transcribed from the **17 published full MoU texts**: 16 signed texts hosted by
+[Public Citizen](https://www.citizen.org/article/u-s-bilateral-health-agreements-case-act-reporting/)
+and Zambia's [final pre-signature draft](https://healthgap.org/wp-content/uploads/2026/10/Final-Draft-MOU-Zambia.docx.pdf) posted by Health GAP, with [Health Policy Watch](https://healthpolicy-watch.news/) and
 [Think Global Health](https://www.thinkglobalhealth.org/article/tracking-the-america-first-bilateral-health-agreements)
 as secondary mirrors.
 
@@ -28,24 +28,25 @@ public, and the distinction is part of the story:
 | `*` | The U.S. government made the text public itself, via its **Case Act reporting page** | Uganda only |
 | `*^` | Published on the Case Act page **and** released under FOIA | Kenya, Mozambique, Nigeria, Ethiopia, Malawi |
 | `^` | Public **only** because of Public Citizen's **Freedom of Information Act** requests | Rwanda, Liberia, Lesotho, Eswatini, Cameroon, Sierra Leone, Botswana, Madagascar, Côte d'Ivoire, Burundi |
+| none | Released by **neither government**: the final pre-signature draft, posted by Health GAP and linked from Public Citizen's table | Zambia |
 
-Ten of the sixteen public texts, and six of the seven countries added in September 2026,
+Ten of the seventeen public texts, and six of the seven countries added in September 2026,
 exist in the public record only because Public Citizen sued the State Department for them. The
 August 2026 production (FL-2026-00021) is what that litigation yielded. Both the marker and a
 plain-language description are carried per country in `data/countries.csv`
-(`Disclosure marker`, `How the text became public`), and 18 of the 34 signed agreements still
+(`Disclosure marker`, `How the text became public`), and 19 of the 36 signed agreements still
 have no public text at all.
 
 ## Pages
 
 | Page | What it shows |
 |---|---|
-| **Home (Overview)** | All 16 countries side by side, per investment area, yearly trajectories as a grey field with a **clickable country list** (ordered by 2026 size) that draws the chosen country in colour, plus full-term totals and a **US$ ↔ % of combined** toggle |
+| **Home (Overview)** | All 17 countries side by side, per investment area, yearly trajectories as a grey field with a **clickable country list** (ordered by 2026 size) that draws the chosen country in colour, plus full-term totals and a **US$ ↔ % of combined** toggle |
 | **Country investment view** | One country's small multiples across every investment area, with a USG / Govt (existing + new) / Both toggle and the same $/% toggle; the country name links to the source PDF |
 | **Investment area view** | The transpose: pick one investment area and see the global USG/government split for it, every country ranked by commitment, and one small multiple per country ordered largest to smallest |
 | **Country programmatic view (v0)** | One country's indicator baselines & 2026–2030 targets (outcome / process / 7-1-7), each indicator as its own small chart |
 | **Full data tables** | The complete budget and programmatic datasets across all countries, filterable, sortable, searchable, downloadable |
-| **Sources & methodology** | Every link (trackers, mirrors, all 34 agreements), extraction method, and caveats |
+| **Sources & methodology** | Every link (trackers, mirrors, all 36 agreements), extraction method, and caveats |
 
 `explorer.html` is a standalone, dependency-free version of the trajectory explorer,
 open it directly in a browser, no Python needed. `docs/index.html` is the copy GitHub Pages
@@ -88,7 +89,7 @@ streamlit run Home.py
 | `data/budget_series.csv` | Aggregated, safely summable series (Country × Investment area × Year × Funder), feeds all budget charts |
 | `data/budget_tidy.csv` | Full line-item detail as printed in each MoU, with `Row type` flags (subtotals, appendix breakdowns, existing funding), source notes, and the MoUs' own printed footnotes transcribed verbatim (`MoU footnote (verbatim)` / `MoU footnote location`) |
 | `data/programmatic_tidy.csv` | Every Section-1 indicator: baseline + yearly targets, units, value types, source notes, and the MoUs' own printed footnotes (verbatim + location) |
-| `data/countries.csv` | All 34 agreements: announced amounts (KFF tracker), dates, program areas, source-PDF links, plus `MoU USG (USD)` / `MoU co-financing (USD)` / `MoU basis note`, what each of the 16 public texts prints in its own co-funding summary, which differs from the headline for 11 of them |
+| `data/countries.csv` | All 36 agreements: announced amounts (KFF tracker), dates, program areas, source-PDF links, plus `MoU USG (USD)` / `MoU co-financing (USD)` / `MoU basis note`, what each of the 17 public texts prints in its own co-funding summary, which differs from the headline for 12 of them |
 | `data/sources.csv` | Reference trackers and mirrors |
 | `data/strategic_areas.csv` | Strategic-investment domains/areas named in every MoU's §2.6, with printed prices and page references |
 | `analysis/` | Derived analyses: $/FTE imputation scripts and outputs, cadre-table harvests (Mozambique, Uganda), baseline valuations, analysis notes |
@@ -104,7 +105,8 @@ counting. "Government" = new co-financing **plus** existing funding where tabula
 **Read this before using the data.** All figures were transcribed from the sixteen signed
 MoU texts in the public domain, released by the U.S. government via its Case Act reporting
 page, or under Public Citizen's FOIA requests, and mirrored by Public Citizen, Health Policy
-Watch and Think Global Health, and from the KFF tracker. The MoUs are
+Watch and Think Global Health, from Zambia's final pre-signature draft (posted by Health GAP;
+its amounts match the signed deal as announced), and from the KFF tracker. The MoUs are
 government-to-government cooperation documents that were **not originally drafted for
 publication**; no official consolidated dataset of them exists, and this repository is an
 independent research reconstruction. In particular:
@@ -124,7 +126,7 @@ independent research reconstruction. In particular:
    ranges, and every chart lets you toggle them off. See the app's *Sources &
    methodology* page and `analysis/` for full derivations.
 4. Tables were machine-transcribed from the source PDFs and independently verified
-   against them. Compiled August 2026. **Not an official product of any government or
+   against them. Compiled August 2026; Zambia added October 2026. **Not an official product of any government or
    organisation**, and no affiliation with any party to the MoUs is implied. Content is
    provided as-is for research and transparency purposes; corrections are welcome via
    issues or pull requests.
@@ -136,6 +138,38 @@ texts remain the work of their authors; transcription here is for research and
 transparency purposes.
 
 ## Changelog
+
+### October 2026: Zambia
+
+Zambia signed on 8 October 2026, after a ten-month delay over a linked critical-minerals
+deal. The only public text is Health GAP's **"Final Draft"** (https://healthgap.org/wp-content/uploads/2026/10/Final-Draft-MOU-Zambia.docx.pdf),
+linked from Public Citizen's table: its signature block is blank ("SIGNED at [INSERT CITY] on
+[DATE]"). It is included, unlike South Sudan's April draft, because its amounts are the signed
+deal's as announced: U.S. $1,516,265,000 ("more than $1.5 billion"), a $975M cumulative
+domestic-spending increase (Table 5.1) and ~$154M of new co-financing (App. 1 Table 3). The
+executed text may differ in wording: specimen-sharing provisions were reportedly removed at
+signing, while the draft's §2.1.2 still plans "a specimen sharing arrangement". Public full
+texts go from 16 to **17 of 36**; the KFF tracker also added Vietnam (11 Sep 2026, U.S.
+$98.75M, no text, co-financing unclear).
+
+**Added:** Zambia's Appendix 1 budget (all seven U.S. lines; government New / Existing /
+Total for five areas), App. 2 commodity detail, Section-1 indicators (12 outcome, 16 process,
+7-1-7) and §2.6 strategic areas, via `analysis/add_zambia_oct2026.py` (idempotent).
+
+**Pattern breaks worth knowing about:**
+
+- **The U.S. headline exceeds its own itemised table** by $207.2M (11–17% a year, no
+  footnote), so it is not the usual 6% M&O wedge. The charts plot the line items.
+- **The government prices its existing workforce in dollars**, like Botswana: App. 1's
+  $2.11bn government column holds a $283.7M-a-year worker bill ($1.42bn over the term) and
+  only $153.6M of new co-financing. Zambia alone more than doubles the dataset's
+  printed-existing government $ (~$1.62bn to ~$3.31bn).
+- **One government worker line** ("Healthcare Workers & CHW"): its lab share is carved out
+  pro-rata by the printed FTE mix, as for Uganda and Eswatini. Nothing is imputed.
+- **CHW-heavy.** 84% of the 40,422 U.S.-funded FTEs in 2026 are community workers (21,216
+  CHWs/volunteers, 12,876 seasonal malaria workers). Three different U.S. FTE totals are
+  printed (40,422 / 37,756 / 36,461); App. 1's is used.
+- **A 1:1 funding cut** for a domestic-spending shortfall, where most MoUs say 2:1.
 
 ### September 2026: the FOIA release
 
@@ -176,7 +210,7 @@ hand-transcribed source of truth; everything else is derived. After any change u
 `data/`, regenerate and check in the same commit:
 
 ```bash
-python3 analysis/fte_rate_imputation_all.py && python3 analysis/apply_imputation_to_dashboard.py && python3 analysis/rebuild_budget_series.py && python3 analysis/rebuild_explorer_data.py && python3 analysis/validate_data.py
+python3 analysis/fte_rate_imputation_all.py && python3 analysis/impute_new_countries.py && python3 analysis/apply_imputation_to_dashboard.py && python3 analysis/rebuild_budget_series.py && python3 analysis/rebuild_explorer_data.py && python3 analysis/validate_data.py
 ```
 
 The first two recompute the imputed and pre-MoU-baseline government rows; the next two
@@ -185,5 +219,9 @@ regenerate `data/budget_series.csv` and the JSON snapshot embedded in `explorer.
 rests on, aggregates against their parts, series against tidy, `countries.csv`
 arithmetic, the explorer snapshot, the totals quoted on the methodology page, and the
 programmatic `Direction` / `Qualifier` columns. Skip the imputation steps if only
-printed figures changed. `analysis/extract_aug2026_release.py` covers the indicator rows
+printed figures changed. **Known issue (Oct 2026):** since the cumulative-FTE convention,
+`fte_rate_imputation_all.py` computes Uganda's absorbed-cohort continuation as zero and
+drops its $122.8M of imputed rows (the validator fails on it), so the committed
+`analysis/imputed_*.csv` files are the reference; start the chain at
+`apply_imputation_to_dashboard.py` until that is fixed. `analysis/extract_aug2026_release.py` covers the indicator rows
 and provenance refresh for the August 2026 release.

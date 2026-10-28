@@ -127,7 +127,11 @@ quoted = [
     ("Malawi baseline $287M", baseline["Malawi"], 287.4e6, 0.5e6),
     ("Burundi baseline $223M", baseline["Burundi"], 223.3e6, 0.5e6),
     ("Liberia baseline $156M", baseline["Liberia"], 156e6, 0.5e6),
-    ("existing government $ ~$1.62bn", sum(existing.values()), 1.617e9, 5e6),
+    ("existing government $ ~$3.31bn", sum(existing.values()), 3.315e9, 5e6),
+    ("Zambia existing $1.70bn (printed pre-MoU worker $ $283.7M/yr)",
+     existing["Zambia"], 1697.8e6, 0.5e6),
+    ("Zambia has no imputed or baseline $ (its worker $ is printed)",
+     imputed.get("Zambia", 0.0) + baseline.get("Zambia", 0.0), 0.0, 1.0),
     ("Burundi has no existing basis (no pre-MoU base)",
      existing.get("Burundi", 0.0), 0.0, 1.0),
     ("Kenya existing $540M", existing["Kenya"], 540e6, 0.5e6),
@@ -186,6 +190,10 @@ SHAPE_OK = {
     ("Malawi", "Frontline lab workers"):
         "workforce grows via GoM absorption at ~$3.5k/FTE while the USG exits at "
         "~$8.9k/FTE; App.1's USG FTE column also conflicts with Sec 2.2.3 (audit F7)",
+    ("Zambia", "Frontline lab workers"):
+        "the USG pays $24.4k per lab FTE (App.1) while the GRZ's single worker $ line "
+        "prices its staff at ~$5.8k (existing) and ~$1.4-2.3k (new cohorts); lab FTEs "
+        "grow 2,940 -> 3,282 as the USG's 175 hand over",
 }
 shape_bad = []
 for (c, a) in fte_tot.groupby(level=[0, 1]).groups:

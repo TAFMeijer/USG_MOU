@@ -17,7 +17,7 @@ st.set_page_config(
 st.title("USG bilateral health MoUs: funding across all countries")
 st.caption(
     "Five-year cooperation plans (2026–2030) signed under the America First Global Health "
-    "Strategy. This page compares the 16 countries whose full MoU text is public. "
+    "Strategy. This page compares the 17 countries whose full MoU text is public. "
     "Amounts come from each MoU's co-funding appendix; 'Government' = new co-financing "
     "*plus* existing government funding where the MoU tabulates it. "
     "See **Sources & methodology** for links and caveats."
@@ -98,7 +98,7 @@ if caveats:
         "Includes " + " and ".join(caveats) + " (see **Sources & methodology**)."
     ))
 
-# Sixteen countries is more than colour can separate, so the chart is a GREY
+# Seventeen countries is more than colour can separate, so the chart is a GREY
 # FIELD: every line recessive grey. Identity lives in the country list on the
 # right — a legend ordered large -> small by the 2026 value of whatever is
 # currently plotted — and in the tooltips. Clicking a legend entry (or a line)

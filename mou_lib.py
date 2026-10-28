@@ -1,7 +1,7 @@
 """Shared data loading & transforms for the MoU dashboard.
 
 Pure pandas — no Streamlit imports — so everything here is unit-testable.
-All figures originate from the co-funding appendices of the 16 published
+All figures originate from the co-funding appendices of the 17 published
 America First bilateral health MoU texts (see data/sources.csv).
 """
 from pathlib import Path
@@ -15,12 +15,13 @@ YEARS = [2026, 2027, 2028, 2029, 2030]
 # Consistent colors across the dashboard
 USG_COLOR = "#2a78d6"
 GOV_COLOR = "#eb6834"
-# Sixteen countries is well past the ~8 hues a reader can tell apart, so identity is
-# carried by a COMPOSITE encoding: eight validated hues x two stroke styles. The eight
+# Seventeen countries is well past the ~8 hues a reader can tell apart, so identity is
+# carried by a COMPOSITE encoding: eight validated hues x three stroke styles. The eight
 # hues are the same validated categorical set used for AREA_COLORS (adjacent-pair CVD
 # ΔE 9.1 light / 8.4 dark, normal-vision ΔE 19.6 / 19.3 — both modes pass every gate).
 # Hue is fixed per country and never cycled or reassigned by rank; the nine countries
-# published before September 2026 keep the colours they have always had.
+# published before September 2026 keep the colours they have always had. Zambia (Oct
+# 2026) opens a third, dotted group on the first hue, so no existing pairing moves.
 _HUES_LIGHT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100",
                "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
 _HUES_DARK = ["#3987e5", "#d95926", "#199e70", "#c98500",
@@ -29,15 +30,19 @@ SOLID_COUNTRIES = ["Cameroon", "Côte d'Ivoire", "Ethiopia", "Kenya",
                    "Liberia", "Mozambique", "Nigeria", "Rwanda"]
 DASHED_COUNTRIES = ["Botswana", "Burundi", "Eswatini", "Lesotho",
                     "Madagascar", "Malawi", "Sierra Leone", "Uganda"]
-# Legend/scale order: the two stroke groups read as blocks rather than interleaving
+DOTTED_COUNTRIES = ["Zambia"]
+# Legend/scale order: the stroke groups read as blocks rather than interleaving
 # same-hue neighbours.
-COUNTRY_ORDER = SOLID_COUNTRIES + DASHED_COUNTRIES
+COUNTRY_ORDER = SOLID_COUNTRIES + DASHED_COUNTRIES + DOTTED_COUNTRIES
 SOLID_DASH = [1, 0]
 DASH_DASH = [6, 3]
+DOT_DASH = [1, 3]
 COUNTRY_DASH = {c: SOLID_DASH for c in SOLID_COUNTRIES}
 COUNTRY_DASH.update({c: DASH_DASH for c in DASHED_COUNTRIES})
+COUNTRY_DASH.update({c: DOT_DASH for c in DOTTED_COUNTRIES})
 COUNTRY_COLORS = dict(zip(SOLID_COUNTRIES, _HUES_LIGHT))
 COUNTRY_COLORS.update(dict(zip(DASHED_COUNTRIES, _HUES_LIGHT)))
+COUNTRY_COLORS.update(dict(zip(DOTTED_COUNTRIES, _HUES_LIGHT)))
 COUNTRY_COLORS = {c: COUNTRY_COLORS[c] for c in COUNTRY_ORDER}
 
 # One fixed color per investment area (donut & composition charts)
@@ -106,8 +111,9 @@ BASELINE_CAPTION = (
     "nine MoUs tabulate (2026 'Existing # FTEs Funded' stock: CIV, Uganda, "
     "Mozambique, Liberia, Malawi, Sierra Leone, Burundi, Madagascar, Eswatini; "
     "valued at each MoU's own rates) and the **printed existing government funding** "
-    "twelve MoUs carry (for the five whose Existing columns roll prior-year "
-    "commitments forward (Uganda, Lesotho, Sierra Leone, Madagascar, Burundi), only the flat "
+    "thirteen MoUs carry (Botswana and Zambia price their existing workforce there; for "
+    "the six whose Existing columns roll prior-year commitments forward (Uganda, Lesotho, "
+    "Sierra Leone, Madagascar, Burundi, Zambia), only the flat "
     "2026 pre-MoU base counts; the roll-forward stays in the main band). Baseline "
     "effort that predates the MoU, **not** MoU co-financing. Both sit inside the "
     "government band of every panel; the sidebar toggle removes them together."
@@ -342,6 +348,22 @@ BUDGET_FOOTNOTES = [
          src="App.1 p.25 · on the \u201cCote d\u2019Ivoire Government*\u201d column of the "
              "co-funding summary; confirms that the $450M column is a domestic-expenditure "
              "pledge, which is why the charts exclude it"),
+    dict(Country="Zambia", Area="Strategic assistance / investment", Funder="USG", marked=None,
+         text="* This planned funding is dedicated to supporting strategic assistance that is "
+              "expected to ensure long-term resilience and sustainability of the country\u2019s "
+              "health systems for effective service delivery.",
+         src="§2.6.3 p.27 · under the strategic-assistance funding table"),
+    dict(Country="Zambia", Area="Frontline healthcare workers", Funder="USG", marked=None,
+         text="*Lab reductions: 30% in 2028, 50% in 2029, 80% in 2030. *CHW/Seasonal Worker "
+              "reductions: 50% in 2029 and 2030. *All other cadres: 25% per year beginning 2027.",
+         src="App.3 p.44 · beneath Table 3, a chart of U.S.-supported positions with no legend "
+             "or values; the cadre tables 8-9 instead cut CHWs and seasonal workers 25% a year "
+             "from 2027"),
+    dict(Country="Zambia", Area="Frontline healthcare workers", Funder="Government", marked=None,
+         text="* Not part of the GRZ establishment",
+         src="App.3 Table 8 p.46 · on the Community Based Volunteers / Community Health Worker "
+             "table: the 6,250 volunteers a year the GRZ funds from 2027 sit outside its "
+             "staffing establishment"),
 ]
 # Chart frames label government lines with GOV_LABEL — mirror that here once.
 for _n in BUDGET_FOOTNOTES:
@@ -416,6 +438,13 @@ RATE_NOTES = {
         "USG's ~$8,957/FTE (2026) funding exits. Lower domestic pay rates are "
         "part of the agreement. (App. 1's USG FTE column also conflicts with "
         "§2.2.3's: a source inconsistency, audit F7.)",
+    ("Zambia", "Frontline lab workers"):
+        "The dollar line falls while the lab workforce grows 2,940 → 3,282: the "
+        "USG funds its 175 lab technologists at $24,386/FTE, while the GRZ's single "
+        "worker line prices its staff at ~$5,780/FTE (existing) and ~$1,400–2,300 "
+        "(new cohorts). The lab dollars are a pro-rata share of that line; no lab "
+        "rate is printed. Lower domestic pay rates are part of the agreement, not "
+        "missing funding.",
 }
 
 
@@ -466,6 +495,7 @@ def footnote_block(notes: list, size_px: int = 12) -> str:
 # legends and labels, not hue).
 _DARK_COUNTRY = dict(zip(SOLID_COUNTRIES, _HUES_DARK))
 _DARK_COUNTRY.update(dict(zip(DASHED_COUNTRIES, _HUES_DARK)))
+_DARK_COUNTRY.update(dict(zip(DOTTED_COUNTRIES, _HUES_DARK)))
 _DARK_AREA = {
     "Laboratory commodities": "#3987e5",
     "Frontline healthcare workers": "#3fae3f",
