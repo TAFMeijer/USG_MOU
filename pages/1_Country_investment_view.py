@@ -1,4 +1,6 @@
 """MoU dashboard — Country investment view (small multiples per investment area)."""
+import re
+
 import altair as alt
 import pandas as pd
 import streamlit as st
@@ -327,6 +329,11 @@ MIX_COLORS = {
 
 def commodity_bucket(item: str) -> str:
     t = item.lower()
+    # one item spanning programmes (Zambia's "Pharmaceuticals - OIs, TPT, IRS"): no
+    # single disease owns it, so it must not fall to whichever keyword matches first
+    if re.search(r"\b(ois?|tpt)\b", t) and any(k in t for k in ["malaria", "llin", "irs",
+                                                                "acts", "rdt"]):
+        return "Other"
     if "hiv" in t and "tb" in t:
         return "HIV & TB"
     if any(k in t for k in ["arv", "prep", "buffer", "hiv"]):

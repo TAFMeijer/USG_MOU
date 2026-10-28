@@ -439,9 +439,12 @@ AREAS = [
     "V. Cross-Cutting Systems Strengthening",
     "VI. Joint Planning",
 ]
-strat = [{"Country": C, "Order": i + 1, "Item": a,
-          "Note": ("Includes 'formalization and support of community health workers' and solar "
-                   "power" if a.startswith("V.") else ""),
+STRAT_NOTE = {
+    "I.": "Six strategic areas are named and none is priced; the U.S. funds them through one "
+          "Strategic Assistance line, which peaks in 2029",
+    "V.": "Includes 'formalization and support of community health workers' and solar power",
+}
+strat = [{"Country": C, "Order": i + 1, "Item": a, "Note": STRAT_NOTE.get(a.split()[0], ""),
           "Source": "Sec 2.6.2 pp.26-27"} for i, a in enumerate(AREAS)]
 strat.append({"Country": C, "Order": len(AREAS) + 1,
               "Item": "Strategic Assistance (Appendix 1 line)",
